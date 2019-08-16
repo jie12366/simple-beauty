@@ -9,8 +9,10 @@
  - vue-router
  - vuex
  - webpack
- - es6/es2015
+ - es6/eslint
  - axios
+ - sass
+ - Element-ui
 
 ## 项目构建运行
 
