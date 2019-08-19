@@ -1,5 +1,5 @@
 <template>
-    <span class="warn" v-bind:class="{hide: isHide}">
+    <span class="warn" v-show="isShow">
         <em>{{msg}}</em>&nbsp;
         <font-awesome-icon icon="exclamation-circle"></font-awesome-icon>
     </span>
@@ -9,7 +9,7 @@
 export default {
     props: [
         'msg',
-        'isHide'
+        'isShow'
     ]
 }
 </script>

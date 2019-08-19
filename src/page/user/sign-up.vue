@@ -4,27 +4,30 @@
             <div class="form-data">
             <form>
                 <section>
-                    <el-input v-model="phone" @blur="checkPhone" prefix-icon="el-icon-mobile" placeholder="手机号" clearable></el-input><br/>
-                    <alert-span v-bind:msg="phoneMsg" :is-hide="phoneAlert"></alert-span>
+                    <el-input v-model="phone" @blur="checkPhone" prefix-icon="el-icon-mobile" placeholder="手机号" clearable></el-input>
+                    <span class="common_register" v-bind:class="[{hide:hideTip},{is_register:isRegister},{no_register:!isRegister}]">{{registerTip}}</span><br/>
+                    <alert-span v-bind:msg="phoneMsg" :is-show="!phoneAlert"></alert-span>
                 </section>
                 <section>
-                    <el-input v-model="pwd" @blur="checkPwd" show-password prefix-icon="el-icon-lock" placeholder="密码" clearable></el-input><br/>
-                    <alert-span v-bind:msg="pwdMsg" :is-hide="pwdAlert"></alert-span>
+                    <el-input v-model="pwd" @blur="checkPwd" show-password prefix-icon="el-icon-lock" placeholder="密码" clearable></el-input>
+                    <span class="pwd_right" v-bind:class="[{hide:!pwdRight}]">可使用</span><br/>
+                    <alert-span v-bind:msg="pwdMsg" :is-show="!pwdAlert"></alert-span>
                 </section>
                 <section>
                     <el-input v-model="code" class="code" prefix-icon="el-icon-key" placeholder="验证码" clearable></el-input>
-                    <el-button type="info" @click="getVerifyCode" :disabled="disabled" round class="times-text">{{timesText}}</el-button>
-                    <alert-span v-bind:msg="codeMsg" :is-hide="codeAlert"></alert-span>
+                    <el-button type="info" @click="sendSmsCaptcha" :disabled="disabled" round class="times-text">{{timesText}}</el-button>
+                    <span class="send_success" v-bind:class="[{hide:!isSuccess}]">发送成功</span>
+                    <alert-span v-bind:msg="codeMsg" :is-show="!codeAlert"></alert-span>
                 </section>
                 <section>
-                    <el-button type="success" @click="signUp" class="btn-size" round>注册</el-button>
+                    <el-button type="success" @click.once="signUp" class="btn-size" round>注册</el-button>
                 </section>
             </form>
             <div class="login-bottom">
                 <el-divider>社交方式注册</el-divider>
-                <router-link to=""><font-awesome-icon :icon="['fab','qq']" style="color:#498ad5;padding-right:20px"></font-awesome-icon></router-link>
-                <router-link to=""><font-awesome-icon :icon="['fab','weixin']" style="color:#00bb29;padding-right:20px"></font-awesome-icon></router-link>
-                <router-link to=""><font-awesome-icon :icon="['fab','github']" style="color:#666666"></font-awesome-icon></router-link>
+                <router-link to=""><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></router-link>
+                <router-link to=""><font-awesome-icon :icon="['fab','weixin']" class="weixin"></font-awesome-icon></router-link>
+                <router-link to=""><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></router-link>
             </div>
         </div>
         </login-top>
@@ -42,13 +45,18 @@
                 phoneAlert: true, // 账号的提示信息是否隐藏
                 pwdMsg: null, // 密码框出错的提示信息
                 pwdAlert: true, // 密码框的提示信息是否隐藏
+                pwdRight: false, // 密码是否可使用
                 codeMsg: null, // 验证码出错的提示信息
                 codeAlert: true, // 验证码错误提示是否隐藏
                 phone: null, // 账号
                 pwd: null, // 密码
                 code: null, // 验证码
                 times: '0', // 倒计时(这里用字符串表示是为了区分开始发送和重新发送)
-                disabled: false // 是否禁用发送验证码的按钮
+                disabled: false, // 是否禁用发送验证码的按钮
+                isRegister: true, // 账号是否被注册
+                hideTip: true, // 是否隐藏是否注册的提示
+                registerTip: null, // 提示信息
+                isSuccess: false // 是否隐藏成功发送验证码的提示
             }
         },
         components: {
@@ -69,15 +77,25 @@
             }
         },
         methods: {
-            // 检查手机号是否合法
             checkPhone () {
+                // 检查手机号是否合法
                 if (!/^1[34578]\d{9}$/gi.test(this.phone)) {
                     this.phoneMsg = '手机号格式不合法'
                     this.phoneAlert = false
-                    return false
                 } else {
-                    this.phoneAlert = true
-                    return true
+                    this.$api.login.checkAccount(this.phone)
+                    .then(data => {
+                        if (data.code === 20005) {
+                            this.isRegister = true
+                            this.registerTip = '已注册'
+                            this.hideTip = false
+                        } else if (data.code === 20004) {
+                            this.isRegister = false
+                            this.registerTip = '可注册'
+                            this.hideTip = false
+                            this.phoneAlert = true
+                        }
+                    })
                 }
             },
             // 检查输入的密码是否合法
@@ -88,13 +106,15 @@
                     return false
                 } else {
                     this.pwdAlert = true
+                    this.pwdRight = true
                     return true
                 }
             },
-            // 获取短信验证码
-            getVerifyCode () {
-                // 先判断手机号是否合法
-                if (this.checkPhone()) {
+            // 发送短信验证码
+            sendSmsCaptcha () {
+                // 先判断手机号是否合法或是否被注册
+                this.checkPhone()
+                if (!this.isRegister) {
                     this.times = 60 // 置计时器初始值为60s
                     this.disabled = true // 开始计时后禁用按钮
                     // 调用计时器
@@ -104,8 +124,55 @@
                         if (this.times === 0) {
                             clearInterval(this.timer)
                             this.disabled = false
+                            this.isSuccess = false
                         }
                     }, 1000)
+                    // 发送短信验证码
+                    this.$api.login.sendSmsCaptcha(this.phone)
+                        .then(data => {
+                            if (data.code === 1) {
+                                this.isSuccess = true
+                                this.codeAlert = true
+                                return true
+                            } else {
+                                this.codeAlert = false
+                                this.codeMsg = '请发送验证码'
+                                return false
+                            }
+                        })
+                }
+            },
+            // 检查短信验证码是否正确或过期
+            checkSmsCaptcha () {
+                this.$api.login.checkSmsCaptcha(this.code)
+                    .then(res => {
+                        if (res.code === 50004 || res.code === 50005) {
+                            this.codeMsg = res.msg
+                            this.codeAlert = false
+                        } else if (res.code === 1) {
+                            this.codeAlert = true
+                        }
+                    })
+                return true
+            },
+            // 注册
+            signUp () {
+                if (this.checkPwd()) {
+                    if (this.checkSmsCaptcha() && this.codeAlert) {
+                        let data = {
+                            'uaccount': this.phone,
+                            'upwd': this.pwd
+                        }
+                        this.$api.login.signUp(data)
+                            .then(res => {
+                                if (res.code === 1) {
+                                    this.$message({
+                                        message: '注册成功',
+                                        type: 'success'
+                                    })
+                                }
+                            })
+                    }
                 }
             }
         }
@@ -115,9 +182,32 @@
 <style lang="scss" scoped>
     @import '../../style/login.scss';
     @import '../../style/mixin.scss';
+    .common_register{
+        position: absolute;
+        right: 30px;
+        top: 190px;
+    }
+    .is_register{
+        @include sc(32px,red);
+    }
+    .no_register{
+        @include sc(32px,#00bb29);
+    }
+    .pwd_right{
+        @include sc(32px,#00bb29);
+        position: absolute;
+        right: 30px;
+        top: 320px;
+    }
+    .send_success{
+        @include sc(32px,#00bb29);
+        position: absolute;
+        right: 30px;
+        top: 435px;
+    }
     .times-text{
         margin-left:30px;
-        width:120px;
+        width:240px;
         text-align: center
     }
 </style>

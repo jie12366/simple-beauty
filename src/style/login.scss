@@ -2,6 +2,8 @@ $blue: #3190e8;
 $bc: #e4e4e4;
 $fc:#fff;
 
+@import './mixin.scss';
+
 .wrap{
     box-sizing: border-box;
     height: 100vh;
@@ -13,7 +15,7 @@ $fc:#fff;
 .form{
     background-color: $fc;
     width: 35vw;
-    height: 58vh;
+    height: 64vh;
     left: 30%;
     top: 15%;
     border-radius: 5px;
@@ -29,23 +31,23 @@ $fc:#fff;
 }
 .form-data{
     background: #f7f7f7;
-    width: 300px;
-    height: 160px;
+    width: 500px;
+    height: 320px;
     margin: auto;
     section{
-        margin-bottom: 20px;
+        margin-bottom: 40px;
         display: flex;
         .code{
-            width: 150px;
+            width: 250px;
         }
         a{
             font: {
-                size:14px;
+                size:28px;
                 color: #666666;
             }
             text-decoration: none;
             margin-top: -2px;
-            margin-left: 180px;
+            margin-left: 250px;
             &:hover{
                 color:#3190e8 !important;
             }
@@ -55,31 +57,25 @@ $fc:#fff;
         }
     }
     .btn-size{
-        width: 300px;
+        width: 500px;
     }
     .warn{
         position: absolute;
         color: #ea5d5f;
-        font-size: 12px;
-        right: 70px;
-        margin-top:40px;
+        font-size: 24px;
+        right: 200px;
+        margin-top:80px;
     }
-    .send{
-        color: #969696;
-        position: absolute;
-        right: 0;
-        top: 20px;
-        z-index: 10;
-        &:hover{
-            color: #3895e8;
-        }
+    .qq{
+        @include sc(40px,#498ad5);
+        padding-right:20px
     }
-    .time{
-        color: #969696;
-        position: absolute;
-        right: 0;
-        top: 24px;
-        font-size: 14px;
+    .weixin{
+        @include sc(40px,#00bb29);
+        padding-right:20px
+    }
+    .github{
+        @include sc(40px,#666666);
     }
     .hide{
         display: none;

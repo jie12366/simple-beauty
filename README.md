@@ -30,9 +30,11 @@ npm install (或yarn)
 npm run dev
 ```
 ## 关于后端
+后端用springboot+mongod构建，采用restful风格api，使用swagger生成在线api文档，JWT生成token，redis作为缓存以及内存数据库。
 
+项目地址：[simple-bolg-after](https://github.com/jie12366/simple-blog-after.git)
 ## 目标功能
-
+- [x] 登录注册功能  --完成
 ## 项目演示
 
 ## 部分截图

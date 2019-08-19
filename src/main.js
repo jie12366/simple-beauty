@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/'
-import '@/utils/rem'
+import api from '@/api'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -20,6 +20,9 @@ library.add(far)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
+
+// 将api挂在到vue的原型上
+Vue.prototype.$api = api
 
 Vue.use(ElementUI)
 

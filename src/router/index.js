@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from '@/App'
+import store from '@/store'
 
 Vue.use(Router)
 
 const signIn = r => require.ensure([], () => r(require('@page/user/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/user/sign-up')), 'sign-up')
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -33,3 +34,23 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  let token = store.state.token
+  if (to.meta.requiresAuth) {
+    if (token) {
+      next()
+    } else {
+      next({
+        path: '/sign-in',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

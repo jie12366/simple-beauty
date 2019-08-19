@@ -4,18 +4,18 @@
             <div class="form-data">
             <form>
                 <section>
-                    <el-input v-model="account" prefix-icon="el-icon-user" placeholder="手机号" clearable></el-input><br/>
-                    <alert-span v-bind:msg="msg" :is-hide="accountAlert"></alert-span>
+                    <el-input v-model="account" @blur="checkAccount" prefix-icon="el-icon-user" placeholder="手机号" clearable></el-input><br/>
+                    <alert-span v-bind:msg="accountMsg" :is-show="!accountRight"></alert-span>
                 </section>
                 <section>
                     <el-input v-model="pwd" show-password :prefix-icon="pwdIcon" @focus="changePwdUnlock" @blur="changePwdLock" placeholder="密码" clearable></el-input><br/>
-                    <alert-span v-bind:msg="msg" :is-hide="pwdAlert"></alert-span>
+                    <alert-span v-bind:msg="pwdMsg" :is-show="!pwdRight"></alert-span>
                 </section>
                 <section>
-                    <el-input v-model="code" class="code" prefix-icon="el-icon-key" placeholder="验证码" clearable></el-input>
-                    <img class="image-code" src="@/images/code.png"/>
+                    <el-input v-model="code" class="code" @blur="checkImageCaptcha" prefix-icon="el-icon-key" placeholder="验证码" clearable></el-input>
+                    <img class="image-code" :src="imageSrc"/>
                     <div class="change-code" @click="getCaptcha">看不清<br/>换一张</div>
-                    <br/><alert-span v-bind:msg="msg" :is-hide="codeAlert"></alert-span>
+                    <br/><alert-span v-bind:msg="codeMsg" :is-show="!codeRight"></alert-span>
                 </section>
                 <section>
                     <input v-model="remeberMe" type="checkbox"/><span class="remeber-me">记住我</span>
@@ -27,9 +27,9 @@
             </form>
             <div class="login-bottom">
                 <el-divider>社交方式登录</el-divider>
-                <router-link to=""><font-awesome-icon :icon="['fab','qq']" style="color:#498ad5;padding-right:20px"></font-awesome-icon></router-link>
-                <router-link to=""><font-awesome-icon :icon="['fab','weixin']" style="color:#00bb29;padding-right:20px"></font-awesome-icon></router-link>
-                <router-link to=""><font-awesome-icon :icon="['fab','github']" style="color:#666666"></font-awesome-icon></router-link>
+                <router-link to=""><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></router-link>
+                <router-link to=""><font-awesome-icon :icon="['fab','weixin']" class="weixin"></font-awesome-icon></router-link>
+                <router-link to=""><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></router-link>
             </div>
         </div>
         </login-top>
@@ -39,20 +39,26 @@
 <script>
     import loginTop from '@components/login/login-top'
     import alertSpan from '@components/login/alert-span'
+    import { RECORD_TOKEN } from '@/store/mutation-types'
     export default {
         data () {
             return {
-                msg: '测试', // 出错的提示信息
-                accountAlert: true, // 账号的提示信息是否隐藏
-                pwdAlert: true, // 密码框的提示信息是否隐藏
-                codeAlert: true, // 验证码错误提示是否隐藏
+                accountMsg: null, // 账号出错的提示信息
+                accountRight: true, // 账号是否正确
+                pwdMsg: null, // 密码出错的提示信息
+                pwdRight: true, // 密码框的提示信息是否隐藏
+                codeMsg: null, // 验证码出错的提示信息
+                codeRight: true, // 验证码是否正确
                 account: null, // 账号
                 pwd: null, // 密码
                 code: null, // 验证码
-                imageSrc: '@/images/code.png', // 图形验证码路径
+                imageSrc: null, // 图形验证码路径
                 pwdIcon: 'el-icon-lock', // 密码框的icon
                 remeberMe: false // 是否记住我
             }
+        },
+        created () {
+            this.getCaptcha()
         },
         components: {
             loginTop,
@@ -66,10 +72,64 @@
             changePwdLock () {
                 this.pwdIcon = 'el-icon-lock'
             },
-            getCaptcha () {
-
+            // 获取图片验证码
+            async getCaptcha () {
+                await this.$api.login.getCaptcha()
+                .then(data => { // 从Promise对象中读取图片路径并赋值
+                    this.imageSrc = data
+                })
             },
+            // 检查图片验证码是否过期或是否错误
+            async checkImageCaptcha () {
+                await this.$api.login.checkImageCaptcha(this.code)
+                .then(res => {
+                    if (res.code === 50004 || res.code === 50005) {
+                            this.codeMsg = res.msg
+                            this.codeRight = false
+                        } else if (res.code === 1) {
+                            this.codeRight = true
+                        }
+                })
+                return true
+            },
+            // 检查账号是否存在
+            async checkAccount () {
+                await this.$api.login.checkAccount(this.account)
+                .then(data => {
+                    if (data.code === 20005) {
+                        this.accountRight = true
+                    } else if (data.code === 20004) {
+                        this.accountMsg = data.msg
+                        this.accountRight = false
+                    } else {
+                        this.accountRight = true
+                    }
+                })
+                return true
+            },
+            // 登录
             signIn () {
+                // 如果账号存在且验证码正确
+                if (this.checkAccount() && this.accountRight && this.checkImageCaptcha() && this.codeRight) {
+                    let data = {
+                        'uaccount': this.account,
+                        'upwd': this.pwd
+                    }
+                    this.$api.login.signIn(data)
+                    .then(res => {
+                        if (res.code === 20002) {
+                            this.pwdMsg = res.msg
+                            this.pwdRight = false
+                        } else if (res.code === 1) {
+                            this.pwdRight = true
+                            this.$store.commit(RECORD_TOKEN, res.data)
+                            this.$message({
+                                    message: '登录成功',
+                                    type: 'success'
+                                })
+                        }
+                    })
+                }
             }
         }
     }
@@ -79,12 +139,12 @@
     @import '../../style/login.scss';
     @import '../../style/mixin.scss';
     .image-code{
-        width: 100px;
-        height: 40px;
+        width: 180px;
+        height: 80px;
     }
     .change-code{
-        @include sc(12px,#666666);
-        line-height: 20px;
+        @include sc(18px,#666666);
+        line-height: 40px;
         margin-left: 12px;
         cursor: pointer;
         border-right: #e7e9ee solid 2px;
@@ -93,13 +153,11 @@
         }
     }
     .remeber-me{
-        @include sc(14px,#666666);
-        margin-top:-2px;
+        @include sc(28px,#666666);
     }
     .login-bottom{
-        width: 250px;
+        width: 500px;
         text-align: center;
-        margin-left: 25px;
         .icon{
             padding-right: 20px;
         }

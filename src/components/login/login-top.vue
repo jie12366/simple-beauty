@@ -3,10 +3,10 @@
         <div class="form">
             <section class="form-top">
                 <router-link to="/sign-in">
-                    <span style="margin-right:20px">登录</span>
+                    <span style="margin-right:20px;font-size:20px">登录</span>
                 </router-link><em style="font-size:23px">·</em>
                 <router-link to="/sign-up">
-                    <span style="margin-left:20px">注册</span>
+                    <span style="margin-left:20px;font-size:20px">注册</span>
                 </router-link>
             </section>
             <slot></slot>
@@ -26,8 +26,8 @@
     @import '../../style/login';
     @import '../../style/mixin';
     .form-top{
-        margin-top:-40px;
-        margin-bottom: 40px;
+        margin-top:-30px;
+        margin-bottom: 80px;
     }
     a{
         @include sc(20px,#a49f9e);
