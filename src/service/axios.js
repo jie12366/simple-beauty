@@ -30,3 +30,18 @@ export function requestJson (method, url, data) {
         return reason.data
     })
 }
+
+// 封装一个restful风格的axios(以multipart形式传输数据)
+export function requestFile (method, url, data) {
+    console.log(data)
+    return new Promise((resolve, reject) => {
+        axios[method](url, data, {headers: {'Content-Type': 'multipart/form-data'}})
+        .then(res => {
+            resolve(res.data)
+        }, error => {
+            reject(error.data)
+        })
+    }).catch(function (reason) {
+        return reason.data
+    })
+}

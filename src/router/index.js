@@ -5,8 +5,10 @@ import store from '@/store'
 
 Vue.use(Router)
 
+const home = r => require.ensure([], () => r(require('@page/home/home')), 'home')
 const signIn = r => require.ensure([], () => r(require('@page/user/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/user/sign-up')), 'sign-up')
+const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
 
 const router = new Router({
   routes: [
@@ -20,6 +22,11 @@ const router = new Router({
           path: '',
           redirect: '/home'
         },
+        // 首页
+        {
+          path: '/home',
+          component: home
+        },
         // 登录页
         {
           path: '/sign-in',
@@ -29,6 +36,11 @@ const router = new Router({
         {
           path: '/sign-up',
           component: signUp
+        },
+        // 写文章
+        {
+          path: '/writer',
+          component: writer
         }
       ]
     }

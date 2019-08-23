@@ -12,6 +12,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+import '@/assets/iconfont.css'
 
 library.add(fas)
 library.add(fab)
@@ -24,7 +27,9 @@ Vue.config.productionTip = false
 // 将api挂在到vue的原型上
 Vue.prototype.$api = api
 
-Vue.use(ElementUI)
+Vue.use(ElementUI) // 使用element
+
+Vue.use(mavonEditor) // 使用mavonEditor
 
 /* eslint-disable no-new */
 new Vue({

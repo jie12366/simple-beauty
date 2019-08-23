@@ -46,7 +46,7 @@
                 accountMsg: null, // 账号出错的提示信息
                 accountRight: true, // 账号是否正确
                 pwdMsg: null, // 密码出错的提示信息
-                pwdRight: true, // 密码框的提示信息是否隐藏
+                pwdRight: true, // 密码是否正确
                 codeMsg: null, // 验证码出错的提示信息
                 codeRight: true, // 验证码是否正确
                 account: null, // 账号
