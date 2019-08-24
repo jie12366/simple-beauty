@@ -6,9 +6,10 @@ import store from '@/store'
 Vue.use(Router)
 
 const home = r => require.ensure([], () => r(require('@page/home/home')), 'home')
-const signIn = r => require.ensure([], () => r(require('@page/user/sign-in')), 'sign-in')
-const signUp = r => require.ensure([], () => r(require('@page/user/sign-up')), 'sign-up')
+const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
+const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
+const information = r => require.ensure([], () => r(require('@page/settings/information')), 'information')
 
 const router = new Router({
   routes: [
@@ -30,17 +31,34 @@ const router = new Router({
         // 登录页
         {
           path: '/sign-in',
-          component: signIn
+          component: signIn,
+          meta: {
+            title: '登录'
+          }
         },
         // 注册页
         {
           path: '/sign-up',
-          component: signUp
+          component: signUp,
+          meta: {
+            title: '注册'
+          }
         },
         // 写文章
         {
           path: '/writer',
-          component: writer
+          component: writer,
+          meta: {
+            title: '写文章'
+          }
+        },
+        {
+          path: 'settings/information',
+          component: information,
+          meta: {
+            title: '个人资料',
+            requiresAuth: true
+          }
         }
       ]
     }
@@ -60,6 +78,11 @@ router.beforeEach((to, from, next) => {
         }
       })
     }
+  } else {
+    next()
+  }
+  if (to.meta.title) {
+    document.title = to.meta.title
   } else {
     next()
   }

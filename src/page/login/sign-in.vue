@@ -57,7 +57,7 @@
                 remeberMe: false // 是否记住我
             }
         },
-        created () {
+        mounted () {
             this.getCaptcha()
         },
         components: {
@@ -81,36 +81,40 @@
             },
             // 检查图片验证码是否过期或是否错误
             async checkImageCaptcha () {
-                await this.$api.login.checkImageCaptcha(this.code)
+                let result = this.$api.login.checkImageCaptcha(this.code)
                 .then(res => {
                     if (res.code === 50004 || res.code === 50005) {
                             this.codeMsg = res.msg
                             this.codeRight = false
+                            return false
                         } else if (res.code === 1) {
                             this.codeRight = true
+                            return true
                         }
                 })
-                return true
+                return result
             },
             // 检查账号是否存在
             async checkAccount () {
-                await this.$api.login.checkAccount(this.account)
+                let result = await this.$api.login.checkAccount(this.account)
                 .then(data => {
-                    if (data.code === 20005) {
+                    if (data.code === 1) {
                         this.accountRight = true
+                        return true
                     } else if (data.code === 20004) {
                         this.accountMsg = data.msg
                         this.accountRight = false
-                    } else {
-                        this.accountRight = true
+                        return false
                     }
                 })
-                return true
+                return result
             },
             // 登录
-            signIn () {
+            async signIn () {
                 // 如果账号存在且验证码正确
-                if (this.checkAccount() && this.accountRight && this.checkImageCaptcha() && this.codeRight) {
+                let checkAccount = await this.checkAccount()
+                let checkImageCaptcha = await this.checkImageCaptcha()
+                if (checkAccount && checkImageCaptcha) {
                     let data = {
                         'uaccount': this.account,
                         'upwd': this.pwd
@@ -125,8 +129,10 @@
                             this.$store.commit(RECORD_TOKEN, res.data)
                             this.$message({
                                     message: '登录成功',
-                                    type: 'success'
+                                    type: 'success',
+                                    duration: 1000
                                 })
+                            this.$router.push(this.$route.query.redirect || '/')
                         }
                     })
                 }
