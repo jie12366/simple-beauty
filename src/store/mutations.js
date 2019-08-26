@@ -1,10 +1,14 @@
 import {
-    RECORD_TOKEN
+    RECORD_TOKEN,
+    SAVE_HEAD_IMG
 } from './mutation-types'
 export default {
     // 记录token
     [RECORD_TOKEN] (state, token) {
         state.token = token
-        localStorage.setItem('token', token)
+    },
+    // 记录用户头像
+    [SAVE_HEAD_IMG] (state, imgUrl) {
+        state.imgUrl = imgUrl
     }
 }

@@ -57,6 +57,9 @@ const login = {
         return requestJson('post', '/register', {
             data
         })
+    },
+    getToken () {
+        return requestUrl('get', '/token')
     }
 }
 export default login

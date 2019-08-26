@@ -54,7 +54,7 @@ instance.interceptors.response.use(
         return Promise.resolve(response)
     },
     error => {
-        console.log(error.response)
+        console.log(error)
         // 状态码判断
         console.log(error.response.status)
             // 未授权登录

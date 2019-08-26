@@ -12,7 +12,7 @@
                     <alert-span v-bind:msg="pwdMsg" :is-show="!pwdRight"></alert-span>
                 </section>
                 <section>
-                    <el-input v-model="code" class="code" @blur="checkImageCaptcha" prefix-icon="el-icon-key" placeholder="验证码" clearable></el-input>
+                    <el-input v-model="code" class="code" @blur="checkImageCaptcha" @focus="resetCode" prefix-icon="el-icon-key" placeholder="验证码" clearable></el-input>
                     <img class="image-code" :src="imageSrc"/>
                     <div class="change-code" @click="getCaptcha">看不清<br/>换一张</div>
                     <br/><alert-span v-bind:msg="codeMsg" :is-show="!codeRight"></alert-span>
@@ -39,7 +39,8 @@
 <script>
     import loginTop from '@components/login/login-top'
     import alertSpan from '@components/login/alert-span'
-    import { RECORD_TOKEN } from '@/store/mutation-types'
+    import { RECORD_TOKEN, SAVE_HEAD_IMG } from '@/store/mutation-types'
+    const jwt = require('jsonwebtoken')
     export default {
         data () {
             return {
@@ -57,7 +58,7 @@
                 remeberMe: false // 是否记住我
             }
         },
-        mounted () {
+        created () {
             this.getCaptcha()
         },
         components: {
@@ -86,6 +87,7 @@
                     if (res.code === 50004 || res.code === 50005) {
                             this.codeMsg = res.msg
                             this.codeRight = false
+                            this.getCaptcha()
                             return false
                         } else if (res.code === 1) {
                             this.codeRight = true
@@ -93,6 +95,10 @@
                         }
                 })
                 return result
+            },
+            // 重置错误提示
+            resetCode () {
+                this.codeRight = true
             },
             // 检查账号是否存在
             async checkAccount () {
@@ -126,7 +132,15 @@
                             this.pwdRight = false
                         } else if (res.code === 1) {
                             this.pwdRight = true
+                            // 记录token
                             this.$store.commit(RECORD_TOKEN, res.data)
+                            // 解析token，取出uid
+                            let uid = jwt.decode(res.data).aud
+                            // 根据uid获取用户信息，将头像路径记录到state
+                            this.$api.user.getUsersInfo(uid)
+                            .then(res => {
+                                this.$store.commit(SAVE_HEAD_IMG, res.data.headPath)
+                            })
                             this.$message({
                                     message: '登录成功',
                                     type: 'success',

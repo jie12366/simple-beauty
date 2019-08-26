@@ -11,9 +11,9 @@
     :show-file-list="false" :before-upload="beforeAvatarUpload" :http-request="uploadImg">
     <el-button type="success" plain round size="mini">更改头像</el-button></el-upload>
             </section>
-            <section>
+            <section class="nickname">
                 <span class="left-span">昵称</span>
-                <el-input style="width: 200px;margin-left:120px" @blur="checkNickname" placeholder="请输入昵称" v-model="info.nickname"></el-input>
+                <el-input class="nickText" @blur="checkNickname" placeholder="请输入昵称" v-model="info.nickname"></el-input>
                 <el-divider></el-divider>
             </section>
             <section>
@@ -50,12 +50,13 @@
 import navTop from '@/components/top/nav-top'
 import axios from '@/service/http'
 import baseURL from '@/service/base-url'
+import { SAVE_HEAD_IMG } from '@/store/mutation-types'
 const jwt = require('jsonwebtoken')
 export default {
     data () {
         return {
             info: {
-                imageUrl: null, // 头像地址
+                imageUrl: this.$store.state.imgUrl, // 头像地址
                 nickname: null, // 昵称
                 phone: '', // 手机号
                 uid: 0, // 登录用户的id
@@ -135,7 +136,8 @@ export default {
             }
         }).then(res => {
             this.info.imageUrl = res.data.data
-            this.$refs.navTop.getUsersInfo()
+            this.$store.commit(SAVE_HEAD_IMG, res.data.data)
+            this.$refs.navTop.setImgUrl()
             if (this.progressPercent === 100) {
                 this.progressFlag = false
                 this.progressPercent = 0
@@ -252,7 +254,7 @@ export default {
     .container{
         width: 1100px;
         margin: auto;
-        padding-top: 50px;
+        padding-top: 150px;
         .head-img{
             width: 200px;
             height:200px;
@@ -264,9 +266,15 @@ export default {
             }
         }
         .img-btn{
-            position: relative;
-            top:-150px;
-            left: 320px;
+            margin-top:-150px;
+            margin-left: 320px;
+        }
+        .nickname{
+            margin-top:150px;
+        }
+        .nickText{
+            width: 400px;
+            margin-left:240px
         }
         .left-span{
             @include sc(40px,#afafaf)
@@ -286,6 +294,7 @@ export default {
         .email{
             @include sc(28px,#666666);
             margin-bottom: 50px;
+            width: 650px;
         }
     }
 </style>

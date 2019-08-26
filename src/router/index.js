@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from '@/App'
-import store from '@/store'
+import api from '@/api'
 
 Vue.use(Router)
 
@@ -26,7 +26,10 @@ const router = new Router({
         // 首页
         {
           path: '/home',
-          component: home
+          component: home,
+          meta: {
+            title: '首页'
+          }
         },
         // 登录页
         {
@@ -49,7 +52,8 @@ const router = new Router({
           path: '/writer',
           component: writer,
           meta: {
-            title: '写文章'
+            title: '写文章',
+            requiresAuth: true
           }
         },
         {
@@ -66,18 +70,9 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let token = store.state.token
   if (to.meta.requiresAuth) {
-    if (token) {
-      next()
-    } else {
-      next({
-        path: '/sign-in',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-    }
+    api.login.getToken()
+    next()
   } else {
     next()
   }
