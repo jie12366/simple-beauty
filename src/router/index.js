@@ -9,7 +9,9 @@ const home = r => require.ensure([], () => r(require('@page/home/home')), 'home'
 const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
-const information = r => require.ensure([], () => r(require('@page/settings/information')), 'information')
+const mine = r => require.ensure([], () => r(require('@page/mine/mine')), 'mine')
+const index = r => require.ensure([], () => r(require('@page/mine/index')), 'index')
+const information = r => require.ensure([], () => r(require('@page/mine/information')), 'information')
 
 const router = new Router({
   routes: [
@@ -57,12 +59,25 @@ const router = new Router({
           }
         },
         {
-          path: 'settings/information',
-          component: information,
-          meta: {
-            title: '个人资料',
-            requiresAuth: true
-          }
+          path: '/mine',
+          component: mine,
+          children: [
+            {
+              path: 'index',
+              component: index,
+              meta: {
+                title: '个人主页',
+                requiresAuth: true
+              }
+            }, {
+              path: 'information',
+              component: information,
+              meta: {
+                title: '个人资料',
+                requiresAuth: true
+              }
+            }
+          ]
         }
       ]
     }

@@ -5,16 +5,19 @@ import App from './App'
 import router from './router'
 import store from './store/'
 import api from '@/api'
-import ElementUI from 'element-ui'
+import ElementUI from 'element-ui' // 引入element-ui
 import 'element-ui/lib/theme-chalk/index.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core' // 引入fortawesome
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import mavonEditor from 'mavon-editor'
+import mavonEditor from 'mavon-editor' // 引入mavon-editor
 import 'mavon-editor/dist/css/index.css'
-import '@/assets/iconfont.css'
+import '@/assets/iconfont.css' // 引入iconfont
+import './style/font.scss' // 引入自定义字体
+import moment from 'moment' // 引入moment
+import 'moment/locale/zh-cn'
 
 library.add(fas)
 library.add(fab)
@@ -30,6 +33,10 @@ Vue.prototype.$api = api
 Vue.use(ElementUI) // 使用element
 
 Vue.use(mavonEditor) // 使用mavonEditor
+
+// 全局使用moment
+moment.locale('zh-cn')
+Vue.prototype.$moment = moment
 
 /* eslint-disable no-new */
 new Vue({

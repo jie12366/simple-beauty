@@ -39,7 +39,7 @@
             </section>
             <section>
                 <span class="left-span">个人简介</span>
-                <el-input type="textarea" style="width: 350px;margin-left:170px" :rows="4" placeholder="输入你的个人简介" v-model="info.introduction"></el-input>
+                <el-input type="textarea" class="introduction" :rows="4" placeholder="输入你的个人简介" v-model="info.introduction"></el-input>
                 <el-divider></el-divider>
             </section>
             <el-button type="success" style="width:80px;" @click="saveInfo" round size="small">保存</el-button>
@@ -51,7 +51,6 @@ import navTop from '@/components/top/nav-top'
 import axios from '@/service/http'
 import baseURL from '@/service/base-url'
 import { SAVE_HEAD_IMG } from '@/store/mutation-types'
-const jwt = require('jsonwebtoken')
 export default {
     data () {
         return {
@@ -101,8 +100,7 @@ export default {
     methods: {
         // 获取用户信息
         getUsersInfo () {
-            let token = this.$store.state.token
-            let uid = jwt.decode(token).aud
+            let uid = this.$store.state.uid
             this.$api.user.getUsersInfo(uid)
             .then(res => {
                 this.copyinfo(this.info, res.data)
@@ -255,6 +253,9 @@ export default {
         width: 1100px;
         margin: auto;
         padding-top: 150px;
+        @media screen and (max-width: 800px) {
+            width: 100%;
+        }
         .head-img{
             width: 200px;
             height:200px;
@@ -264,10 +265,18 @@ export default {
                 transition-duration: 59s;
                 transition-timing-function: cubic-bezier(.34, 0, .84, 1)
             }
+            @media screen and (max-width: 500px) {
+                width: 150px;
+                height:150px;
+            }
         }
         .img-btn{
             margin-top:-150px;
             margin-left: 320px;
+            @media screen and (max-width: 500px) {
+                margin-top:-100px;
+                margin-left: 300px;
+            }
         }
         .nickname{
             margin-top:150px;
@@ -277,15 +286,25 @@ export default {
             margin-left:240px
         }
         .left-span{
-            @include sc(40px,#afafaf)
+            @include sc(40px,#afafaf);
+            @media screen and (max-width: 500px) {
+                @include sc(30px,#afafaf);
+            }
         }
         .phone{
             @include sc(40px,#afafaf);
             margin-left: 250px;
+            @media screen and (max-width: 500px) {
+                @include sc(30px,#afafaf);
+                margin-left: 230px;
+            }
         }
         .show_email{
             @include sc(40px,#afafaf);
             margin-left: 170px;
+            @media screen and (max-width: 500px) {
+                @include sc(30px,#afafaf);
+            }
         }
         .icon-vue-dui{
             margin-left: 50px;
@@ -295,6 +314,14 @@ export default {
             @include sc(28px,#666666);
             margin-bottom: 50px;
             width: 650px;
+        }
+        .introduction{
+            width: 350px;
+            margin-left:170px;
+            @media screen and (max-width: 500px) {
+                width: 400px;
+                margin-left:180px;
+            }
         }
     }
 </style>

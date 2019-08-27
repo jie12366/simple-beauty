@@ -1,23 +1,36 @@
 <template>
     <el-menu text-color="#666666" :default-active="$route.path"
 active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router="true" mode="horizontal" @select="handleSelect">
-    <i class="icon iconfont icon-vue-jian"></i>
-    <el-menu-item index="/home" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
-    <el-menu-item index="/message" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item>
-    <el-menu-item index="/attention" style="font-size:18px;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
+    <router-link to="/home"><i class="icon iconfont icon-vue-jian"></i></router-link>
+    <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
+    <el-menu-item index="/message" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item>
+    <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
     @focus="changeStyle" @blur="resumeStyle"/>
-    <el-submenu index="/mine" class="mine" v-if="isLogin">
+    <el-submenu index="/mine" class="mine" v-if="isLogin && !smallScreen" trigger="click">
         <template slot="title"><img class="head_img" :src="imgUrl"/></template>
-        <el-menu-item index="4-1" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
+        <el-menu-item index="/mine/index" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
         <el-menu-item index="4-2" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-menu-item>
         <el-menu-item index="4-3" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-love" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>喜欢的文章</el-menu-item>
-        <el-menu-item index="/settings/information" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-menu-item>
-        <el-menu-item index="4-5" @click="logout" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-menu-item>
+        <el-menu-item index="/mine/information" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-menu-item>
+        <el-menu-item @click="logout" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-menu-item>
     </el-submenu>
+    <el-dropdown v-if="smallScreen"  class="small_mine" placement="bottom-end" @command="handleCommand" trigger="click">
+        <img class="head_img" :src="imgUrl" />
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="/home"><i class="icon iconfont icon-vue-index" style="margin-right:12px;color:#ea705b;font-size:20px;"></i>首页</el-dropdown-item>
+                <el-dropdown-item command="/message"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>消息</el-dropdown-item>
+                <el-dropdown-item command="/attention"><i class="icon iconfont icon-vue-attention" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>关注</el-dropdown-item>
+                <el-dropdown-item command="/mine/index"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-dropdown-item>
+                <el-dropdown-item command="4-2"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-dropdown-item>
+                <el-dropdown-item command="4-3"><i class="icon iconfont icon-vue-love" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>喜欢的文章</el-dropdown-item>
+                <el-dropdown-item command="/mine/information"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-dropdown-item>
+                <el-dropdown-item command="logout"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-dropdown-item>
+            </el-dropdown-menu>
+    </el-dropdown>
     <span v-if="!isLogin" class="login">
-        <router-link to="sign-in"><el-button round plain type="info" size="small">登录</el-button></router-link>
+        <router-link to="sign-in"><span class="sign_in">登录</span></router-link>
         <router-link to="sign-up"><el-button round plain type="success" size="small" style="width:80px">注册</el-button></router-link>
     </span>
     <router-link to="/writer"><el-button icon="icon-vue-xiezuo" class="writer">&nbsp;<span class="writer_font">写文章</span></el-button></router-link>
@@ -34,7 +47,19 @@ export default {
             searchQuery: '', // 搜索框内容
             restaurants: [], // 动态列表
             timeout: null, // 超时时间
-            imgUrl: this.$store.state.imgUrl // 头像地址
+            imgUrl: this.$store.state.imgUrl, // 头像地址
+            token: this.$store.state.token,
+            screenWidth: document.body.clientWidth, // 屏幕宽度
+            smallScreen: false
+        }
+    },
+    mounted () {
+        const that = this
+        this.fitScreen()
+        window.onresize = () => {
+            return (() => {
+                that.screenWidth = document.documentElement.clientWidth
+            })()
         }
     },
     computed: {
@@ -49,11 +74,48 @@ export default {
     watch: {
         $route () {
             this.handleSelect(this.activeIndex)
+        },
+        // 监听屏幕宽度
+        screenWidth (val) {
+            this.screenWidth = val
+            if (this.screenWidth < 500) {
+                this.smallScreen = true
+            } else {
+                this.smallScreen = false
+            }
+        },
+        // 监听token是否存在
+        token (newVal) {
+            // 如果不存在就改变登录状态
+            if (newVal === null) {
+                this.isLogin = false
+            }
         }
     },
     methods: {
+        // 自适应屏幕
+        fitScreen () {
+            if (this.screenWidth < 500) {
+                this.smallScreen = true
+            } else {
+                this.smallScreen = false
+            }
+        },
         handleSelect (index) {
             this.activeIndex = index
+        },
+        // 操作下拉菜单指令
+        handleCommand (command) {
+            if (command === 'exit') {
+                this.$router.go(-1)
+            } else if (command === 'logout') {
+                // 移除token
+                this.$store.commit(RECORD_TOKEN, null)
+                window.localStorage.removeItem('token')
+                location.reload()
+            } else {
+                this.$router.push(command)
+            }
         },
         setImgUrl () {
             this.imgUrl = this.$store.state.imgUrl
@@ -96,15 +158,15 @@ export default {
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 5;
+        z-index: 10;
     }
     .search{
         padding-top: 20px;
         margin-left: 100px;
         width: 15vw;
-        @media screen and(max-width:1000px) {
+        @media screen and(max-width:800px) {
             margin-left: 30px;
-            width: 15vw;
+            width: 20vw;
         }
         @media screen and(max-width:500px) {
             display: none;
@@ -112,21 +174,27 @@ export default {
     }
     .focus_search{
         width: 20vw;
+        @media screen and(max-width:800px) {
+            width: 25vw;
+        }
     }
     .icon-vue-jian{
         position: absolute;
         left:10vw;
         top: 1vh;
         @include sc(70px,#ea705b);
-        @media screen and(max-width:1000px) {
+        @media screen and(max-width:800px) {
             left:0;
             top: 1vh;
+        }
+        @media screen and(max-width:500px) {
+            display: none;
         }
     }
     .home{
         margin-left: 20%;
         font-size: 36px;
-        @media screen and(max-width:1000px) {
+        @media screen and(max-width:800px) {
             margin-left: 70px;
         }
     }
@@ -141,15 +209,13 @@ export default {
             background-color:#ea705b;
         }
         @media screen and(max-width:500px) {
-            width: 100px;
+            left:5px;
+            top:1vh;
+            width: 220px;
             height: 80px;
-            margin-top: 10px;
         }
         .writer_font{
             color: #ffffff;
-            @media screen and(max-width:500px) {
-                display: none;
-            }
         }
     }
     .mine{
@@ -161,17 +227,43 @@ export default {
             height: 80px;
             border-radius: 50%;
         }
-        @media screen and(max-width:1000px) {
+        @media screen and(max-width:800px) {
             right: 25vw;
         }
         @media screen and(max-width:500px) {
-            right: 18vw;
+            left: 0vw;
+            width: 25vw;
+        }
+    }
+    .small_mine{
+        position: absolute;
+        right:0px;
+        width: 100vw;
+        height: 120px;
+        background-color: #ffffff;
+        .head_img{
+            position: absolute;
+            top:20px;
+            right:30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
         }
     }
     .login{
         position: absolute;
         right: 15vw;
         top:30px;
+        @media screen and(max-width:500px) {
+            left: 5vw;
+        }
+        .sign_in{
+            @include sc(30px,#aaaaaa);
+            margin-right: 20px;
+            &:hover{
+                @include sc(30px,#ea705b);
+            }
+        }
     }
     a{
         color: #666666;
@@ -183,7 +275,7 @@ export default {
             color: #ea705b;
         }
     }
-    @media screen and(max-width: 1000px) {
+    @media screen and(max-width: 800px) {
         .hide{
             display: none;
         }

@@ -19,7 +19,6 @@ const articles = {
     },
     // 存入文章
     saveArticles (data) {
-        console.log(data)
         return requestUrl('post', '/articles', {
             'title': data.title,
             'contentMd': data.contentMd,
@@ -28,6 +27,14 @@ const articles = {
             'category': data.category,
             'uid': data.uid
         })
+    },
+    // 分页获取文章列表
+    getArticles (index, size) {
+        return requestUrl('get', `/articles/${index}/${size}`)
+    },
+    // 获取所有个人分类
+    getCategorys (uid) {
+        return requestUrl('get', `/categorys/${uid}`)
     }
 }
 export default articles

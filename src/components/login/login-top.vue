@@ -1,5 +1,6 @@
 <template>
     <div class="wrap">
+        <router-link to="/home"><span class="title">simple-beauty</span></router-link>
         <div class="form">
             <section class="form-top">
                 <router-link to="/sign-in">
@@ -42,5 +43,22 @@
     .router-link-active{
         color:#ea705b !important;
         font-weight: 700;
+    }
+    .title{
+        position: absolute;
+        left: 5vw;
+        top:100px;
+        @include sc(60px,#1f1d1a);
+        font: {
+            weight:400;
+            family:'calgary';
+        }
+        &:hover{
+            color:#ea705b;
+        }
+        @media screen and(max-width: 900px) {
+            left: 2vw;
+            @include sc(50px,#1f1d1a);
+        }
     }
 </style>

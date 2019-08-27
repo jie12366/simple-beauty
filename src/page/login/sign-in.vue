@@ -39,7 +39,7 @@
 <script>
     import loginTop from '@components/login/login-top'
     import alertSpan from '@components/login/alert-span'
-    import { RECORD_TOKEN, SAVE_HEAD_IMG } from '@/store/mutation-types'
+    import { RECORD_TOKEN, SAVE_HEAD_IMG, SAVE_UID } from '@/store/mutation-types'
     const jwt = require('jsonwebtoken')
     export default {
         data () {
@@ -121,11 +121,17 @@
                 let checkAccount = await this.checkAccount()
                 let checkImageCaptcha = await this.checkImageCaptcha()
                 if (checkAccount && checkImageCaptcha) {
+                    const loading = this.$loading({
+                        lock: true,
+                        text: '登陆中',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                    })
                     let data = {
                         'uaccount': this.account,
                         'upwd': this.pwd
                     }
-                    this.$api.login.signIn(data)
+                    await this.$api.login.signIn(data)
                     .then(res => {
                         if (res.code === 20002) {
                             this.pwdMsg = res.msg
@@ -136,10 +142,13 @@
                             this.$store.commit(RECORD_TOKEN, res.data)
                             // 解析token，取出uid
                             let uid = jwt.decode(res.data).aud
+                            // 将uid记录到state
+                            this.$store.commit(SAVE_UID, uid)
                             // 根据uid获取用户信息，将头像路径记录到state
                             this.$api.user.getUsersInfo(uid)
                             .then(res => {
                                 this.$store.commit(SAVE_HEAD_IMG, res.data.headPath)
+                                loading.close()
                             })
                             this.$message({
                                     message: '登录成功',
@@ -147,6 +156,13 @@
                                     duration: 1000
                                 })
                             this.$router.push(this.$route.query.redirect || '/')
+                        } else {
+                            loading.close()
+                            this.$message({
+                                    message: '登录错误',
+                                    type: 'error',
+                                    duration: 1000
+                                })
                         }
                     })
                 }

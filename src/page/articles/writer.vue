@@ -43,7 +43,6 @@
     </div>
 </template>
 <script>
-const jwt = require('jsonwebtoken')
 export default {
     data () {
         return {
@@ -55,7 +54,7 @@ export default {
             showDialog: false, // 对话框是否可见
             tags: [], // 标签集合
             categorys: [], // 新增分类集合
-            categoryList: ['测试1', '测试2'], // 所有分类集合
+            categoryList: [], // 所有分类集合
             checkedList: [], // 选中的分类
             tagInputVisible: false, // 标签输入框是否可见
             categoryInputVisible: false, // 分类输入框是否可见
@@ -64,19 +63,37 @@ export default {
             tagLen: 50, // 标签输入框的长度
             categoryLen: 50, // 分类输入框的长度
             imgList: [], // 上传的图片集合
-            uid: jwt.decode(this.$store.state.token).aud
+            uid: this.$store.state.uid
         }
+    },
+    created () {
+        this.getCategorys(this.uid)
     },
     watch: {
         // 监听checkList，最多添加一个分类
         checkedList: function (newVal, oldVal) {
             if (this.checkedList.length > 1) {
-                this.$message.error('最多选择1个分类')
+                this.tip('最多添加1个分类', 'error')
                 this.checkedList = oldVal
             }
         }
     },
     methods: {
+        // 成功或错误提示
+        tip (msg, type) {
+            this.$message({
+                message: msg,
+                type: type,
+                duration: 1000
+            })
+        },
+        // 获取所有个人分类
+        getCategorys (uid) {
+            this.$api.articles.getCategorys(uid)
+            .then(res => {
+                this.categoryList = res.data
+            })
+        },
         // 上传图片
         $imgAdd (pos, $file) {
             // 首先将图片上传到服务器
@@ -102,9 +119,9 @@ export default {
         // 点击发布文章
         publish () {
             if (this.title === '') {
-                this.$message.error('标题不能为空')
+                this.tip('标题不能为空', 'error')
             } else if (this.content === '') {
-                this.$message.error('文章内容不能为空')
+                this.tip('文章内容不能为空', 'error')
             } else {
                 this.showDialog = true
             }
@@ -139,7 +156,7 @@ export default {
             let tagValue = this.tagValue
             if (tagValue) {
                 if (this.tags.length === 5) {
-                    this.$message.error('最多添加5个标签')
+                    this.tip('最多添加5个标签', 'error')
                 } else {
                     this.tags.push(tagValue)
                 }
@@ -152,7 +169,7 @@ export default {
             let categoryValue = this.categoryValue
             if (categoryValue) {
                 if (this.checkedList.length === 1) {
-                    this.$message.error('最多添加1个分类')
+                    this.tip('最多添加1个分类', 'error')
                 } else {
                     this.categorys.push(categoryValue)
                     this.categoryList.push(categoryValue)
@@ -165,17 +182,40 @@ export default {
         // 自适应标签输入框宽度
         fitTagWidth () {
             if (this.tagValue.length > 1) {
-                this.tagLen = this.tagValue.length * 30
+                // 如果输入的是中文
+                if (new RegExp('[\u4E00-\u9FA5]+').test(this.tagValue)) {
+                    this.tagLen = this.tagValue.length * 30
+                } else {
+                    if (this.tagValue.length * 15 > 80) {
+                        this.tagLen = this.tagValue.length * 10
+                    } else {
+                        this.tagLen = 80
+                    }
+                }
             }
         },
         // 自适应分类输入框宽度
         fitCategoryWidth () {
             if (this.categoryValue.length > 1) {
-                this.categoryLen = this.categoryValue.length * 30
+                if (new RegExp('[\u4E00-\u9FA5]+').test(this.categoryValue)) {
+                    this.categoryLen = this.categoryValue.length * 30
+                } else {
+                    if (this.categoryValue.length * 15 > 80) {
+                        this.categoryLen = this.categoryValue.length * 10
+                    } else {
+                        this.categoryLen = 80
+                    }
+                }
             }
         },
         // 完成文章发布
         finshPublish () {
+            const loading = this.$loading({
+                lock: true,
+                text: '发布中',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            })
             let data = {
                 'title': this.title,
                 'contentMd': this.content,
@@ -184,12 +224,14 @@ export default {
                 'category': this.checkedList[0],
                 'uid': this.uid
             }
-            console.log(data)
             this.$api.articles.saveArticles(data)
             .then(res => {
+                loading.close()
                 if (res.code === 1) {
-                    this.$message.success('发布成功')
+                    this.tip('发布成功', 'success')
                     this.showDialog = false
+                } else {
+                    this.tip('发布失败', 'error')
                 }
             })
         }
