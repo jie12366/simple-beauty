@@ -18,6 +18,7 @@ import '@/assets/iconfont.css' // 引入iconfont
 import './style/font.scss' // 引入自定义字体
 import moment from 'moment' // 引入moment
 import 'moment/locale/zh-cn'
+import { setMetaTitle } from '@/utils/common'
 
 library.add(fas)
 library.add(fab)
@@ -37,6 +38,12 @@ Vue.use(mavonEditor) // 使用mavonEditor
 // 全局使用moment
 moment.locale('zh-cn')
 Vue.prototype.$moment = moment
+
+Vue.directive('title', {
+  inserted (el, binding) {
+    setMetaTitle(binding.value)
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

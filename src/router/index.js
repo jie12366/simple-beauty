@@ -9,6 +9,7 @@ const home = r => require.ensure([], () => r(require('@page/home/home')), 'home'
 const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
+const articles = r => require.ensure([], () => r(require('@page/articles/details')), 'articles')
 const mine = r => require.ensure([], () => r(require('@page/mine/mine')), 'mine')
 const index = r => require.ensure([], () => r(require('@page/mine/index')), 'index')
 const information = r => require.ensure([], () => r(require('@page/mine/information')), 'information')
@@ -58,9 +59,16 @@ const router = new Router({
             requiresAuth: true
           }
         },
+        // 文章详情页
         {
-          path: '/mine',
+          path: '/users/:uid/articles/:aid',
+          component: articles,
+          props: true
+        },
+        {
+          path: '/:account',
           component: mine,
+          props: true,
           children: [
             {
               path: 'index',

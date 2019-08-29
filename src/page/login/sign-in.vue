@@ -39,7 +39,7 @@
 <script>
     import loginTop from '@components/login/login-top'
     import alertSpan from '@components/login/alert-span'
-    import { RECORD_TOKEN, SAVE_HEAD_IMG, SAVE_UID } from '@/store/mutation-types'
+    import { RECORD_TOKEN, SAVE_HEAD_IMG, SAVE_UID, SAVE_ACCOUNT } from '@/store/mutation-types'
     const jwt = require('jsonwebtoken')
     export default {
         data () {
@@ -134,10 +134,15 @@
                     await this.$api.login.signIn(data)
                     .then(res => {
                         if (res.code === 20002) {
+                            loading.close()
                             this.pwdMsg = res.msg
                             this.pwdRight = false
                         } else if (res.code === 1) {
                             this.pwdRight = true
+                            // 跳转到登录前的页面或主页
+                            this.$router.push(this.$route.query.redirect || '/')
+                            // 记录用户账号
+                            this.$store.commit(SAVE_ACCOUNT, this.account)
                             // 记录token
                             this.$store.commit(RECORD_TOKEN, res.data)
                             // 解析token，取出uid
@@ -155,15 +160,14 @@
                                     type: 'success',
                                     duration: 1000
                                 })
-                            this.$router.push(this.$route.query.redirect || '/')
-                        } else {
-                            loading.close()
-                            this.$message({
-                                    message: '登录错误',
-                                    type: 'error',
-                                    duration: 1000
-                                })
                         }
+                    }).catch(() => {
+                        loading.close()
+                            this.$message({
+                                message: '登录错误',
+                                type: 'error',
+                                duration: 1000
+                            })
                     })
                 }
             }

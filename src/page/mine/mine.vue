@@ -3,6 +3,8 @@
 </template>
 <script>
 export default {
-
+    props: [
+        'nickname'
+    ]
 }
 </script>

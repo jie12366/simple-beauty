@@ -1,87 +1,111 @@
 <template>
-    <div id="loading3">
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-        <div class="demo3"></div>
-</div>
+  <div id="loading">
+    <div id="loading-center">
+      <div id="loading-center-absolute">
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+        <div class="object"></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
-    #loading3 {
-    position: relative;
-    margin: auto;
-    width: 100px;
-    height: 100px;
+#loading {
+  background-color: #ffffff;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  top: 50px;
 }
-.demo3 {
-    width: 4px;
-    height: 4px;
-    border-radius: 2px;
-    background: #68b2ce;
-    position: absolute;
-    animation: demo3 linear 0.8s infinite;
-    -webkit-animation: demo3 linear 0.8s infinite;
+#loading-center {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
-.demo3:nth-child(1){
-    left: 24px;
-    top: 2px;
-    animation-delay:0s;
+#loading-center-absolute {
+  position: relative;
+  left: 50%;
+  height: 120px;
+  width: 300px;
+  margin-top: -25px;
+  margin-left: -75px;
 }
-.demo3:nth-child(2){
-    left: 40px;
-    top: 8px;
-    animation-delay:0.1s;
-}
-.demo3:nth-child(3){
-    left: 47px;
-    top: 24px;
-    animation-delay:0.1s;
-}
-.demo3:nth-child(4){
-    left: 40px;
-    top: 40px;
-    animation-delay:0.2s;
-}
-.demo3:nth-child(5){
-    left: 24px;
-    top: 47px;
-    animation-delay:0.4s;
-}
-.demo3:nth-child(6){
-    left: 8px;
-    top: 40px;
-    animation-delay:0.5s;
-}
-.demo3:nth-child(7){
-    left: 2px;
-    top: 24px;
-    animation-delay:0.6s;
-}
-.demo3:nth-child(8){
-    left: 8px;
-    top: 8px;
-    animation-delay:0.7s;
+.object {
+  width: 8px;
+  height: 150px;
+  margin-right: 5px;
+  background-color: #99BBFF;
+  -webkit-animation: animate 1s infinite;
+  animation: animate 1s infinite;
+  float: left;
 }
 
-@keyframes demo3
-{
-    0%,40%,100% {transform: scale(1);}
-    20% {transform: scale(3);}
+.object:last-child {
+  margin-right: 0px;
 }
-@-webkit-keyframes demo3
-{
-    0%,40%,100% {transform: scale(1);}
-    20% {transform: scale(3);}
+
+.object:nth-child(10) {
+  -webkit-animation-delay: 0.9s;
+  animation-delay: 0.9s;
+}
+.object:nth-child(9) {
+  -webkit-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+}
+.object:nth-child(8) {
+  -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+.object:nth-child(7) {
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+.object:nth-child(6) {
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+.object:nth-child(5) {
+  -webkit-animation-delay: 0.4s;
+  animation-delay: 0.4s;
+}
+.object:nth-child(4) {
+  -webkit-animation-delay: 0.3s;
+  animation-delay: 0.3s;
+}
+.object:nth-child(3) {
+  -webkit-animation-delay: 0.2s;
+  animation-delay: 0.2s;
+}
+.object:nth-child(2) {
+  -webkit-animation-delay: 0.1s;
+  animation-delay: 0.1s;
+}
+
+@-webkit-keyframes animate {
+  50% {
+    -ms-transform: scaleY(0);
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+  }
+}
+
+@keyframes animate {
+  50% {
+    -ms-transform: scaleY(0);
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+  }
 }
 </style>

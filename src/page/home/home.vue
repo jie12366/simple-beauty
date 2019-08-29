@@ -9,7 +9,7 @@
             </el-carousel>
             <section class="box"  :key="index" v-for="(article,index) in articles">
                 <div v-if="article.coverPath">
-                    <router-link to=""><h1>{{article.title}}</h1></router-link>
+                    <h1 @click="toDetails(article.uid, article.id)">{{article.title}}</h1>
                     <el-row :gutter="20">
                         <el-col :md="17" :sm="15" :xs="12">
                             <div>
@@ -28,7 +28,7 @@
                     <el-divider></el-divider>
                 </div>
                 <div  v-if="!article.coverPath">
-                    <router-link to=""><h1>{{article.title}}</h1></router-link>
+                    <h1 @click="toDetails(article.uid, article.id)">{{article.title}}</h1>
                     <div>
                         <p>{{article.summary}}</p>
                         <span><router-link to="">{{article.unickname}}</router-link>
@@ -47,7 +47,7 @@
 <script>
 import navTop from '@/components/top/nav-top'
 import loading from '@/components/common/loading'
-import moment from 'moment'
+import handleTime from '@/utils/show-time'
 export default {
     data () {
         return {
@@ -72,27 +72,18 @@ export default {
             this.$api.articles.getArticles(index, size)
             .then(res => {
                 if (res.code === 1) {
+                    console.log(res.data)
                     this.articles = res.data
                     // 遍历文章集合，处理时间
                     this.articles.forEach(function (article) {
-                        let now = moment(new Date(), 'YYYY-MM-DD HH:mm:ss')
-                        let diffHours = now.diff(article.articleTime, 'hours') // 计算时间差值
-                        let diffDays = now.diff(article.articleTime, 'days')
-                        console.log(diffHours)
-                        // 如果时间差小于21小时就显示时间差
-                        if (diffHours < 21) {
-                            article.articleTime = moment(article.articleTime).fromNow()
-                        } else if (diffHours >= 21 && diffHours < 42) { // 如果相差时间大于24,小于48小时，就显示昨天+时间
-                            article.articleTime = '昨天 ' + moment(article.articleTime).format('HH:mm')
-                        } else if (diffDays > 2 && diffDays < 365) { // 相差时间大于2天，就显示月日+时间
-                            article.articleTime = moment(article.articleTime).format('MM-DD HH:mm')
-                        } else { // 相差时间大于一年，就显示年月日+时间
-                            article.articleTime = moment(article.articleTime).format('YYYY-MM-DD HH:mm')
-                        }
+                        article.articleTime = handleTime(article.articleTime)
                     })
                     this.showLoading = false
                 }
             })
+        },
+        toDetails (uid, aid) {
+            this.$router.push(`/users/${uid}/articles/${aid}`)
         }
     },
     components: {
@@ -143,13 +134,15 @@ export default {
             h1{
                 font-size: 38px;
                 width: 95%;
-                -webkit-transition: all 0.6s linear;
-                -moz-transition: all 0.6s linear;
-                -ms-transition: all 0.6s linear;
-                -o-transition: all 0.6s linear;
-                transition: all 0.6s linear;
+                -webkit-transition: all 0.5s linear;
+                -moz-transition: all 0.5s linear;
+                -ms-transition: all 0.5s linear;
+                -o-transition: all 0.5s linear;
+                transition: all 0.5s linear;
                 &:hover{
                     padding-left: 30px;
+                    text-decoration: underline;
+                    cursor: pointer;
                 }
             }p{
                 @include sc(28px,#aaaaaa);
@@ -159,7 +152,7 @@ export default {
                     color: #aaaaaa;
                     text-decoration: none;
                     &:hover{
-                        text-decoration: #000000;
+                        text-decoration: underline;
                     }
                 }
             }.img{
@@ -194,7 +187,7 @@ export default {
                 color: #000000;
                 text-decoration: none;
                 &:hover{
-                    text-decoration: #000000;
+                    text-decoration: underline;
                 }
             }
         }

@@ -25,6 +25,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "axios": "^0.19.0",
     "element-ui": "^2.11.1",
+    "highlight.js": "^9.15.10",
     "jsonwebtoken": "^8.5.1",
     "mavon-editor": "^2.7.5",
     "moment": "^2.24.0",

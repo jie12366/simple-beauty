@@ -25,6 +25,7 @@ const articles = {
             'contentHtml': data.contentHtml,
             'tags': JSON.stringify(data.tags),
             'category': data.category,
+            'pwd': data.pwd,
             'uid': data.uid
         })
     },
@@ -32,9 +33,21 @@ const articles = {
     getArticles (index, size) {
         return requestUrl('get', `/articles/${index}/${size}`)
     },
+    // 分页获取我的文章列表
+    getArticlesByUid (uid, index, size) {
+        return requestUrl('get', `/articles/${uid}/${index}/${size}`)
+    },
     // 获取所有个人分类
     getCategorys (uid) {
         return requestUrl('get', `/categorys/${uid}`)
+    },
+    // 获取文章内容
+    getArticleByAid (aid) {
+        return requestUrl('get', `/articleDetail/${aid}`)
+    },
+    // 获取文章数据
+    getArticle (aid) {
+        return requestUrl('get', `/article/${aid}`)
     }
 }
 export default articles

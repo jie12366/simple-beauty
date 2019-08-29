@@ -39,7 +39,7 @@
             </section>
             <section>
                 <span class="left-span">个人简介</span>
-                <el-input type="textarea" class="introduction" :rows="4" placeholder="输入你的个人简介" v-model="info.introduction"></el-input>
+                <el-input type="textarea" class="introduction" :rows="4" placeholder="你的个人简介" v-model="info.introduction"></el-input>
                 <el-divider></el-divider>
             </section>
             <el-button type="success" style="width:80px;" @click="saveInfo" round size="small">保存</el-button>
@@ -108,7 +108,6 @@ export default {
         },
         // 把返回的数据赋值给对象
         copyinfo (info, data) {
-            info.imageUrl = data.headPath
             info.nickname = data.nickName
             info.email = data.email ? data.email : ''
             info.phone = data.phone
@@ -283,7 +282,10 @@ export default {
         }
         .nickText{
             width: 400px;
-            margin-left:240px
+            margin-left:240px;
+            @media screen and (max-width: 1300px) {
+                width: 500px;
+            }
         }
         .left-span{
             @include sc(40px,#afafaf);
@@ -318,6 +320,10 @@ export default {
         .introduction{
             width: 350px;
             margin-left:170px;
+            @media screen and (max-width: 1300px) {
+                width: 500px;
+                margin-left:180px;
+            }
             @media screen and (max-width: 500px) {
                 width: 400px;
                 margin-left:180px;

@@ -33,6 +33,11 @@
                         </el-checkbox-group>
                     </section>
                 </el-form-item>
+                <section>
+                    <span class="input-span">发布形式：</span>
+                    <el-radio v-model="type" label="public">公开</el-radio>
+                    <el-radio v-model="type" label="encrypt">加密</el-radio>
+                </section>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="showDialog = false" size="small">取 消</el-button>
@@ -62,6 +67,8 @@ export default {
             categoryValue: null, // 分类输入框的值
             tagLen: 50, // 标签输入框的长度
             categoryLen: 50, // 分类输入框的长度
+            type: 'public', // 发布形式
+            pwd: '', // 文章加密密码
             imgList: [], // 上传的图片集合
             uid: this.$store.state.uid
         }
@@ -73,8 +80,26 @@ export default {
         // 监听checkList，最多添加一个分类
         checkedList: function (newVal, oldVal) {
             if (this.checkedList.length > 1) {
-                this.tip('最多添加1个分类', 'error')
+                this.tip('最多添加1个分类', 'warning')
                 this.checkedList = oldVal
+            }
+        },
+        // 监听文章类型，如果是加密类型，则显示弹框，提示输入密码
+        type (newVal) {
+            if (newVal === 'encrypt') {
+                this.$prompt('请输入密码', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    inputPattern: /^[0-9a-zA-Z]{6,20}$/,
+                    inputErrorMessage: '密码格式不正确'
+                }).then(({value}) => {
+                    this.pwd = value
+                    this.$message({
+                        message: '您的密码是' + value,
+                        type: 'success',
+                        duration: 1000
+                    })
+                })
             }
         }
     },
@@ -91,7 +116,11 @@ export default {
         getCategorys (uid) {
             this.$api.articles.getCategorys(uid)
             .then(res => {
-                this.categoryList = res.data
+                if (res.data != null) {
+                    // 获取键值对中的键的集合
+                    var keys = Object.keys(res.data)
+                    this.categoryList = keys
+                }
             })
         },
         // 上传图片
@@ -119,9 +148,9 @@ export default {
         // 点击发布文章
         publish () {
             if (this.title === '') {
-                this.tip('标题不能为空', 'error')
+                this.tip('标题不能为空', 'warning')
             } else if (this.content === '') {
-                this.tip('文章内容不能为空', 'error')
+                this.tip('文章内容不能为空', 'warning')
             } else {
                 this.showDialog = true
             }
@@ -156,7 +185,7 @@ export default {
             let tagValue = this.tagValue
             if (tagValue) {
                 if (this.tags.length === 5) {
-                    this.tip('最多添加5个标签', 'error')
+                    this.tip('最多添加5个标签', 'warning')
                 } else {
                     this.tags.push(tagValue)
                 }
@@ -169,7 +198,7 @@ export default {
             let categoryValue = this.categoryValue
             if (categoryValue) {
                 if (this.checkedList.length === 1) {
-                    this.tip('最多添加1个分类', 'error')
+                    this.tip('最多添加1个分类', 'warning')
                 } else {
                     this.categorys.push(categoryValue)
                     this.categoryList.push(categoryValue)
@@ -222,6 +251,7 @@ export default {
                 'contentHtml': this.$refs.md.d_render,
                 'tags': this.tags,
                 'category': this.checkedList[0],
+                'pwd': this.pwd,
                 'uid': this.uid
             }
             this.$api.articles.saveArticles(data)
