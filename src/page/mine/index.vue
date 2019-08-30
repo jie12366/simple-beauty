@@ -126,33 +126,28 @@ export default {
     }
     .title {
       position: absolute;
-      @include cl;
+      width: 100%;
+      text-align: center;
       top: 55vh;
       @include sc(80px, #fff);
+      @media screen and(max-width: 1300px) {
+        @include sc(70px, #fff);
+      }
       @media screen and(max-width: 800px) {
-        left: 40%;
+        @include sc(60px, #fff);
       }
       @media screen and(max-width: 500px) {
-        @include sc(40px, #eee);
+        @include sc(50px, #fff);
       }
     }
     .des {
       position: absolute;
       top: 65vh;
-      margin-left: 30vw;
+      width: 100%;
+      text-align: center;
       @include sc(45px, #eee);
-      @media screen and(max-width: 1300px) {
-        margin-left: 5vw;
-        right: 20%;
-      }
-      @media screen and(max-width: 800px) {
-        left: 10%;
-        right: 10%;
-      }
       @media screen and(max-width: 500px) {
         top: 60vh;
-        left: 10%;
-        right: 10%;
         @include sc(30px, #eee);
       }
     }

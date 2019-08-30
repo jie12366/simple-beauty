@@ -14,7 +14,7 @@
                         <el-col :md="17" :sm="15" :xs="12">
                             <div>
                                 <p>{{article.summary}}</p>
-                                <span><router-link to="">{{article.unickname}}</router-link>
+                                <span><router-link to="">{{article.nickName}}</router-link>
                                     <i class="icon iconfont icon-vue-comment"><span style="font-size:12px;margin-left:3px;">{{article.comments}}</span></i>
                                     <i class="icon iconfont icon-vue-like"><span style="font-size:12px;margin-left:3px;">{{article.likes}}</span></i>
                                     <span class="time">{{article.articleTime}}</span>
@@ -31,7 +31,7 @@
                     <h1 @click="toDetails(article.uid, article.id)">{{article.title}}</h1>
                     <div>
                         <p>{{article.summary}}</p>
-                        <span><router-link to="">{{article.unickname}}</router-link>
+                        <span><router-link to="">{{article.nickName}}</router-link>
                             <i class="icon iconfont icon-vue-comment"><span style="font-size:12px;margin-left:3px;">{{article.comments}}</span></i>
                             <i class="icon iconfont icon-vue-like"><span style="font-size:12px;margin-left:3px;">{{article.likes}}</span></i>
                             <span class="time">{{article.articleTime}}</span>
@@ -48,6 +48,7 @@
 import navTop from '@/components/top/nav-top'
 import loading from '@/components/common/loading'
 import handleTime from '@/utils/show-time'
+import api from '@/api'
 export default {
     data () {
         return {
@@ -68,16 +69,23 @@ export default {
     },
     methods: {
         // 获取文章列表
-        getArticles (index, size) {
-            this.$api.articles.getArticles(index, size)
+        async getArticles (index, size) {
+            await this.$api.articles.getArticles(index, size)
             .then(res => {
                 if (res.code === 1) {
-                    console.log(res.data)
                     this.articles = res.data
-                    // 遍历文章集合，处理时间
-                    this.articles.forEach(function (article) {
-                        article.articleTime = handleTime(article.articleTime)
-                    })
+                    // 遍历文章集合，处理时间，获取昵称
+                    for (let i = 0; i < this.articles.length; i++) {
+                        // 获取用户昵称
+                        api.user.getUsersInfo(this.articles[i].uid)
+                        .then(res => {
+                            this.articles[i].nickName = res.data.nickName
+                            // 强制刷新数组
+                            this.articles.splice(i, 1, this.articles[i])
+                        })
+                        // 处理时间
+                        this.articles[i].articleTime = handleTime(this.articles[i].articleTime)
+                    }
                     this.showLoading = false
                 }
             })
