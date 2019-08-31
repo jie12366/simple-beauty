@@ -75,6 +75,8 @@ export default {
     },
     created () {
         this.getCategorys(this.uid)
+        // 如果存在本地存储，则读取数据
+        this.content = window.localStorage.getItem(this.uid) || ''
     },
     watch: {
         // 监听checkList，最多添加一个分类
@@ -99,8 +101,14 @@ export default {
                         type: 'success',
                         duration: 1000
                     })
+                }).catch(() => {
+                    this.type = 'public'
                 })
             }
+        },
+        // 监听文章内容，如果变化则存入localStorage
+        content (val) {
+            window.localStorage.setItem(this.uid, val)
         }
     },
     methods: {
@@ -258,6 +266,8 @@ export default {
             .then(res => {
                 loading.close()
                 if (res.code === 1) {
+                    // 发布成功，删除本地存储
+                    window.localStorage.removeItem(this.uid)
                     this.tip('发布成功', 'success')
                     this.showDialog = false
                 } else {
@@ -278,6 +288,7 @@ export default {
     }
     .title{
         width: 80%;
+        font-size: 38px;
         @media screen and (max-width: 1000px){
             width: 60%;
         }

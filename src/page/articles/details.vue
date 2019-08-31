@@ -22,12 +22,17 @@
             <div class="content">
                 <div id="content" v-html="articleDetail.contentHtml"></div>
             </div>
-            <div class="directory" :style="{top:top}">
+            <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
                 <span>文章目录</span><br/>
                 <div :key="index" v-for="(item,index) in directory">
                     <p @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h2">{{item.h2}}</p>
                     <p @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:20px;">{{item.h3}}</p>
                 </div>
+            </div>
+            <div class="sidebar" :style="{top:sideTop}">
+                <div><i class="icon iconfont icon-vue-read"></i><span>{{article.reads}}</span></div>
+                <div><i class="icon iconfont icon-vue-like"></i><span>{{article.likes}}</span></div>
+                <div><i class="icon iconfont icon-vue-comment"></i><span>{{article.comments}}</span></div>
             </div>
             <div class="comment">
 
@@ -40,10 +45,10 @@ import vueCanvasNest from 'vue-canvas-nest'
 import sidebar from '@components/common/sidebar'
 import moment from 'moment'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/atom-one-dark.css'
+import 'highlight.js/styles/atelier-lakeside-dark.css'
 const highlightCode = () => {
-    // 使用highlightjs高亮代码
-    const preEl = document.querySelectorAll('pre')
+    // 使用highlightjs高亮代码(所有pre和code标签)
+    const preEl = document.querySelectorAll('pre,code')
     preEl.forEach((el) => {
         hljs.highlightBlock(el)
     })
@@ -51,10 +56,11 @@ const highlightCode = () => {
 export default {
     data () {
         return {
-            articleDetail: '',
-            article: '',
-            directory: [],
-            isActive: 0,
+            articleDetail: '', // 文章内容
+            article: '', // 文章数据
+            directory: [], // 目录集合
+            hideDirectory: false, // 是否隐藏目录
+            isActive: 0, // 当前激活项
             bgList: [
                 require('@/images/bg/scenery1.jpg'),
                 require('@/images/bg/scenery2.jpg'),
@@ -72,9 +78,11 @@ export default {
                 require('@/images/bg/scenery14.jpg'),
                 require('@/images/bg/scenery15.jpg')
             ],
-            index: 2,
-            userInfo: '',
-            top: '400px'
+            index: 2, // 默认背景图片索引
+            userInfo: '', // 用户信息
+            dirTop: '500px', // 目录到顶部距离
+            sideTop: '', // 侧边图标到顶部距离,
+            screenWidth: document.body.clientWidth // 屏幕宽度
         }
     },
     props: [
@@ -83,6 +91,11 @@ export default {
     ],
     created () {
         this.getArticleDetail()
+        if (this.screenWidth < 1300 && this.screenWidth > 900) {
+            this.sideTop = '450px'
+        } else {
+            this.sideTop = '650px'
+        }
     },
     mounted () {
         this.getArticle()
@@ -94,15 +107,39 @@ export default {
                 window.pageYOffset || document.body.scrollTop ||
                 document.querySelector(this.el).scrollTop
             if (this.scrollTop > 300) {
-                this.top = '50px'
+                this.dirTop = '50px'
+                this.sideTop = '100px'
             } else {
-                this.top = '400px'
+                this.dirTop = '500px'
+                if (this.screenWidth < 1300 && this.screenWidth > 900) {
+                    this.sideTop = '450px'
+                } else {
+                    this.sideTop = '650px'
+                }
             }
         }, true)
+        const that = this
+        // 监听屏幕宽度变化
+        window.onresize = () => {
+            return (() => {
+                that.screenWidth = document.documentElement.clientWidth
+            })()
+        }
     },
     computed: {
         articleTime () {
             return moment(this.article.articleTime).format('YYYY-MM-DD')
+        }
+    },
+    watch: {
+        // 监听屏幕宽度
+        screenWidth (val) {
+            this.screenWidth = val
+            if (this.screenWidth < 1300 && this.screenWidth > 900) {
+                this.sideTop = '450px'
+            } else {
+                this.sideTop = '650px'
+            }
         }
     },
     updated () {
@@ -113,8 +150,11 @@ export default {
         getArticleDetail () {
             this.$api.articles.getArticleByAid(this.aid)
             .then(res => {
-                this.articleDetail = res.data.detail
+                this.articleDetail = res.data
                 this.directory = res.data.directory
+                if (this.directory.length === 0) {
+                    this.hideDirectory = true
+                }
             })
         },
         // 获取文章数据
@@ -181,6 +221,9 @@ export default {
             color:#606266;
         }.date{
             @include sc(32px,#666);
+            a{
+                color:#666;
+            }
         }.icon-vue-category1{
             padding-right: 10px;
             padding-left: 60px;
@@ -198,6 +241,9 @@ export default {
         a{
             color: #409EFF;
             text-decoration: none;
+            &:hover{
+                color: #ea705b;
+            }
         }
     }
     .content{
@@ -207,32 +253,35 @@ export default {
         background-color: #f8fbfd;
         width: 55%;
         margin: auto;
-        @include sc(35px,#666);
-        @media screen and (max-width: 1300px) {
-            @include sc(30px,#666);
-        }
+        font-weight: 349;
+        @include sc(30px,#303133);
         @media screen and (max-width: 1300px) {
             width: 60%;
             margin-right: 300px;
-            @include sc(35px,#666);
+            @include sc(28px,#303133);
+        }
+        @media screen and (max-width: 1100px) {
+            margin-left: 100px;
+            width: 80%;
+            @include sc(25px,#303133);
+        }
+        @media screen and (max-width: 900px) {
+            margin-left: 100px;
+            width: 75%;
+            @include sc(25px,#303133);
         }
         @media screen and (max-width: 500px) {
             padding-left: 30px;
             padding-right: 30px;
             width: 90%;
-            @include sc(24px,#666);
+            @include sc(24px,#303133);
         }
-        span{
-            /deep/ h4{
-                font-weight:bold;
-                background-color: #f6f6f6;
-                margin:20px 0;
-                border-bottom: 0px solid #12b4f0;
-                padding: 5px 12px;
-                border-left: 5px solid #24b4f0;
-                margin:12px 0px;
-            }
+        div{
+            /*改变渲染的html内容中的样式*/
             /deep/ h2{
+                border-bottom: 2px solid #cccccc;
+            }
+            /deep/ h3{
                 font-weight:bold;
                 background-color: #f6f6f6;
                 margin:20px 0;
@@ -243,6 +292,12 @@ export default {
             }
             /deep/ img{
                 width: 100%;
+            }
+            /deep/ code{
+                font-size: 35px;
+            }
+            /deep/ pre code{
+                font-size: 32px;
             }
         }
     }
@@ -259,6 +314,7 @@ export default {
         }
         div,p{
             @include sc(30px,#84C1FF);
+            text-decoration: underline;
             &:hover{
                 color:rgb(234, 112, 91);
                 cursor: pointer;
@@ -267,8 +323,44 @@ export default {
                 color:rgb(234, 112, 91) !important;
             }
         }
-        @media screen and(max-width: 800px) {
+        @media screen and(max-width: 1100px) {
             display: none;
+        }
+    }
+    .sidebar{
+        position: fixed;
+        right: 610px;
+        width: 100px;
+        @media screen and (max-width:1300px) {
+            right: 9%;
+        }
+        @media screen and (max-width:1100px) {
+            right: 5%;
+        }
+        @media screen and (max-width:500px) {
+            display: none;
+        }
+        div{
+            border: 2px #EBEEF5 solid;
+            span{
+                position: relative;
+                @include sc(30px,#666);
+                top:-7px;
+            }
+            .icon-vue-read{
+                @include sc(50px,#67C23A);
+                margin-left: -3px;
+                margin-right: 3px;
+            }
+            .icon-vue-like{
+                @include sc(45px,#F56C6C);
+                margin-right: 5px;
+            }
+            .icon-vue-comment{
+                @include sc(40px,#909399);
+                margin-left: 3px;
+                margin-right: 7px;
+            }
         }
     }
     .comment{
