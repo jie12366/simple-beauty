@@ -15,19 +15,20 @@
         <div class="right-body">
           <el-image class="head-img" :src="headUrl"></el-image>
           <div class="mine-info">
-            <span>0&nbsp;文章</span>
-            <span style="margin-left:20px;">0&nbsp;评论</span>
-            <br />
-            <span>0&nbsp;喜欢</span>
-            <span style="margin-left:20px;">0&nbsp;关注</span>
-            <br />
-            <span style="margin-left:30px;">0&nbsp;浏览量</span>
+            <div>
+              <span>{{articles}}&nbsp;文章</span>
+              <span style="margin-left:20px;">{{comments}}&nbsp;评论</span>
+            </div>
+            <div>
+              <span>{{likes}}&nbsp;喜欢</span>
+              <span style="margin-left:20px;">{{fans}}&nbsp;粉丝</span>
+            </div>
           </div>
           <span class="divider">
             —————————————
             <i class="icon iconfont icon-vue-love1"></i>——————————
           </span>
-          <div class="link" :key="index" v-for="(item, index) in munuList">
+          <div class="link" :key="index" v-for="(item, index) in menuList">
             <router-link :to="item.path"><section>
               <i :class="item.icon"></i><span>{{item.name}}</span>
             </section></router-link>
@@ -44,19 +45,18 @@ export default {
     return {
       showRight: false,
       url2: 'static/sky.png',
-      headUrl: this.$store.state.imgUrl, // 我的头像
-      munuList: [
+      menuList: [
         {
           name: '首页',
           path: '/home',
           icon: 'icon iconfont icon-vue-index'
         }, {
           name: this.name,
-          path: `/${this.name}/index`,
+          path: `/${this.name}/${this.uid}/index`,
           icon: 'icon iconfont icon-vue-mine'
         }, {
           name: '标签墙',
-          path: '',
+          path: `/${this.name}/${this.uid}/tags?`,
           icon: 'icon iconfont icon-vue-tag'
         }, {
           name: '分类',
@@ -81,8 +81,30 @@ export default {
   },
   props: {
     name: {
-      type: String,
-      default: '我的主页'
+      type: String
+    },
+    headUrl: {
+      type: String
+    },
+    articles: {
+      type: Number,
+      default: 0
+    },
+    comments: {
+      type: Number,
+      default: 0
+    },
+    likes: {
+      type: Number,
+      default: 0
+    },
+    fans: {
+      type: Number,
+      default: 0
+    },
+    uid: {
+      type: Number,
+      default: 0
     }
   },
   mounted () {
@@ -103,6 +125,21 @@ export default {
           this.right = '30px'
         }
       }, true)
+  },
+  watch: {
+    // 由于加载比较慢会导致name和headUrl无法正确赋值
+    // 需要监听这两个变量以刷新menuList
+    name (val) {
+      console.log('uid=' + this.uid)
+      this.menuList[1].name = val
+      this.menuList[1].path = `/${val}/${this.uid}/index`
+      this.menuList[2].path = `/${val}/${this.uid}/tags`
+      this.menuList.splice(1, 1, this.menuList[1])
+      this.menuList.splice(2, 1, this.menuList[2])
+    },
+    headUrl (val) {
+      this.headUrl = val
+    }
   },
   computed: {
     maskClass: function () {

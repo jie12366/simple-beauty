@@ -83,7 +83,6 @@ export default {
         checkedList: function (newVal, oldVal) {
             if (this.checkedList.length > 1) {
                 this.tip('最多添加1个分类', 'warning')
-                this.checkedList = oldVal
             }
         },
         // 监听文章类型，如果是加密类型，则显示弹框，提示输入密码

@@ -1,6 +1,6 @@
 <template>
     <el-menu text-color="#666666" :default-active="$route.path"
-active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router="true" mode="horizontal" @select="handleSelect">
+active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
     <router-link to="/home"><i class="icon iconfont icon-vue-jian"></i></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
     <el-menu-item index="/message" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item>
@@ -10,12 +10,13 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
     @focus="changeStyle" @blur="resumeStyle"/>
     <el-submenu class="mine" v-if="isLogin && !smallScreen" trigger="click">
         <template slot="title"><img class="head_img" :src="imgUrl"/></template>
-        <el-menu-item :index="`/${this.account}/index`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
+        <el-menu-item :index="`/${this.account}/${this.uid}/index?`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
         <el-menu-item index="4-2" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-menu-item>
         <el-menu-item index="4-3" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-love" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>喜欢的文章</el-menu-item>
         <el-menu-item :index="`/${this.account}/information`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-menu-item>
         <el-menu-item @click="logout" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-menu-item>
     </el-submenu>
+    <!--移动端导航栏-->
     <el-dropdown v-if="smallScreen && isLogin"  class="small_mine" placement="bottom-end" @command="handleCommand" trigger="click">
         <img class="head_img" :src="imgUrl" />
             <el-dropdown-menu slot="dropdown">
@@ -29,6 +30,7 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
                 <el-dropdown-item command="logout"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-dropdown-item>
             </el-dropdown-menu>
     </el-dropdown>
+    <!--未登录时显示-->
     <span v-if="!isLogin" class="login">
         <router-link to="sign-in"><span class="sign_in">登录</span></router-link>
         <router-link to="sign-up"><el-button round plain type="success" size="small" style="width:80px">注册</el-button></router-link>
@@ -49,6 +51,7 @@ export default {
             timeout: null, // 超时时间
             imgUrl: this.$store.state.imgUrl, // 头像地址
             token: this.$store.state.token,
+            uid: this.$store.state.uid,
             screenWidth: document.body.clientWidth, // 屏幕宽度
             smallScreen: false,
             account: this.$store.state.account // 用户账号

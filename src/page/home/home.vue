@@ -17,6 +17,7 @@
                                 <span><router-link to="">{{article.nickName}}</router-link>
                                     <i class="icon iconfont icon-vue-comment"><span style="font-size:12px;margin-left:3px;">{{article.comments}}</span></i>
                                     <i class="icon iconfont icon-vue-like"><span style="font-size:12px;margin-left:3px;">{{article.likes}}</span></i>
+                                    <i class="icon iconfont icon-vue-read"><span style="font-size:12px;margin-left:3px;">{{article.reads}}</span></i>
                                     <span class="time">{{article.articleTime}}</span>
                                 </span>
                             </div>
@@ -34,6 +35,7 @@
                         <span><router-link to="">{{article.nickName}}</router-link>
                             <i class="icon iconfont icon-vue-comment"><span style="font-size:12px;margin-left:3px;">{{article.comments}}</span></i>
                             <i class="icon iconfont icon-vue-like"><span style="font-size:12px;margin-left:3px;">{{article.likes}}</span></i>
+                            <i class="icon iconfont icon-vue-read"><span style="font-size:12px;margin-left:3px;">{{article.reads}}</span></i>
                             <span class="time">{{article.articleTime}}</span>
                         </span>
                     </div>
@@ -117,8 +119,8 @@ export default {
             margin-left: 17%;
         }
         @media screen and (max-width: 500px) {
-            width:100%;
-            margin-left: 0%;
+            width:95%;
+            margin: auto;
         }
         .carousel{
             .img{
@@ -185,11 +187,17 @@ export default {
                 top: 3px;
                 left: 40px;
             }
+            .icon-vue-read{
+                position: relative;
+                @include sc(28px,#aaaaaa);
+                top: 3px;
+                left: 60px;
+            }
             .time{
                 position: relative;
                 @include sc(24px,#aaaaaa);
                 top: 1px;
-                left: 60px;
+                left: 80px;
             }
             a{
                 color: #000000;

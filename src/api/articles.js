@@ -48,6 +48,14 @@ const articles = {
     // 获取文章数据
     getArticle (aid) {
         return requestUrl('get', `/article/${aid}`)
+    },
+    // 获取用户的所有标签
+    getTags (uid) {
+        return requestUrl('get', `/tags/${uid}`)
+    },
+    // 根据我得标签分页获取文章
+    getArticlesByTag (uid, tag, index, size) {
+        return requestUrl('get', `/articles/${uid}/${tag}/${index}/${size}`)
     }
 }
 export default articles

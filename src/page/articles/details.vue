@@ -1,6 +1,8 @@
 <template>
     <div>
-        <sidebar :name="userInfo.nickName"></sidebar>
+        <sidebar :name="userInfo.nickName" :headUrl="userInfo.headPath" :articles="userInfo.articles"
+            :likes="userInfo.likes" :fans="userInfo.fans" :comments="userInfo.comments" :uid="userInfo.uid">
+        </sidebar>
         <div class="top" @click="changeImg">
             <el-image class="top-img" :src="bgList[index]" fit="cover"></el-image>
         </div>
@@ -11,44 +13,46 @@
                 <div style="margin-top:20px;">
                     <span class="date"><i class="icon iconfont icon-vue-date"></i><router-link to="">{{articleTime}}</router-link></span>
                     <span class="category"><i class="icon iconfont icon-vue-category1"></i><router-link to="">{{article.category}}</router-link></span>
+                    <i class="icon iconfont icon-vue-read"></i><span class="reads">{{article.reads}}</span>
                 </div>
                 <div class="tag">
                     <i class="icon iconfont icon-vue-tag1"></i>
                     <router-link to=""><span :key="index" v-for="(item,index) in article.tags">
-                        {{item}}
+                        <span @click="toTagNotes(item.tag)">{{item.tag}}</span>
                     </span></router-link>
                 </div>
             </div>
-            <div class="content">
-                <div id="content" v-html="articleDetail.contentHtml"></div>
-            </div>
-            <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
-                <span>文章目录</span><br/>
-                <div :key="index" v-for="(item,index) in directory">
-                    <p @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h2">{{item.h2}}</p>
-                    <p @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:20px;">{{item.h3}}</p>
+            <div class="content-main">
+                <div class="content" v-html="articleDetail.contentHtml"></div>
+                <div class="content-bottom">
+                    <span class="like">
+                        <i class="icon iconfont icon-vue-like"></i><span>{{article.likes}}</span>
+                    </span>
+                    <span class="collect">
+                        <i class="icon iconfont icon-vue-shoucang"></i><span>{{article.comments}}</span>
+                    </span>
                 </div>
             </div>
-            <div class="sidebar" :style="{top:sideTop}">
-                <div><i class="icon iconfont icon-vue-read"></i><span>{{article.reads}}</span></div>
-                <div><i class="icon iconfont icon-vue-like"></i><span>{{article.likes}}</span></div>
-                <div><i class="icon iconfont icon-vue-comment"></i><span>{{article.comments}}</span></div>
+            <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
+                <div :key="index" v-for="(item,index) in directory">
+                    <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h2">{{item.h2}}</div>
+                    <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:15px;">{{item.h3}}</div>
+                </div>
             </div>
-            <div class="comment">
-
-            </div>
+            <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :uid="article.uid" class="comment"></comment>
         </div>
     </div>
 </template>
 <script>
 import vueCanvasNest from 'vue-canvas-nest'
 import sidebar from '@components/common/sidebar'
+import comment from '@components/common/comment'
 import moment from 'moment'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atelier-lakeside-dark.css'
 const highlightCode = () => {
     // 使用highlightjs高亮代码(所有pre和code标签)
-    const preEl = document.querySelectorAll('pre,code')
+    const preEl = document.querySelectorAll('pre')
     preEl.forEach((el) => {
         hljs.highlightBlock(el)
     })
@@ -81,8 +85,10 @@ export default {
             index: 2, // 默认背景图片索引
             userInfo: '', // 用户信息
             dirTop: '500px', // 目录到顶部距离
-            sideTop: '', // 侧边图标到顶部距离,
-            screenWidth: document.body.clientWidth // 屏幕宽度
+            screenWidth: document.body.clientWidth, // 屏幕宽度
+            screenHeight: window.screen.height, // 屏幕高度
+            width: '50%',
+            defaultOpen: ''
         }
     },
     props: [
@@ -91,11 +97,6 @@ export default {
     ],
     created () {
         this.getArticleDetail()
-        if (this.screenWidth < 1300 && this.screenWidth > 900) {
-            this.sideTop = '450px'
-        } else {
-            this.sideTop = '650px'
-        }
     },
     mounted () {
         this.getArticle()
@@ -108,14 +109,8 @@ export default {
                 document.querySelector(this.el).scrollTop
             if (this.scrollTop > 300) {
                 this.dirTop = '50px'
-                this.sideTop = '100px'
             } else {
                 this.dirTop = '500px'
-                if (this.screenWidth < 1300 && this.screenWidth > 900) {
-                    this.sideTop = '450px'
-                } else {
-                    this.sideTop = '650px'
-                }
             }
         }, true)
         const that = this
@@ -124,6 +119,10 @@ export default {
             return (() => {
                 that.screenWidth = document.documentElement.clientWidth
             })()
+        }
+        if (this.screenWidth < 1100) {
+            this.width = '80%'
+            this.defaultOpen = 'edit'
         }
     },
     computed: {
@@ -140,6 +139,13 @@ export default {
             } else {
                 this.sideTop = '650px'
             }
+            if (this.screenWidth < 1100) {
+                this.width = '80%'
+                this.defaultOpen = 'edit'
+            } else {
+                this.width = '50%'
+                this.defaultOpen = ''
+            }
         }
     },
     updated () {
@@ -152,6 +158,7 @@ export default {
             .then(res => {
                 this.articleDetail = res.data
                 this.directory = res.data.directory
+                console.log(res.data)
                 if (this.directory.length === 0) {
                     this.hideDirectory = true
                 }
@@ -169,6 +176,7 @@ export default {
         getUsersInfo () {
             this.$api.user.getUsersInfo(this.uid)
             .then(res => {
+                console.log(res.data)
                 this.userInfo = res.data
             })
         },
@@ -181,11 +189,15 @@ export default {
             var element = document.getElementById(id)
             this.isActive = index
             element.scrollIntoView({block: 'start', behavior: 'smooth'})
+        },
+        toTagNotes (tag) {
+            this.$router.push(`/${this.userInfo.nickName}/${this.uid}/tag/${tag}`)
         }
     },
     components: {
         sidebar,
-        vueCanvasNest
+        vueCanvasNest,
+        comment
     }
 }
 </script>
@@ -207,7 +219,6 @@ export default {
 .main{
     position: relative;
     top: 900px;
-    width: 100%;
     .main-top{
         width: 100%;
         height:300px;
@@ -238,6 +249,20 @@ export default {
             margin-top: 25px;
             @include sc(30px,#666);
         }
+        .icon-vue-read{
+                @include sc(50px,#909399);
+                position: relative;
+                margin-left: 20px;
+                top: 8px;
+                margin-right: 3px;
+                &:hover{
+                    color:rgb(234, 112, 91);
+                    cursor: pointer;
+                }
+            }
+        .reads{
+            @include sc(27px,#909399);
+        }
         a{
             color: #409EFF;
             text-decoration: none;
@@ -246,59 +271,109 @@ export default {
             }
         }
     }
-    .content{
-        padding-left: 60px;
-        padding-right: 60px;
-        padding-top: 30px;
-        background-color: #f8fbfd;
-        width: 55%;
+    .content-main{
+        width: 59%;
         margin: auto;
         font-weight: 349;
         @include sc(30px,#303133);
         @media screen and (max-width: 1300px) {
-            width: 60%;
+            width: 65%;
             margin-right: 300px;
-            @include sc(28px,#303133);
+            @include sc(30px,#303133);
         }
         @media screen and (max-width: 1100px) {
             margin-left: 100px;
             width: 80%;
-            @include sc(25px,#303133);
+            @include sc(30px,#303133);
         }
         @media screen and (max-width: 900px) {
             margin-left: 100px;
-            width: 75%;
+            width: 84%;
             @include sc(25px,#303133);
         }
         @media screen and (max-width: 500px) {
             padding-left: 30px;
             padding-right: 30px;
+            margin:auto;
             width: 90%;
-            @include sc(24px,#303133);
+            @include sc(25px,#303133);
         }
-        div{
+        .content{
+            padding-left: 60px;
+            padding-right: 60px;
+            padding-top: 30px;
+            padding-bottom: 50px;
+            background-color: #f8fbfd;
             /*改变渲染的html内容中的样式*/
-            /deep/ h2{
-                border-bottom: 2px solid #cccccc;
-            }
-            /deep/ h3{
-                font-weight:bold;
-                background-color: #f6f6f6;
-                margin:20px 0;
-                border-bottom: 0px solid #12b4f0;
-                padding: 5px 12px;
-                border-left: 5px solid #24b4f0;
-                margin:12px 0px;
-            }
+                /deep/ h2{
+                    border-bottom: 2px solid #cccccc;
+                }
+                /deep/ h3{
+                    font-weight:bold;
+                    background-color: #f6f6f6;
+                    margin:20px 0;
+                    border-bottom: 0px solid #12b4f0;
+                    padding: 5px 12px;
+                    border-left: 5px solid #24b4f0;
+                    margin:12px 0px;
+                }
+                /deep/ code{
+                    color: #6666CC;
+                    font-size: 35px;
+                }
+                /deep/ pre code{
+                    font-size: 32px;
+                    @media screen and (max-width: 900px) {
+                        font-size: 25px;
+                    }
+                }
+                /deep/ a{
+                    color: #99CCFF;
+                }
             /deep/ img{
-                width: 100%;
+                max-width:100%;
+                padding-top: 20px;
+                padding-bottom: 20px;
             }
-            /deep/ code{
-                font-size: 35px;
-            }
-            /deep/ pre code{
-                font-size: 32px;
-            }
+        }
+        .content-bottom{
+            width: 100%;
+            height:200px;
+            span{
+                    position: relative;
+                    @include sc(30px,#C0C4CC);
+                    left:3px;
+                    top:-4px;
+                }
+                .like{
+                    position: relative;
+                    top:50px;
+                    left:5%;
+                    .icon-vue-like{
+                        @include sc(45px,#909399);
+                        position: relative;
+                        right: 0;
+                        &:hover{
+                            color:rgb(234, 112, 91);
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .collect{
+                    position: relative;
+                    top:50px;
+                    left:90%;
+                    @media screen and(max-width: 1100px) {
+                        left:80%;
+                    }
+                    .icon-vue-shoucang{
+                        @include sc(40px,#909399);
+                        &:hover{
+                            color:rgb(234, 112, 91);
+                            cursor: pointer;
+                        }
+                    }
+                }
         }
     }
     @media screen and (max-width: 1300px) {
@@ -308,13 +383,14 @@ export default {
         position: fixed;
         left: 40px;
         width: 500px;
-        span{
-            @include sc(35px,#666);
-            margin-bottom:30px;
+        overflow:auto;
+        border-left: 1px #909399 solid;
+        padding-left: 15px;
+        .title{
+            margin-top: 10px;
         }
         div,p{
-            @include sc(30px,#84C1FF);
-            text-decoration: underline;
+            @include sc(28px,#909399);
             &:hover{
                 color:rgb(234, 112, 91);
                 cursor: pointer;
@@ -327,44 +403,8 @@ export default {
             display: none;
         }
     }
-    .sidebar{
-        position: fixed;
-        right: 610px;
-        width: 100px;
-        @media screen and (max-width:1300px) {
-            right: 9%;
-        }
-        @media screen and (max-width:1100px) {
-            right: 5%;
-        }
-        @media screen and (max-width:500px) {
-            display: none;
-        }
-        div{
-            border: 2px #EBEEF5 solid;
-            span{
-                position: relative;
-                @include sc(30px,#666);
-                top:-7px;
-            }
-            .icon-vue-read{
-                @include sc(50px,#67C23A);
-                margin-left: -3px;
-                margin-right: 3px;
-            }
-            .icon-vue-like{
-                @include sc(45px,#F56C6C);
-                margin-right: 5px;
-            }
-            .icon-vue-comment{
-                @include sc(40px,#909399);
-                margin-left: 3px;
-                margin-right: 7px;
-            }
-        }
-    }
     .comment{
-        width:100%;
+        overflow:hidden;
     }
 }
 </style>

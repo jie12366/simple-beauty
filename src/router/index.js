@@ -12,6 +12,8 @@ const writer = r => require.ensure([], () => r(require('@page/articles/writer'))
 const articles = r => require.ensure([], () => r(require('@page/articles/details')), 'articles')
 const mine = r => require.ensure([], () => r(require('@page/mine/mine')), 'mine')
 const index = r => require.ensure([], () => r(require('@page/mine/index')), 'index')
+const tags = r => require.ensure([], () => r(require('@page/mine/tags')), 'tags')
+const tagNotes = r => require.ensure([], () => r(require('@page/mine/tag-notes')), 'tagNotes')
 const information = r => require.ensure([], () => r(require('@page/mine/information')), 'information')
 
 const router = new Router({
@@ -70,13 +72,15 @@ const router = new Router({
           component: mine,
           props: true,
           children: [
-            {
-              path: 'index',
-              component: index,
-              meta: {
-                title: '个人主页',
-                requiresAuth: true
-              }
+            { // 主页
+              path: ':uid/index',
+              component: index
+            }, { // 标签墙
+              path: ':uid/tags',
+              component: tags
+            }, { // 标签对应的文章
+              path: ':uid/tag/:tag',
+              component: tagNotes
             }, {
               path: 'information',
               component: information,
