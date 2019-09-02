@@ -92,6 +92,8 @@ export default {
   },
   methods: {
     showDialog () {
+      // 发个请求看是否登录
+      this.$api.login.getToken()
       this.showInput = true
     },
     // 上传图片

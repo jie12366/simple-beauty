@@ -88,7 +88,8 @@ export default {
             screenWidth: document.body.clientWidth, // 屏幕宽度
             screenHeight: window.screen.height, // 屏幕高度
             width: '50%',
-            defaultOpen: ''
+            defaultOpen: '',
+            confirmPwd: this.$route.query.pwd
         }
     },
     props: [
@@ -96,10 +97,10 @@ export default {
         'aid' // 文章id
     ],
     created () {
+        this.getArticle()
         this.getArticleDetail()
     },
     mounted () {
-        this.getArticle()
         this.getUsersInfo()
         highlightCode()
         // 监听滚动
@@ -170,6 +171,11 @@ export default {
             .then(res => {
                 this.article = res.data
                 document.title = this.article.title
+                if (this.article.pwd !== '') {
+                    if (this.article.pwd !== this.confirmPwd) {
+                        this.$router.replace({name: 'articlesPwd', params: {pwd: this.article.pwd}, query: {redirect: this.$route.fullPath}})
+                    }
+                }
             })
         },
         // 获取用户信息

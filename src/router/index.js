@@ -10,6 +10,7 @@ const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
 const articles = r => require.ensure([], () => r(require('@page/articles/details')), 'articles')
+const articlesPwd = r => require.ensure([], () => r(require('@page/articles/decrypt')), 'articlesPwd')
 const mine = r => require.ensure([], () => r(require('@page/mine/mine')), 'mine')
 const index = r => require.ensure([], () => r(require('@page/mine/index')), 'index')
 const tags = r => require.ensure([], () => r(require('@page/mine/tags')), 'tags')
@@ -71,6 +72,10 @@ const router = new Router({
           path: '/users/:uid/articles/:aid',
           component: articles,
           props: true
+        }, {
+          path: '/articlesPwd',
+          name: 'articlesPwd',
+          component: articlesPwd
         },
         {
           path: '/:account',
