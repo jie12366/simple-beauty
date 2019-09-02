@@ -1,7 +1,7 @@
 <template>
     <mine :uid="uid">
         <div>
-            <div class="title-main"><span class="title" @click="tagWall">标签墙</span><span class="tag"> - {{tag}}</span></div>
+            <div class="title-main"><span class="title" @click="categoryWall">分类</span><span class="category"> - {{category}}</span></div>
         </div>
         <show-article :uid="uid" :articleList="articleList"></show-article>
         <el-pagination
@@ -20,7 +20,7 @@ export default {
     data () {
         return {
             uid: parseInt(this.$route.params.uid),
-            tag: this.$route.params.tag,
+            category: this.$route.params.category,
             articleList: [],
             total: 0,
             index: 1,
@@ -32,7 +32,7 @@ export default {
     },
     methods: {
         getArticles (index, size) {
-            this.$api.articles.getArticlesByTag(this.uid, this.tag, index, size)
+            this.$api.articles.getArticlesByCategory(this.uid, this.category, index, size)
             .then(res => {
                 if (res.code === 1) {
                     this.articleList = res.data.content
@@ -45,7 +45,7 @@ export default {
                 }
             })
         },
-        tagWall () {
+        categoryWall () {
             this.$router.go(-1)
         },
         changePage (index) {

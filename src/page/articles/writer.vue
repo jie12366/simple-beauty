@@ -70,7 +70,8 @@ export default {
             type: 'public', // 发布形式
             pwd: '', // 文章加密密码
             imgList: [], // 上传的图片集合
-            uid: this.$store.state.uid
+            uid: this.$store.state.uid,
+            account: this.$store.state.account
         }
     },
     created () {
@@ -83,6 +84,7 @@ export default {
         checkedList: function (newVal, oldVal) {
             if (this.checkedList.length > 1) {
                 this.tip('最多添加1个分类', 'warning')
+                this.checkedList = oldVal
             }
         },
         // 监听文章类型，如果是加密类型，则显示弹框，提示输入密码
@@ -269,6 +271,7 @@ export default {
                     window.localStorage.removeItem(this.uid)
                     this.tip('发布成功', 'success')
                     this.showDialog = false
+                    this.$router.push(`/${this.account}/${this.uid}/index`)
                 } else {
                     this.tip('发布失败', 'error')
                 }

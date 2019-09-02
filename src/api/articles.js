@@ -55,7 +55,18 @@ const articles = {
     },
     // 根据我得标签分页获取文章
     getArticlesByTag (uid, tag, index, size) {
-        return requestUrl('get', `/articles/${uid}/${tag}/${index}/${size}`)
+        return requestUrl('get', `/articles/${uid}/tag/${tag}/${index}/${size}`)
+    },
+    // 根据我的分类分页获取文章
+    getArticlesByCategory (uid, category, index, size) {
+        return requestUrl('get', `/articles/${uid}/category/${category}/${index}/${size}`)
+    }, // 获取用户的所有归档
+    getArchives (uid) {
+        return requestUrl('get', `/archives/${uid}`)
+    },
+    // 根据归档分页获取文章
+    getArticlesByArchive (uid, archive, index, size) {
+        return requestUrl('get', `/articles/${uid}/archive/${archive}/${index}/${size}`)
     }
 }
 export default articles

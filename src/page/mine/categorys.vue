@@ -1,10 +1,10 @@
 <template>
     <mine :uid="uid">
         <div>
-            <span class="title">标签墙</span>
-            <ul class="tags">
-                <li :key="index" v-for="(item, name, index) in tags">
-                    <span class="tag" @click="toNote(name)">{{name}}</span><span> - {{item}}篇</span>
+            <span class="title">分类</span>
+            <ul class="categorys">
+                <li :key="index" v-for="(item, name, index) in categorys">
+                    <span class="category" @click="toNote(name)">{{name}}</span><span> - {{item}}篇</span>
                 </li>
             </ul>
         </div>
@@ -16,24 +16,23 @@ export default {
     data () {
         return {
             uid: parseInt(this.$route.params.uid),
-            tags: [] // 标签集合
+            categorys: [] // 标签集合
         }
     },
     created () {
-        this.getTags()
+        this.getCategorys()
     },
     methods: {
-        getTags () {
-            console.log(this.uid)
-            this.$api.articles.getTags(this.uid)
+        getCategorys () {
+            this.$api.articles.getCategorys(this.uid)
             .then(res => {
                 if (res.code === 1) {
-                    this.tags = res.data
+                    this.categorys = res.data
                 }
             })
         },
-        toNote (tag) {
-            this.$router.push(`tag/${tag}`)
+        toNote (category) {
+            this.$router.push(`category/${category}`)
         }
     },
     components: {
@@ -49,7 +48,7 @@ export default {
     text-align: center;
     @include sc(50px,#303133)
 }
-.tags{
+.categorys{
     position: relative;
     top: 80px;
     padding: 50px;
@@ -67,7 +66,7 @@ export default {
         list-style-type: none;
         padding: 20px;
         @include sc(28px,#606266);
-        .tag{
+        .category{
             color:#9933FF;
             &:hover{
                 color: #303133;

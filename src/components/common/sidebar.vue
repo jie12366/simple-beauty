@@ -13,7 +13,7 @@
     <div :class="mainClass" :style="mainStyle">
       <div class="drawer-body">
         <div class="right-body">
-          <el-image class="head-img" :src="headUrl"></el-image>
+          <img class="head-img" :src="headUrl">
           <div class="mine-info">
             <div>
               <span>{{articles}}&nbsp;文章</span>
@@ -56,15 +56,15 @@ export default {
           icon: 'icon iconfont icon-vue-mine'
         }, {
           name: '标签墙',
-          path: `/${this.name}/${this.uid}/tags?`,
+          path: `/${this.name}/${this.uid}/tags`,
           icon: 'icon iconfont icon-vue-tag'
         }, {
           name: '分类',
-          path: '',
+          path: `/${this.name}/${this.uid}/categorys`,
           icon: 'icon iconfont icon-vue-category'
         }, {
           name: '归档',
-          path: '',
+          path: `/${this.name}/${this.uid}/archives`,
           icon: 'icon iconfont icon-vue-archive'
         }, {
           name: '照片墙',
@@ -130,12 +130,16 @@ export default {
     // 由于加载比较慢会导致name和headUrl无法正确赋值
     // 需要监听这两个变量以刷新menuList
     name (val) {
-      console.log('uid=' + this.uid)
+      console.log('uid=' + val)
       this.menuList[1].name = val
       this.menuList[1].path = `/${val}/${this.uid}/index`
-      this.menuList[2].path = `/${val}/${this.uid}/tags`
       this.menuList.splice(1, 1, this.menuList[1])
+      this.menuList[2].path = `/${val}/${this.uid}/tags`
       this.menuList.splice(2, 1, this.menuList[2])
+      this.menuList[3].path = `/${val}/${this.uid}/categorys`
+      this.menuList.splice(3, 1, this.menuList[3])
+      this.menuList[4].path = `/${val}/${this.uid}/archives`
+      this.menuList.splice(4, 1, this.menuList[4])
     },
     headUrl (val) {
       this.headUrl = val

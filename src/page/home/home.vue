@@ -75,7 +75,7 @@ export default {
             await this.$api.articles.getArticles(index, size)
             .then(res => {
                 if (res.code === 1) {
-                    this.articles = res.data
+                    this.articles = res.data.content
                     // 遍历文章集合，处理时间，获取昵称
                     for (let i = 0; i < this.articles.length; i++) {
                         // 获取用户昵称

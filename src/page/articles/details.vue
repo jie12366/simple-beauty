@@ -12,14 +12,14 @@
                 <span class="title">{{article.title}}</span>
                 <div style="margin-top:20px;">
                     <span class="date"><i class="icon iconfont icon-vue-date"></i><router-link to="">{{articleTime}}</router-link></span>
-                    <span class="category"><i class="icon iconfont icon-vue-category1"></i><router-link to="">{{article.category}}</router-link></span>
+                    <span class="category"><i class="icon iconfont icon-vue-category1"></i><router-link :to="`/${this.userInfo.nickName}/${this.uid}/category/${article.category}`">{{article.category}}</router-link></span>
                     <i class="icon iconfont icon-vue-read"></i><span class="reads">{{article.reads}}</span>
                 </div>
                 <div class="tag">
                     <i class="icon iconfont icon-vue-tag1"></i>
-                    <router-link to=""><span :key="index" v-for="(item,index) in article.tags">
-                        <span @click="toTagNotes(item.tag)">{{item.tag}}</span>
-                    </span></router-link>
+                    <span @click="toTagNotes(item.tag)" :key="index" v-for="(item,index) in article.tags">
+                        <span>{{item.tag}}</span>
+                    </span>
                 </div>
             </div>
             <div class="content-main">
@@ -248,6 +248,13 @@ export default {
             position: relative;
             margin-top: 25px;
             @include sc(30px,#666);
+            span{
+                color: #409EFF;
+                &:hover{
+                    cursor: pointer;
+                    color: #ea705b;
+                }
+            }
         }
         .icon-vue-read{
                 @include sc(50px,#909399);
@@ -279,7 +286,7 @@ export default {
         @media screen and (max-width: 1300px) {
             width: 65%;
             margin-right: 300px;
-            @include sc(30px,#303133);
+            @include sc(32px,#303133);
         }
         @media screen and (max-width: 1100px) {
             margin-left: 100px;
@@ -319,10 +326,10 @@ export default {
                 }
                 /deep/ code{
                     color: #6666CC;
-                    font-size: 35px;
+                    font-size: 40px;
                 }
                 /deep/ pre code{
-                    font-size: 32px;
+                    font-size: 34px;
                     @media screen and (max-width: 900px) {
                         font-size: 25px;
                     }

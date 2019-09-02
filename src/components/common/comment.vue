@@ -339,12 +339,12 @@ export default {
           background-color: #f1f1f4;
           width: 100%;
           .reply-nickname{
-            left: -50%;
+            left: -49%;
             @include sc(25px,#909399);
           }
           .reply-content{
             position: relative;
-            left: -50%;
+            left: -49%;
             display: inline-block;
             @include sc(30px,#606266);
             /deep/ img{

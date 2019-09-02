@@ -14,6 +14,11 @@ const mine = r => require.ensure([], () => r(require('@page/mine/mine')), 'mine'
 const index = r => require.ensure([], () => r(require('@page/mine/index')), 'index')
 const tags = r => require.ensure([], () => r(require('@page/mine/tags')), 'tags')
 const tagNotes = r => require.ensure([], () => r(require('@page/mine/tag-notes')), 'tagNotes')
+const categorys = r => require.ensure([], () => r(require('@page/mine/categorys')), 'categorys')
+const categoryNotes = r => require.ensure([], () => r(require('@page/mine/category-notes')), 'categoryNotes')
+const archives = r => require.ensure([], () => r(require('@page/mine/archives')), 'archives')
+const archiveNotes = r => require.ensure([], () => r(require('@page/mine/archive-notes')), 'archiveNotes')
+const photosWall = r => require.ensure([], () => r(require('@page/mine/photos-wall')), 'photosWall')
 const information = r => require.ensure([], () => r(require('@page/mine/information')), 'information')
 
 const router = new Router({
@@ -81,6 +86,21 @@ const router = new Router({
             }, { // 标签对应的文章
               path: ':uid/tag/:tag',
               component: tagNotes
+            }, { // 分类
+              path: ':uid/categorys',
+              component: categorys
+            }, { // 分类对应的文章
+              path: ':uid/category/:category',
+              component: categoryNotes
+            }, { // 归档
+              path: ':uid/archives',
+              component: archives
+            }, { // 归档对应的文章
+              path: ':uid/archive/:archive',
+              component: archiveNotes
+            }, { // 照片墙
+              path: ':uid/photos-wall',
+              component: photosWall
             }, {
               path: 'information',
               component: information,
