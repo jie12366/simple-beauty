@@ -13,6 +13,7 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
         <el-menu-item :index="`/${this.account}/${this.uid}/index?`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
         <el-menu-item index="4-2" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-menu-item>
         <el-menu-item index="4-3" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-love" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>喜欢的文章</el-menu-item>
+        <el-menu-item index="/manage/articles-list" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>管理博客</el-menu-item>
         <el-menu-item :index="`/${this.account}/information`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-menu-item>
         <el-menu-item @click="logout" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-menu-item>
     </el-submenu>
@@ -82,7 +83,7 @@ export default {
         // 监听屏幕宽度
         screenWidth (val) {
             this.screenWidth = val
-            if (this.screenWidth < 500) {
+            if (this.screenWidth < 600) {
                 this.smallScreen = true
             } else {
                 this.smallScreen = false
@@ -99,7 +100,7 @@ export default {
     methods: {
         // 自适应屏幕
         fitScreen () {
-            if (this.screenWidth < 500) {
+            if (this.screenWidth < 600) {
                 this.smallScreen = true
             } else {
                 this.smallScreen = false

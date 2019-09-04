@@ -41,7 +41,6 @@ export default {
   methods: {
     // 获取用户信息
         getUsersInfo () {
-          console.log(this.uid)
             this.$api.user.getUsersInfo(this.uid)
             .then(res => {
                 this.usersInfo = res.data

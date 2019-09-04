@@ -38,8 +38,8 @@
                 <el-divider></el-divider>
             </section>
             <section>
-                <span class="left-span">个人简介</span>
-                <el-input type="textarea" class="introduction" :rows="4" placeholder="你的个人简介" v-model="info.introduction"></el-input>
+                <span class="left-span">博客描述</span>
+                <el-input type="textarea" class="introduction" :rows="4" placeholder="你的博客描述" v-model="info.introduction"></el-input>
                 <el-divider></el-divider>
             </section>
             <el-button type="success" style="width:80px;" @click="saveInfo" round size="small">保存</el-button>
@@ -47,7 +47,7 @@
     </div>
 </template>
 <script>
-import navTop from '@/components/top/nav-top'
+import navTop from '@/components/navbar/nav-top'
 import axios from '@/service/http'
 import baseURL from '@/service/base-url'
 import { SAVE_HEAD_IMG } from '@/store/mutation-types'
@@ -165,7 +165,7 @@ export default {
         },
         // 发送邮箱验证码
             sendSmsCaptcha () {
-                // 先判断手机号是否合法或是否被注册
+                // 先判断邮箱是否合法
                 if (this.checkEmail()) {
                     this.times = 60 // 置计时器初始值为60s
                     this.disabled = true // 开始计时后禁用按钮
@@ -281,10 +281,13 @@ export default {
             margin-top:150px;
         }
         .nickText{
-            width: 400px;
+            width: 600px;
             margin-left:240px;
             @media screen and (max-width: 1300px) {
                 width: 500px;
+            }
+            @media screen and (max-width: 500px) {
+                width: 400px;
             }
         }
         .left-span{
@@ -318,7 +321,7 @@ export default {
             width: 650px;
         }
         .introduction{
-            width: 350px;
+            width: 600px;
             margin-left:170px;
             @media screen and (max-width: 1300px) {
                 width: 500px;

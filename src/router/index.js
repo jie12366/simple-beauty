@@ -21,6 +21,9 @@ const archives = r => require.ensure([], () => r(require('@page/mine/archives'))
 const archiveNotes = r => require.ensure([], () => r(require('@page/mine/archive-notes')), 'archiveNotes')
 const photosWall = r => require.ensure([], () => r(require('@page/mine/photos-wall')), 'photosWall')
 const information = r => require.ensure([], () => r(require('@page/mine/information')), 'information')
+const manage = r => require.ensure([], () => r(require('@page/manage/index')), 'manage')
+const articlesList = r => require.ensure([], () => r(require('@page/manage/articles')), 'articlesList')
+const photos = r => require.ensure([], () => r(require('@page/manage/photos')), 'photos')
 
 const router = new Router({
   routes: [
@@ -113,6 +116,20 @@ const router = new Router({
                 title: '个人资料',
                 requiresAuth: true
               }
+            }
+          ]
+        },
+        {
+          path: '/manage',
+          component: manage,
+          children: [
+            { // 管理博客
+              path: 'articles-list',
+              component: articlesList
+            },
+            { // 管理照片墙
+              path: 'photos',
+              component: photos
             }
           ]
         }

@@ -47,7 +47,7 @@
     </div>
 </template>
 <script>
-import navTop from '@/components/top/nav-top'
+import navTop from '@/components/navbar/nav-top'
 import loading from '@/components/common/loading'
 import handleTime from '@/utils/show-time'
 import api from '@/api'

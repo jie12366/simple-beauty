@@ -68,7 +68,7 @@ export default {
           icon: 'icon iconfont icon-vue-archive'
         }, {
           name: '照片墙',
-          path: '',
+          path: `/${this.name}/${this.uid}/photos-wall`,
           icon: 'icon iconfont icon-vue-photo'
         }
       ],
@@ -130,7 +130,6 @@ export default {
     // 由于加载比较慢会导致name和headUrl无法正确赋值
     // 需要监听这两个变量以刷新menuList
     name (val) {
-      console.log('uid=' + val)
       this.menuList[1].name = val
       this.menuList[1].path = `/${val}/${this.uid}/index`
       this.menuList.splice(1, 1, this.menuList[1])
@@ -140,6 +139,8 @@ export default {
       this.menuList.splice(3, 1, this.menuList[3])
       this.menuList[4].path = `/${val}/${this.uid}/archives`
       this.menuList.splice(4, 1, this.menuList[4])
+      this.menuList[5].path = `/${val}/${this.uid}/photos-wall`
+      this.menuList.splice(5, 1, this.menuList[5])
     },
     headUrl (val) {
       this.headUrl = val
