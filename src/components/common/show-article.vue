@@ -82,7 +82,7 @@ export default {
         width: 70%;
       }
       @media screen and(max-width: 500px) {
-        width: 90%;
+        width: 95%;
       }
       h1 {
         font-size: 38px;

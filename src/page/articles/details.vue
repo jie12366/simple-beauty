@@ -89,7 +89,8 @@ export default {
             screenHeight: window.screen.height, // 屏幕高度
             width: '50%',
             defaultOpen: '',
-            confirmPwd: this.$route.query.pwd
+            confirmPwd: this.$route.query.pwd,
+            myUid: this.$store.state.uid // 登录账号
         }
     },
     props: [
@@ -122,7 +123,7 @@ export default {
             })()
         }
         if (this.screenWidth < 1100) {
-            this.width = '80%'
+            this.width = '90%'
             this.defaultOpen = 'edit'
         }
     },
@@ -141,7 +142,7 @@ export default {
                 this.sideTop = '650px'
             }
             if (this.screenWidth < 1100) {
-                this.width = '80%'
+                this.width = '90%'
                 this.defaultOpen = 'edit'
             } else {
                 this.width = '50%'
@@ -172,7 +173,8 @@ export default {
                 this.article = res.data
                 document.title = this.article.title
                 if (this.article.pwd !== '') {
-                    if (this.article.pwd !== this.confirmPwd) {
+                    // 如果不是我的账号且密码错误
+                    if (this.article.pwd !== this.confirmPwd && this.uid !== this.myUid) {
                         this.$router.replace({name: 'articlesPwd', params: {pwd: this.article.pwd}, query: {redirect: this.$route.fullPath}})
                     }
                 }
@@ -305,10 +307,10 @@ export default {
             @include sc(25px,#303133);
         }
         @media screen and (max-width: 500px) {
-            padding-left: 30px;
-            padding-right: 30px;
+            padding-left: 15px;
+            padding-right: 15px;
             margin:auto;
-            width: 90%;
+            width: 95%;
             @include sc(25px,#303133);
         }
         .content{

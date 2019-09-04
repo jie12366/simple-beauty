@@ -122,7 +122,7 @@ export default {
           this.color = '#fff'
           this.show_text = true
           this.width = '70px'
-          this.right = '30px'
+          this.right = '50px'
         }
       }, true)
   },
@@ -183,7 +183,6 @@ export default {
 @import "../../style/mixin";
 .menu {
   position: fixed;
-  right: 60px;
   top: 60px;
   width: 135px;
   height: 60px;

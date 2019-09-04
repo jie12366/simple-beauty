@@ -12,7 +12,6 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
         <template slot="title"><img class="head_img" :src="imgUrl"/></template>
         <el-menu-item :index="`/${this.account}/${this.uid}/index?`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
         <el-menu-item index="4-2" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-menu-item>
-        <el-menu-item index="4-3" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-love" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>喜欢的文章</el-menu-item>
         <el-menu-item index="/manage/articles-list" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>管理博客</el-menu-item>
         <el-menu-item :index="`/${this.account}/information`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-menu-item>
         <el-menu-item @click="logout" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-menu-item>
@@ -24,17 +23,17 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
                 <el-dropdown-item command="/home"><i class="icon iconfont icon-vue-index" style="margin-right:12px;color:#ea705b;font-size:20px;"></i>首页</el-dropdown-item>
                 <el-dropdown-item command="/message"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>消息</el-dropdown-item>
                 <el-dropdown-item command="/attention"><i class="icon iconfont icon-vue-attention" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>关注</el-dropdown-item>
-                <el-dropdown-item command="/mine/index"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-dropdown-item>
+                <el-dropdown-item :command="`/${this.account}/${this.uid}/index?`"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-dropdown-item>
                 <el-dropdown-item command="4-2"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-dropdown-item>
-                <el-dropdown-item command="4-3"><i class="icon iconfont icon-vue-love" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>喜欢的文章</el-dropdown-item>
-                <el-dropdown-item command="/mine/information"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-dropdown-item>
-                <el-dropdown-item command="logout"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-dropdown-item>
+                <el-dropdown-item command="/manage/articles-list" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>管理博客</el-dropdown-item>
+                <el-dropdown-item :command="`/${this.account}/information`"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-dropdown-item>
+                <el-dropdown-item @click="logout" command="logout"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-dropdown-item>
             </el-dropdown-menu>
     </el-dropdown>
     <!--未登录时显示-->
     <span v-if="!isLogin" class="login">
-        <router-link to="sign-in"><span class="sign_in">登录</span></router-link>
-        <router-link to="sign-up"><el-button round plain type="success" size="small" style="width:80px">注册</el-button></router-link>
+        <router-link to="/sign-in"><span class="sign_in">登录</span></router-link>
+        <router-link to="/sign-up"><el-button round plain type="success" size="small" style="width:80px">注册</el-button></router-link>
     </span>
     <router-link to="/writer"><el-button icon="icon-vue-xiezuo" class="writer">&nbsp;<span class="writer_font">写文章</span></el-button></router-link>
 </el-menu>

@@ -24,6 +24,7 @@ const information = r => require.ensure([], () => r(require('@page/mine/informat
 const manage = r => require.ensure([], () => r(require('@page/manage/index')), 'manage')
 const articlesList = r => require.ensure([], () => r(require('@page/manage/articles')), 'articlesList')
 const photos = r => require.ensure([], () => r(require('@page/manage/photos')), 'photos')
+const aboutMe = r => require.ensure([], () => r(require('@page/manage/about-me')), 'aboutMe')
 
 const router = new Router({
   routes: [
@@ -125,11 +126,26 @@ const router = new Router({
           children: [
             { // 管理博客
               path: 'articles-list',
-              component: articlesList
+              component: articlesList,
+              meta: {
+                title: '文章管理',
+                requiresAuth: true
+              }
             },
             { // 管理照片墙
               path: 'photos',
-              component: photos
+              component: photos,
+              meta: {
+                title: '照片管理',
+                requiresAuth: true
+              }
+            }, { // 个人简介管理
+              path: 'about-me',
+              component: aboutMe,
+              meta: {
+                title: '个人简介管理',
+                requiresAuth: true
+              }
             }
           ]
         }

@@ -19,6 +19,13 @@ import './style/font.scss' // 引入自定义字体
 import moment from 'moment' // 引入moment
 import 'moment/locale/zh-cn'
 import { setMetaTitle } from '@/utils/common'
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
+
+Vue.use(Viewer)
+Viewer.setDefaults({
+  Options: { 'inline': true, 'button': true, 'navbar': true, 'title': true, 'toolbar': true, 'tooltip': true, 'movable': true, 'zoomable': true, 'rotatable': true, 'scalable': true, 'transition': true, 'fullscreen': true, 'keyboard': true, 'url': 'data-source' }
+})
 
 library.add(fas)
 library.add(fab)

@@ -50,8 +50,10 @@ export default {
             .then(res => {
                 console.log(res)
                 if (res.code === 50001) {
+                    // 如果没有数据则用post保存
                     this.method = 'post'
                 } else if (res.code === 1) {
+                    // 如果有数据则用put更新
                     this.method = 'put'
                     this.imgList = res.data.photos
                 }
@@ -59,39 +61,67 @@ export default {
         },
         // 重写上传图片的方法
         uploadImg (f) {
+            this.$prompt('请输入照片描述', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            inputPattern: /^[\s\S]*.*[^\s][\s\S]*$/,
+            inputErrorMessage: '照片描述不合法'
+        }).then(({ value }) => {
             let formdata = new FormData()
             formdata.append('img', f.file)
-            formdata.append('alt', '测试')
+            formdata.append('alt', value)
             formdata.append('uid', this.uid)
-            console.log(formdata.get('uid'))
             axios({
-            url: baseURL + '/photos',
-            method: this.method,
-            data: formdata,
-            headers: {'Content-Type': 'multipart/form-data'}
-        }).then(res => {
-            console.log(res.data)
-            if (res.data.code === 30002 || res.data.code === 30003) {
-                this.$message({
-                    message: '数据错误',
-                    type: 'error',
-                    duration: 1000
-                })
-            } else if (res.data.code === 1) {
-                this.getPhotos()
-            }
-        }).then(error => {
-            console.log(error)
+                url: baseURL + '/photos',
+                method: this.method,
+                data: formdata,
+                headers: {'Content-Type': 'multipart/form-data'}
+                }).then(res => {
+                    console.log(res.data)
+                    if (res.data.code === 30002 || res.data.code === 30003) {
+                        this.$message({
+                            message: '数据错误',
+                            type: 'error',
+                            duration: 1000
+                        })
+                    } else if (res.data.code === 1) {
+                        this.getPhotos()
+                    }
+                }).then(error => {
+                    console.log(error)
+            })
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '取消上传',
+                duration: 1000
+            })
         })
         },
         deleteImg (url, alt) {
             let key = url.substring(24)
-            console.log(alt)
-            this.$api.manage.deletePhoto(key, alt, this.uid)
-            .then(res => {
-                if (res.code === 1) {
-                    this.getPhotos()
-                }
+            this.$confirm('此操作将永久删除该照片, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$api.manage.deletePhoto(key, alt, this.uid)
+                .then(res => {
+                    if (res.code === 1) {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功',
+                            duration: 1000
+                        })
+                        this.getPhotos()
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除',
+                    duration: 1000
+                })
             })
         },
         handleRemove (file, fileList) {

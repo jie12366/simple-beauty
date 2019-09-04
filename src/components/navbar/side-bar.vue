@@ -86,6 +86,7 @@ export default {
   margin: auto;
   position: relative;
   top: 160px;
+  margin-bottom: 100px;
   @media screen and(max-width: 600px) {
     width: 100%;
   }

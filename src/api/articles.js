@@ -26,8 +26,13 @@ const articles = {
             'tags': JSON.stringify(data.tags),
             'category': data.category,
             'pwd': data.pwd,
-            'uid': data.uid
+            'uid': data.uid,
+            'aid': data.aid
         })
+    },
+    // 删除文章
+    deleteArticle (aid) {
+        return requestUrl('delete', `/articles/${aid}`)
     },
     // 分页获取文章列表
     getArticles (index, size) {

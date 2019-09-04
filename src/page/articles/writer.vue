@@ -14,7 +14,7 @@
                 </el-dropdown>
             </span>
         </div>
-        <el-dialog title="发布文章" :visible.sync="showDialog">
+        <el-dialog title="发布文章" :visible.sync="showDialog" :width="width">
             <el-form>
                 <el-form-item>
                     <span class="input-span">文章标签：</span>
@@ -44,7 +44,8 @@
                 <el-button type="success" @click="finshPublish">发布文章</el-button>
             </div>
         </el-dialog>
-        <mavon-editor v-model="content" ref=md @imgAdd="$imgAdd" :codeStyle="codeStyle" @imgDel="$imgDel" class="content" :scrollStyle="scrollStyle"></mavon-editor>
+        <mavon-editor v-model="content" ref=md @imgAdd="$imgAdd" :codeStyle="codeStyle"
+        @imgDel="$imgDel" class="content" :scrollStyle="scrollStyle" :defaultOpen="defaultOpen" :toolbars="toolbars"></mavon-editor>
     </div>
 </template>
 <script>
@@ -71,15 +72,87 @@ export default {
             pwd: '', // 文章加密密码
             imgList: [], // 上传的图片集合
             uid: this.$store.state.uid,
-            account: this.$store.state.account
+            account: this.$store.state.account,
+            aid: parseInt(this.$route.query.aid) || 0,
+            width: '50%',
+            screenWidth: document.body.clientWidth, // 屏幕宽度
+            defaultOpen: '',
+            toolbars: null,
+            toolbars1: { // 工具栏对象
+                header: true, // 标题
+                ol: true, // 有序列表
+                ul: true, // 无序列表
+                quote: true, // 引用
+                link: true, // 链接
+                imagelink: true, // 图片链接
+                code: true // code
+            },
+            toolbars2: {
+                bold: true, // 粗体
+                italic: true, // 斜体
+                header: true, // 标题
+                underline: true, // 下划线
+                strikethrough: true, // 中划线
+                mark: true, // 标记
+                superscript: true, // 上角标
+                subscript: true, // 下角标
+                quote: true, // 引用
+                ol: true, // 有序列表
+                ul: true, // 无序列表
+                link: true, // 链接
+                imagelink: true, // 图片链接
+                code: true, // code
+                table: true, // 表格
+                fullscreen: true, // 全屏编辑
+                readmodel: true, // 沉浸式阅读
+                navigation: true, // 导航目录
+                subfield: true, // 单双栏模式
+                preview: true // 预览
+            }
         }
     },
     created () {
         this.getCategorys(this.uid)
         // 如果存在本地存储，则读取数据
         this.content = window.localStorage.getItem(this.uid) || ''
+        console.log(this.aid)
+        if (this.aid > 0) {
+            this.getArticle()
+            this.getArticleContent()
+        }
+    },
+    mounted () {
+        const that = this
+        // 监听屏幕宽度变化
+        window.onresize = () => {
+            return (() => {
+                that.screenWidth = document.documentElement.clientWidth
+            })()
+        }
+        if (this.screenWidth < 600) {
+            this.width = '90%'
+            this.defaultOpen = 'edit'
+            this.toolbars = this.toolbars1
+        } else {
+            this.width = '50%'
+            this.defaultOpen = ''
+            this.toolbars = this.toolbars2
+        }
     },
     watch: {
+        // 监听屏幕宽度
+        screenWidth (val) {
+            this.screenWidth = val
+            if (this.screenWidth < 600) {
+                this.width = '90%'
+                this.defaultOpen = 'edit'
+                this.toolbars = this.toolbars1
+            } else {
+                this.width = '50%'
+                this.defaultOpen = ''
+                this.toolbars = this.toolbars2
+            }
+        },
         // 监听checkList，最多添加一个分类
         checkedList: function (newVal, oldVal) {
             if (this.checkedList.length > 1) {
@@ -89,7 +162,7 @@ export default {
         },
         // 监听文章类型，如果是加密类型，则显示弹框，提示输入密码
         type (newVal) {
-            if (newVal === 'encrypt') {
+            if (newVal === 'encrypt' && this.pwd === '') {
                 this.$prompt('请输入密码', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -113,6 +186,32 @@ export default {
         }
     },
     methods: {
+        // 获取文章内容
+        getArticleContent () {
+            this.$api.articles.getArticleByAid(this.aid)
+            .then(res => {
+                this.content = res.data.contentMd
+                console.log(res.data)
+            })
+        },
+        // 获取文章数据
+        getArticle () {
+            this.$api.articles.getArticle(this.aid)
+            .then(res => {
+                console.log(res.data)
+                this.title = res.data.title
+                for (let i = 0; i < res.data.tags.length; i++) {
+                    this.tags.push(res.data.tags[i].tag)
+                }
+                this.checkedList.push(res.data.category)
+                this.pwd = res.data.pwd
+                if (this.pwd === '') {
+                    this.type = 'public'
+                } else {
+                    this.type = 'encrypt'
+                }
+            })
+        },
         // 成功或错误提示
         tip (msg, type) {
             this.$message({
@@ -261,7 +360,8 @@ export default {
                 'tags': this.tags,
                 'category': this.checkedList[0],
                 'pwd': this.pwd,
-                'uid': this.uid
+                'uid': this.uid,
+                'aid': this.aid
             }
             this.$api.articles.saveArticles(data)
             .then(res => {

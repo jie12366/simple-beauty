@@ -36,6 +36,9 @@ export default {
         padding-top: 200px;
         font-size: 45px;
         color: #333366;
+        @media screen and (max-width: 500px){
+            font-size: 38px;
+        }
     }
     .input{
         padding-top: 200px;

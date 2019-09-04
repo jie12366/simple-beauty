@@ -102,7 +102,7 @@ export default {
             this.$api.articles.uploadImage($file)
             .then(res => {
                 // 将返回的图片地址替换到文本中
-                this.$refs.md[0].$img2Url(pos, res.data)
+                this.$refs.md.$img2Url(pos, res.data)
                 this.imgList.push(res.data)
             })
         },
