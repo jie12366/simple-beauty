@@ -31,8 +31,8 @@ const articles = {
         })
     },
     // 删除文章
-    deleteArticle (aid) {
-        return requestUrl('delete', `/articles/${aid}`)
+    deleteArticle (aid, uid) {
+        return requestUrl('delete', `/articles/${aid}/${uid}`)
     },
     // 分页获取文章列表
     getArticles (index, size) {

@@ -17,7 +17,7 @@
           <div class="mine-info">
             <div>
               <span>{{articles}}&nbsp;文章</span>
-              <span style="margin-left:20px;">{{comments}}&nbsp;评论</span>
+              <span style="margin-left:20px;">{{attentions}}&nbsp;关注</span>
             </div>
             <div>
               <span>{{likes}}&nbsp;喜欢</span>
@@ -90,7 +90,7 @@ export default {
       type: Number,
       default: 0
     },
-    comments: {
+    attentions: {
       type: Number,
       default: 0
     },

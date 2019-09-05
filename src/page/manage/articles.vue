@@ -13,7 +13,7 @@
                         <el-col :span="6">
                             <span></span>
                             <span class="edit" @click="toEdit(item.id)">编辑</span>
-                            <span class="delete" @click="toDelete(item.id)"> 删除</span>
+                            <span class="delete" @click="toDelete(item.id, item.uid)"> 删除</span>
                         </el-col>
                     </el-row>
                     <el-divider></el-divider>
@@ -69,14 +69,14 @@ export default {
         toEdit (aid) {
             this.$router.push(`/writer?aid=${aid}`)
         },
-        toDelete (aid) {
+        toDelete (aid, uid) {
             this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(() => {
-                this.$api.articles.deleteArticle(aid)
+                this.$api.articles.deleteArticle(aid, uid)
                 .then(res => {
                     if (res.code === 1) {
                         this.getPosts(0, this.size)

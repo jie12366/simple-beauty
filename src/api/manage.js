@@ -5,8 +5,9 @@ const manage = {
     getPhotos (uid) {
         return requestUrl('get', `/photos/${uid}`)
     },
-    deletePhoto (key, alt, uid) {
-        return requestUrl('delete', `/photo/${key}/${alt}/${uid}`, {
+    // 删除照片
+    deletePhoto (key, uid) {
+        return requestUrl('delete', `/photo/${key}/${uid}`, {
             headers: { Accept: '/' }
         })
     }

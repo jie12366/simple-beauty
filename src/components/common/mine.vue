@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <sidebar :name="usersInfo.nickName" :headUrl="usersInfo.headPath" :articles="usersInfo.articles" :comments="usersInfo.comments"
+    <sidebar :name="usersInfo.nickName" :headUrl="usersInfo.headPath" :articles="usersInfo.articles" :attentions="usersInfo.attentions"
     :likes="usersInfo.likes" :fans="usersInfo.fans" :uid="uid">
     </sidebar>
     <div class="top" id="top">

@@ -7,7 +7,7 @@
                     <div class="hovereffect">
                         <img class="img-responsive" :src="img.url" :alt="img.alt">
                             <div class="overlay">
-                                <h2>{{img.alt}}</h2>
+                                <h2><span style="font-size:12px;margin-bottom:30px;">{{img.uploadTime}}</span><br/>{{img.alt}}</h2>
                             </div>
                     </div>
                 </viewer>
@@ -17,6 +17,7 @@
 </template>
 <script>
 import mine from '@components/common/mine'
+import moment from 'moment'
 export default {
     data () {
         return {
@@ -37,18 +38,26 @@ export default {
                     this.$message.error('没有数据')
                 } else if (res.code === 1) {
                     this.imgList = res.data.photos
+                    // 将照片按时间倒序排序
+                    this.imgList.sort(function (a, b) {
+                        return new Date(b.uploadTime) - new Date(a.uploadTime)
+                    })
+                    // 处理照片显示时间
+                    this.imgList.forEach(function (img) {
+                        img.uploadTime = moment(img.uploadTime).format('YYYY-MM-DD')
+                    })
+                    // 获取图片的宽高，设置宽度和flexgrow
                     for (let i = 0; i < this.imgList.length; i++) {
                         let img = new Image()
                         img.src = this.imgList[i].url
                         const vm = this
+                        // 图片加载完再获取宽高
                         img.onload = function () {
-                            console.log(img.width)
                             vm.imgList[i].width = img.width * 200 / img.height
                             vm.imgList[i].flex = img.width * 200 / img.height
                             vm.imgList[i].padding = 0
                             vm.imgList.splice(i, 1, vm.imgList[i])
                         }
-                        console.log(this.imgList)
                     }
                 }
             })
@@ -135,10 +144,10 @@ export default {
   text-transform: uppercase;
   text-align: center;
   position: relative;
+  top: -20px;
   font-size: 35px;
   background-color: transparent;
   color: #FFF;
-  margin-top: 40px;
   padding: 1em 0;
   opacity: 0;
   filter: alpha(opacity=0);

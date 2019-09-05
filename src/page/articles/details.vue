@@ -1,7 +1,7 @@
 <template>
     <div>
         <sidebar :name="userInfo.nickName" :headUrl="userInfo.headPath" :articles="userInfo.articles"
-            :likes="userInfo.likes" :fans="userInfo.fans" :comments="userInfo.comments" :uid="userInfo.uid">
+            :likes="userInfo.likes" :fans="userInfo.fans" :attentions="userInfo.attentions" :uid="userInfo.uid">
         </sidebar>
         <div class="top" @click="changeImg">
             <el-image class="top-img" :src="bgList[index]" fit="cover"></el-image>

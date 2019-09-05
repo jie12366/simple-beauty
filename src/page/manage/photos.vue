@@ -18,7 +18,7 @@
                     <el-image class="img" :src="item.url" :alt="item.alt" lazy></el-image>
                         <div class="overlay">
                             <h2>
-                                <i @click="deleteImg(item.url, item.alt)" class="icon iconfont icon-vue-delete"></i>
+                                <i @click="deleteImg(item.url)" class="icon iconfont icon-vue-delete"></i>
                             </h2>
                         </div>
                 </div>
@@ -56,6 +56,10 @@ export default {
                     // 如果有数据则用put更新
                     this.method = 'put'
                     this.imgList = res.data.photos
+                    // 将照片按时间倒序排序
+                    this.imgList.sort(function (a, b) {
+                        return new Date(b.uploadTime) - new Date(a.uploadTime)
+                    })
                 }
             })
         },
@@ -98,15 +102,17 @@ export default {
             })
         })
         },
-        deleteImg (url, alt) {
+        // 删除照片
+        deleteImg (url) {
             let key = url.substring(24)
             this.$confirm('此操作将永久删除该照片, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$api.manage.deletePhoto(key, alt, this.uid)
+                this.$api.manage.deletePhoto(key, this.uid)
                 .then(res => {
+                    console.log(res)
                     if (res.code === 1) {
                         this.$message({
                             type: 'success',
