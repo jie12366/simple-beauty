@@ -26,10 +26,9 @@
                 <div class="content" v-html="articleDetail.contentHtml"></div>
                 <div class="content-bottom">
                     <span class="like">
-                        <i class="icon iconfont icon-vue-like"></i><span>{{article.likes}}</span>
-                    </span>
-                    <span class="collect">
-                        <i class="icon iconfont icon-vue-shoucang"></i><span>{{article.comments}}</span>
+                        <i @click="toLike" v-if="!isLike" class="icon iconfont icon-vue-like"></i>
+                        <i @click="toLike" v-if="isLike" class="icon iconfont icon-vue-like islike"></i>
+                        <span>{{article.likes}}</span>
                     </span>
                 </div>
             </div>
@@ -90,7 +89,8 @@ export default {
             width: '50%',
             defaultOpen: '',
             confirmPwd: this.$route.query.pwd,
-            myUid: this.$store.state.uid // 登录账号
+            myUid: this.$store.state.uid, // 登录账号
+            isLike: false
         }
     },
     props: [
@@ -98,6 +98,7 @@ export default {
         'aid' // 文章id
     ],
     created () {
+        this.getLike()
         this.getArticle()
         this.getArticleDetail()
     },
@@ -154,6 +155,17 @@ export default {
         highlightCode()
     },
     methods: {
+        // 判断是否已点赞
+        getLike () {
+            this.$api.message.isLike(this.uid, this.aid)
+            .then(res => {
+                if (res.code === 1) {
+                    this.isLike = true
+                } else if (res.code === 50001) {
+                    this.isLike = false
+                }
+            })
+        },
         // 获取文章内容
         getArticleDetail () {
             this.$api.articles.getArticleByAid(this.aid)
@@ -200,6 +212,15 @@ export default {
         },
         toTagNotes (tag) {
             this.$router.push(`/${this.userInfo.nickName}/${this.uid}/tag/${tag}`)
+        },
+        toLike () {
+            this.$api.message.likeArticle(this.uid, this.aid)
+            .then(res => {
+                if (res.code === 1) {
+                    this.article.likes = res.data
+                    this.getLike()
+                }
+            })
         }
     },
     components: {
@@ -324,6 +345,7 @@ export default {
                     border-bottom: 2px solid #cccccc;
                 }
                 /deep/ h3{
+                    color:#333366;
                     font-weight:bold;
                     background-color: #f6f6f6;
                     margin:20px 0;
@@ -372,6 +394,9 @@ export default {
                             color:rgb(234, 112, 91);
                             cursor: pointer;
                         }
+                    }
+                    .islike{
+                        color:rgb(234, 112, 91);
                     }
                 }
                 .collect{

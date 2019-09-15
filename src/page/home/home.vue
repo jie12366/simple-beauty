@@ -14,7 +14,7 @@
                         <el-col :md="17" :sm="15" :xs="12">
                             <div>
                                 <p>{{article.summary}}</p>
-                                <span><router-link to="">{{article.nickName}}</router-link>
+                                <span><router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.nickName}}</router-link>
                                     <i class="icon iconfont icon-vue-comment"><span style="font-size:12px;margin-left:3px;">{{article.comments}}</span></i>
                                     <i class="icon iconfont icon-vue-like"><span style="font-size:12px;margin-left:3px;">{{article.likes}}</span></i>
                                     <i class="icon iconfont icon-vue-read"><span style="font-size:12px;margin-left:3px;">{{article.reads}}</span></i>
@@ -32,7 +32,7 @@
                     <h1 @click="toDetails(article.uid, article.id)">{{article.title}}</h1>
                     <div>
                         <p>{{article.summary}}</p>
-                        <span><router-link to="">{{article.nickName}}</router-link>
+                        <span><router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.nickName}}</router-link>
                             <i class="icon iconfont icon-vue-comment"><span style="font-size:12px;margin-left:3px;">{{article.comments}}</span></i>
                             <i class="icon iconfont icon-vue-like"><span style="font-size:12px;margin-left:3px;">{{article.likes}}</span></i>
                             <i class="icon iconfont icon-vue-read"><span style="font-size:12px;margin-left:3px;">{{article.reads}}</span></i>

@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-import sideBar from '@components/navbar/side-bar'
+import sideBar from '@components/navbar/manage-side-bar'
 import moment from 'moment'
 export default {
     data () {

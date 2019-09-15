@@ -70,6 +70,10 @@ export default {
           name: '照片墙',
           path: `/${this.name}/${this.uid}/photos-wall`,
           icon: 'icon iconfont icon-vue-photo'
+        }, {
+          name: '关于我',
+          path: `/${this.name}/${this.uid}/about`,
+          icon: 'icon iconfont icon-vue-aboutMe'
         }
       ],
       scrollTop: '', // 滚动距离顶部的距离
@@ -141,6 +145,8 @@ export default {
       this.menuList.splice(4, 1, this.menuList[4])
       this.menuList[5].path = `/${val}/${this.uid}/photos-wall`
       this.menuList.splice(5, 1, this.menuList[5])
+      this.menuList[6].path = `/${val}/${this.uid}/about`
+      this.menuList.splice(6, 1, this.menuList[6])
     },
     headUrl (val) {
       this.headUrl = val

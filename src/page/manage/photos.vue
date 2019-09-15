@@ -29,7 +29,7 @@
 <script>
 import axios from '@/service/http'
 import baseURL from '@/service/base-url'
-import sideBar from '@/components/navbar/side-bar'
+import sideBar from '@/components/navbar/manage-side-bar'
 export default {
     data () {
         return {

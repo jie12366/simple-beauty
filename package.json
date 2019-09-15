@@ -29,11 +29,13 @@
     "jsonwebtoken": "^8.5.1",
     "mavon-editor": "^2.7.5",
     "moment": "^2.24.0",
+    "socket.io-client": "^2.2.0",
     "v-viewer": "^1.4.2",
     "vditor": "^1.7.10",
     "vue": "^2.5.2",
     "vue-loaders": "^2.0.0",
     "vue-router": "^3.0.1",
+    "vue-socket.io": "^3.0.7",
     "vuetify": "^2.0.7",
     "vuex": "^3.1.1",
     "vuex-persistedstate": "^2.5.4"

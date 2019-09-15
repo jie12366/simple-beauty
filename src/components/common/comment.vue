@@ -12,8 +12,10 @@
         <div v-if="item.ruid === 0">
           <div class="comment-top">
             <img class="head-img" :src="item.headUrl"/>
-            <span class="nickname">{{item.nickname}}:</span>
-            <div class="content" v-html="item.content"></div>
+            <div>
+              <span class="nickname">{{item.nickname}}:</span>
+              <span class="content" v-html="item.content"></span>
+            </div>
           </div>
           <div class="comment-bottom">
             <div class="time">{{item.ctime}}</div>
@@ -24,8 +26,10 @@
         <div class="reply-comment" v-if="item.ruid != 0">
           <div class="comment-top">
             <img class="head-img" :src="item.headUrl"/>
-            <span class="nickname">{{item.nickname}}:</span>
-            <div class="content" v-html="item.content"></div>
+            <div>
+              <span class="nickname">{{item.nickname}}:</span>
+              <span class="content" v-html="item.content"></span>
+            </div>
           </div>
           <div class="reply-content-main">
             <span class="reply-nickname">@{{item.rNickname}}:</span>
@@ -218,16 +222,16 @@ export default {
                 comments[i].nickname = res.data.nickName
                 comments[i].ctime = handleTime(comments[i].ctime)
                 comments.splice(i, 1, comments[i])
-                // 如果评论回复存在，则获取回复对象的昵称，并刷新数组
-                if (comments[i].ruid !== 0) {
-                  api.user.getUsersInfo(comments[i].ruid)
-                  .then(res => {
-                    comments[i].rNickname = res.data.nickName
-                    comments.splice(i, 1, comments[i])
-                  })
-                }
               }
             })
+            // 如果评论回复存在，则获取回复对象的昵称，并刷新数组
+            if (comments[i].ruid !== 0) {
+              api.user.getUsersInfo(comments[i].ruid)
+              .then(res => {
+                comments[i].rNickname = res.data.nickName
+                comments.splice(i, 1, comments[i])
+              })
+            }
           }
           // 将评论集合拼接到一起
           this.comments = this.comments.concat(comments)
@@ -299,16 +303,32 @@ export default {
           display: inline-block;
         }
         .nickname{
-          display: inline;
-          left: -50%;
+          display: inline-block;
+          left: -45%;
           top: 0px;
-          @include sc(25px,#909399);
+          @include sc(25px,#6699CC);
         }
         .content{
           position: relative;
-          left: -49%;
-          top: 0px;
-          @include sc(30px,#303133);
+          left: -45%;
+          display: inline-block;
+          @include sc(28px,#333333);
+          /deep/ p{
+            width: 1700px;
+            @media screen and (max-width: 1300px){
+              width: 1300px;
+            }
+            @media screen and (max-width: 900px){
+              width: 1050px;
+            }
+            @media screen and (max-width: 600px){
+              @include sc(25px,#333333);
+              width: 550px;
+            }
+            @media screen and (max-width: 400px){
+              width: 480px;
+            }
+          }
           /deep/ img{
             width: 100%;
             height: auto;
@@ -346,9 +366,24 @@ export default {
           }
           .reply-content{
             position: relative;
-            left: -49%;
+            left: 20px;
             display: inline-block;
-            @include sc(30px,#606266);
+            @include sc(25px,#606266);
+            /deep/ p{
+            width: 1600px;
+            @media screen and (max-width: 1300px){
+              width: 1200px;
+            }
+            @media screen and (max-width: 900px){
+              width: 950px;
+            }
+            @media screen and (max-width: 600px){
+              width: 420px;
+            }
+            @media screen and (max-width: 400px){
+              width: 450px;
+            }
+          }
             /deep/ img{
               width: 600px;
               height: auto;

@@ -6,6 +6,8 @@ import api from '@/api'
 Vue.use(Router)
 
 const home = r => require.ensure([], () => r(require('@page/home/home')), 'home')
+const message = r => require.ensure([], () => r(require('@page/message/index')), 'message')
+const like = r => require.ensure([], () => r(require('@page/message/like')), 'like')
 const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
@@ -20,6 +22,7 @@ const categoryNotes = r => require.ensure([], () => r(require('@page/mine/catego
 const archives = r => require.ensure([], () => r(require('@page/mine/archives')), 'archives')
 const archiveNotes = r => require.ensure([], () => r(require('@page/mine/archive-notes')), 'archiveNotes')
 const photosWall = r => require.ensure([], () => r(require('@page/mine/photos-wall')), 'photosWall')
+const about = r => require.ensure([], () => r(require('@page/mine/about')), 'about')
 const information = r => require.ensure([], () => r(require('@page/mine/information')), 'information')
 const manage = r => require.ensure([], () => r(require('@page/manage/index')), 'manage')
 const articlesList = r => require.ensure([], () => r(require('@page/manage/articles')), 'articlesList')
@@ -45,6 +48,20 @@ const router = new Router({
           meta: {
             title: '首页'
           }
+        }, // 消息页
+        {
+          path: 'message',
+          component: message,
+          children: [
+            {
+              path: 'like',
+              component: like,
+              meta: {
+                title: '点赞列表',
+                requiresAuth: true
+              }
+            }
+          ]
         },
         // 登录页
         {
@@ -110,6 +127,9 @@ const router = new Router({
             }, { // 照片墙
               path: ':uid/photos-wall',
               component: photosWall
+            }, { // 关于我
+              path: ':uid/about',
+              component: about
             }, {
               path: 'information',
               component: information,

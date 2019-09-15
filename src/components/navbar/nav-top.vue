@@ -3,7 +3,7 @@
 active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
     <router-link to="/home"><i class="icon iconfont icon-vue-jian"></i></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
-    <el-menu-item index="/message" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item>
+    <el-badge :is-dot="tip"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
     <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
@@ -11,7 +11,7 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
     <el-submenu class="mine" v-if="isLogin && !smallScreen" trigger="click">
         <template slot="title"><img class="head_img" :src="imgUrl"/></template>
         <el-menu-item :index="`/${this.account}/${this.uid}/index?`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
-        <el-menu-item index="4-2" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-menu-item>
+        <el-menu-item index="4-2" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>喜欢的文章</el-menu-item>
         <el-menu-item index="/manage/articles-list" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>管理博客</el-menu-item>
         <el-menu-item :index="`/${this.account}/information`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-menu-item>
         <el-menu-item @click="logout" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-menu-item>
@@ -21,10 +21,10 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
         <img class="head_img" :src="imgUrl" />
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="/home"><i class="icon iconfont icon-vue-index" style="margin-right:12px;color:#ea705b;font-size:20px;"></i>首页</el-dropdown-item>
-                <el-dropdown-item command="/message"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>消息</el-dropdown-item>
+                <el-dropdown-item command="/message"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i><el-badge :value="num">消息</el-badge></el-dropdown-item>
                 <el-dropdown-item command="/attention"><i class="icon iconfont icon-vue-attention" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>关注</el-dropdown-item>
                 <el-dropdown-item :command="`/${this.account}/${this.uid}/index?`"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-dropdown-item>
-                <el-dropdown-item command="4-2"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>收藏的文章</el-dropdown-item>
+                <el-dropdown-item command="4-2"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>喜欢的文章</el-dropdown-item>
                 <el-dropdown-item command="/manage/articles-list" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>管理博客</el-dropdown-item>
                 <el-dropdown-item :command="`/${this.account}/information`"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-dropdown-item>
                 <el-dropdown-item @click="logout" command="logout"><i class="icon iconfont icon-vue-exit" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>注销</el-dropdown-item>
@@ -54,7 +54,9 @@ export default {
             uid: this.$store.state.uid,
             screenWidth: document.body.clientWidth, // 屏幕宽度
             smallScreen: false,
-            account: this.$store.state.account // 用户账号
+            account: this.$store.state.account, // 用户账号
+            tip: false,
+            num: ''
         }
     },
     mounted () {
@@ -65,6 +67,7 @@ export default {
                 that.screenWidth = document.documentElement.clientWidth
             })()
         }
+        this.getNoReads()
     },
     computed: {
         isLogin: function () {
@@ -96,7 +99,31 @@ export default {
             }
         }
     },
+    sockets: {
+        connect () {
+            console.log('连接成功')
+        },
+        pushMessage (data) {
+            if (data === 'hasRead') {
+                this.getNoReads()
+            }
+        }
+    },
     methods: {
+        getNoReads () {
+            this.$api.message.getNoReads(this.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    if (res.data > 0) {
+                        this.tip = true
+                        this.num = res.data
+                    } else {
+                        this.tip = false
+                        this.num = ''
+                    }
+                }
+            })
+        },
         // 自适应屏幕
         fitScreen () {
             if (this.screenWidth < 600) {

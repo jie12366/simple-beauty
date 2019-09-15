@@ -19,8 +19,14 @@ import './style/font.scss' // 引入自定义字体
 import moment from 'moment' // 引入moment
 import 'moment/locale/zh-cn'
 import { setMetaTitle } from '@/utils/common'
-import 'viewerjs/dist/viewer.css'
+import 'viewerjs/dist/viewer.css' // 引入图片预览工具
 import Viewer from 'v-viewer'
+import VueSocketio from 'vue-socket.io'
+
+Vue.use(new VueSocketio({
+    debug: true,
+    connection: `http://localhost:8855?uid=${store.state.uid}`
+}))
 
 Vue.use(Viewer)
 Viewer.setDefaults({
