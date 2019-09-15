@@ -1,6 +1,7 @@
 # 安装环境
 FROM node:8-slim
 RUN apt-get update  && apt-get install -y nginx
+RUN apt-get install git
 # 建立临时工作目录
 WORKDIR /usr/src/app
 # 下载依赖
