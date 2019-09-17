@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="main" id="main">
-      <vue-canvas-nest :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
+      <vue-canvas-nest v-if="showCanvas" :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
       <slot></slot>
       <div class="footer">
           <div>总访问量：{{usersInfo.reads}}次</div>
@@ -29,7 +29,9 @@ export default {
   data () {
     return {
       usersInfo: '',
-      url: 'http://cdn.jie12366.xyz/dog.jpg' // 背景图片
+      url: 'http://cdn.jie12366.xyz/dog.jpg', // 背景图片
+      showCanvas: true, // 是否显示背景动画
+      screenWidth: document.body.clientWidth // 屏幕宽度
     }
   },
   props: [
@@ -38,6 +40,29 @@ export default {
   created () {
     this.getUsersInfo()
   },
+  mounted () {
+    const that = this
+        // 监听屏幕宽度变化
+        window.onresize = () => {
+            return (() => {
+                that.screenWidth = document.documentElement.clientWidth
+            })()
+        }
+        if (this.screenWidth < 1100) {
+            this.showCanvas = false
+        }
+  },
+  watch: {
+        // 监听屏幕宽度
+        screenWidth (val) {
+            this.screenWidth = val
+            if (this.screenWidth < 1100) {
+                this.showCanvas = false
+            } else {
+                this.showCanvas = true
+            }
+        }
+    },
   methods: {
     // 获取用户信息
         getUsersInfo () {
@@ -68,7 +93,7 @@ export default {
 @import "../../style/mixin";
 .container {
   .top {
-    width: 100%;
+    width: 100vw;
     height: 98vh;
     object-fit: cover;
     .bg_img {

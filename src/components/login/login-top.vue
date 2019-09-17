@@ -1,6 +1,6 @@
 <template>
     <div class="wrap">
-        <router-link to="/home"><span class="title">simple-beauty</span></router-link>
+        <router-link to="/home"><span class="title">Canary</span></router-link>
         <div class="form">
             <section class="form-top">
                 <router-link to="/sign-in">
@@ -46,8 +46,8 @@
     }
     .title{
         position: absolute;
-        left: 5vw;
-        top:100px;
+        left: 10vw;
+        top:150px;
         @include sc(60px,#1f1d1a);
         font: {
             weight:400;

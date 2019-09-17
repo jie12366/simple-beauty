@@ -1,7 +1,7 @@
 <template>
     <el-menu text-color="#666666" :default-active="$route.path"
 active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
-    <router-link to="/home"><i class="icon iconfont icon-vue-jian"></i></router-link>
+    <router-link to="/home"><span class="logo">Canary</span></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
     <el-badge :is-dot="tip"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
     <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
@@ -31,9 +31,11 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
             </el-dropdown-menu>
     </el-dropdown>
     <!--未登录时显示-->
-    <span v-if="!isLogin" class="login">
-        <router-link to="/sign-in"><span class="sign_in">登录</span></router-link>
+    <span v-if="!isLogin" class="login-contaniner">
+        <div class="login">
+            <router-link to="/sign-in"><span class="sign_in">登录</span></router-link>
         <router-link to="/sign-up"><el-button round plain type="success" size="small" style="width:80px">注册</el-button></router-link>
+        </div>
     </span>
     <router-link to="/writer"><el-button icon="icon-vue-xiezuo" class="writer">&nbsp;<span class="writer_font">写文章</span></el-button></router-link>
 </el-menu>
@@ -227,9 +229,9 @@ export default {
             width: 25vw;
         }
     }
-    .icon-vue-jian{
+    .logo{
         position: absolute;
-        left:10vw;
+        left:8vw;
         top: 1vh;
         @include sc(70px,#ea705b);
         @media screen and(max-width:800px) {
@@ -299,12 +301,21 @@ export default {
             border-radius: 50%;
         }
     }
+    .login-contaniner{
+        @media screen and(max-width: 600px) {
+            position: absolute;
+            width: 100vw;
+            height: 120px;
+            background-color: #ffffff;
+        }
+    }
     .login{
         position: absolute;
         right: 15vw;
         top:30px;
         @media screen and(max-width:500px) {
-            right: 5vw;
+            right: 8vw;
+            top:1vh;
         }
         .sign_in{
             @include sc(30px,#aaaaaa);

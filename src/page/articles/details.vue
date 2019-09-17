@@ -7,7 +7,7 @@
             <el-image class="top-img" :src="bgList[index]" fit="cover"></el-image>
         </div>
         <div class="main" id="main">
-            <vue-canvas-nest :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
+            <vue-canvas-nest v-if="showCanvas" :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
             <div class="main-top">
                 <span class="title">{{article.title}}</span>
                 <div style="margin-top:20px;">
@@ -90,7 +90,8 @@ export default {
             defaultOpen: '',
             confirmPwd: this.$route.query.pwd,
             myUid: this.$store.state.uid, // 登录账号
-            isLike: false
+            isLike: false,
+            showCanvas: true
         }
     },
     props: [
@@ -126,6 +127,7 @@ export default {
         if (this.screenWidth < 1100) {
             this.width = '90%'
             this.defaultOpen = 'edit'
+            this.showCanvas = false
         }
     },
     computed: {
@@ -145,6 +147,7 @@ export default {
             if (this.screenWidth < 1100) {
                 this.width = '90%'
                 this.defaultOpen = 'edit'
+                this.showCanvas = false
             } else {
                 this.width = '50%'
                 this.defaultOpen = ''
@@ -239,9 +242,9 @@ export default {
     .top-img{
         background-repeat: no-repeat;
         background-size: 100% 100%;
-        @include wh(100vw, 900px);
+        @include wh(100%, 900px);
         @media screen and (max-width: 1300px) {
-            @include wh(100vw, 600px);
+            @include wh(100%, 600px);
         }
     }
 }
@@ -328,10 +331,8 @@ export default {
             @include sc(25px,#303133);
         }
         @media screen and (max-width: 500px) {
-            padding-left: 15px;
-            padding-right: 15px;
             margin:auto;
-            width: 95%;
+            width: 100%;
             @include sc(25px,#303133);
         }
         .content{
@@ -345,7 +346,7 @@ export default {
                     border-bottom: 2px solid #cccccc;
                 }
                 /deep/ h3{
-                    color:#333366;
+                    color:#506633;
                     font-weight:bold;
                     background-color: #f6f6f6;
                     margin:20px 0;

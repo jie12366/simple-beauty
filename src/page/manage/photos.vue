@@ -69,7 +69,8 @@ export default {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             inputPattern: /^[\s\S]*.*[^\s][\s\S]*$/,
-            inputErrorMessage: '照片描述不合法'
+            inputErrorMessage: '照片描述不合法',
+            center: true
         }).then(({ value }) => {
             let formdata = new FormData()
             formdata.append('img', f.file)
@@ -147,7 +148,11 @@ export default {
 .img{
     width: 300px;
     height: 300px;
-    padding: 5px;
+    padding: 3px;
+    @media screen and(max-width: 600px) {
+        width: 250px;
+        height: 250px;
+    }
 }
 .hovereffect {
   float: left;
