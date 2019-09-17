@@ -55,10 +55,10 @@ export default {
     data () {
         return {
             imgUrls: [
-                '../../../static/house.png',
-                '../../../static/firefly.png',
-                '../../../static/keyword.jpg',
-                '../../../static/outdoor.png'
+                'http://cdn.jie12366.xyz/house.png',
+                'http://cdn.jie12366.xyz/firefly.png',
+                'http://cdn.jie12366.xyz/keyword.jpg',
+                'http://cdn.jie12366.xyz/outdoor.png'
             ],
             index: 0, // 当前页开始序列号
             size: 10, // 每页大小

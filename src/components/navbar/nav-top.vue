@@ -21,7 +21,7 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
         <img class="head_img" :src="imgUrl" />
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="/home"><i class="icon iconfont icon-vue-index" style="margin-right:12px;color:#ea705b;font-size:20px;"></i>首页</el-dropdown-item>
-                <el-dropdown-item command="/message"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i><el-badge :value="num">消息</el-badge></el-dropdown-item>
+                <el-dropdown-item command="/message/like"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i><el-badge :value="num">消息</el-badge></el-dropdown-item>
                 <el-dropdown-item command="/attention"><i class="icon iconfont icon-vue-attention" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>关注</el-dropdown-item>
                 <el-dropdown-item :command="`/${this.account}/${this.uid}/index?`"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-dropdown-item>
                 <el-dropdown-item command="4-2"><i class="icon iconfont icon-vue-collection" style="margin-right:14px;color:#ea705b;font-size:21px;"></i>喜欢的文章</el-dropdown-item>
@@ -41,6 +41,7 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
 
 <script>
 import { RECORD_TOKEN } from '@/store/mutation-types'
+import baseURL from '../../service/base-url'
 export default {
     data () {
         return {
@@ -56,8 +57,13 @@ export default {
             smallScreen: false,
             account: this.$store.state.account, // 用户账号
             tip: false,
-            num: ''
+            num: '',
+            websock: null,
+            hasConnect: false
         }
+    },
+    created () {
+        this.initWebSocket()
     },
     mounted () {
         const that = this
@@ -68,6 +74,9 @@ export default {
             })()
         }
         this.getNoReads()
+    },
+    destroyed () {
+        this.websock.close()
     },
     computed: {
         isLogin: function () {
@@ -99,17 +108,26 @@ export default {
             }
         }
     },
-    sockets: {
-        connect () {
-            console.log('连接成功')
+    methods: {
+        initWebSocket () { // 初始化weosocket
+            let hostUrl = baseURL.substring(7) // 取出host地址，去除http://
+            const wsuri = 'ws://' + hostUrl + `/webSocket/${this.uid}`
+            this.websock = new WebSocket(wsuri)
+            this.websock.onmessage = this.websocketonmessage
+            this.websock.onopen = this.websocketonopen
+            this.websock.onclose = this.websocketclose
         },
-        pushMessage (data) {
-            if (data === 'hasRead') {
+        websocketonopen () { // 连接建立之后执行send方法发送数据
+            this.hasConnect = true
+        },
+        websocketonmessage (e) { // 数据接收
+            if (e.data === 'hasRead' || e.data === 'like') {
                 this.getNoReads()
             }
-        }
-    },
-    methods: {
+        },
+        websocketclose (e) { // 关闭
+            this.hasConnect = false
+        },
         getNoReads () {
             this.$api.message.getNoReads(this.uid)
             .then(res => {

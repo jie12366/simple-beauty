@@ -44,7 +44,7 @@ export default {
   data () {
     return {
       showRight: false,
-      url2: 'static/sky.png',
+      url2: 'http://cdn.jie12366.xyz/sky.png',
       menuList: [
         {
           name: '首页',

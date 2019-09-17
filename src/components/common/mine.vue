@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       usersInfo: '',
-      url: 'static/dog.jpg' // 背景图片
+      url: 'http://cdn.jie12366.xyz/dog.jpg' // 背景图片
     }
   },
   props: [

@@ -13,8 +13,9 @@
                 </section>
                 <section>
                     <el-input v-model="code" class="code" @blur="checkImageCaptcha" @focus="resetCode" prefix-icon="el-icon-key" placeholder="验证码" clearable></el-input>
-                    <img class="image-code" :src="imageSrc"/>
-                    <div class="change-code" @click="getCaptcha">看不清<br/>换一张</div>
+                    <!-- 引入验证码组件 -->
+                    <identify :identifyCode="identifyCode"></identify>
+                    <div class="change-code" @click="changeCode">看不清<br/>换一张</div>
                     <br/><alert-span v-bind:msg="codeMsg" :is-show="!codeRight"></alert-span>
                 </section>
                 <section>
@@ -37,6 +38,8 @@
 </template>
 
 <script>
+    // 引入验证码组件
+    import identify from '@components/common/identify.vue'
     import loginTop from '@components/login/login-top'
     import alertSpan from '@components/login/alert-span'
     import { RECORD_TOKEN, SAVE_HEAD_IMG, SAVE_UID, SAVE_ACCOUNT } from '@/store/mutation-types'
@@ -55,17 +58,38 @@
                 code: null, // 验证码
                 imageSrc: null, // 图形验证码路径
                 pwdIcon: 'el-icon-lock', // 密码框的icon
-                remeberMe: false // 是否记住我
+                remeberMe: false, // 是否记住我
+                identifyCode: '1234', // 验证码初始值
+                identifyCodes: '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ' // 验证码的随机取值范围
             }
         },
-        created () {
-            this.getCaptcha()
+        mounted () {
+            // 刷新页面就生成随机验证码
+            this.identifyCode = ''
+            this.makeCode(this.identifyCodes, 4)
         },
         components: {
             loginTop,
-            alertSpan
+            alertSpan,
+            identify
         },
         methods: {
+            // 点击验证码刷新验证码
+            changeCode () {
+                this.identifyCode = ''
+                this.makeCode(this.identifyCodes, 4)
+            },
+            // 生成一个随机整数  randomNum(0, 36) 0 到 36 的随机整数， 包含 0 和 36
+            randomNum (min, max) {
+                max = max + 1
+                return Math.floor(Math.random() * (max - min) + min)
+            },
+            // 随机生成验证码字符串
+            makeCode (data, len) {
+                for (let i = 0; i < len; i++) {
+                    this.identifyCode += data[this.randomNum(0, data.length - 1)]
+                }
+            },
             // 获取焦点后改变密码框的icon
             changePwdUnlock () {
                 this.pwdIcon = 'el-icon-unlock'
@@ -73,28 +97,17 @@
             changePwdLock () {
                 this.pwdIcon = 'el-icon-lock'
             },
-            // 获取图片验证码
-            async getCaptcha () {
-                await this.$api.login.getCaptcha()
-                .then(data => { // 从Promise对象中读取图片路径并赋值
-                    this.imageSrc = data
-                })
-            },
             // 检查图片验证码是否过期或是否错误
             async checkImageCaptcha () {
-                let result = this.$api.login.checkImageCaptcha(this.code)
-                .then(res => {
-                    if (res.code === 50004 || res.code === 50005) {
-                            this.codeMsg = res.msg
-                            this.codeRight = false
-                            this.getCaptcha()
-                            return false
-                        } else if (res.code === 1) {
-                            this.codeRight = true
-                            return true
-                        }
-                })
-                return result
+                if (this.code.toUpperCase() === this.identifyCode.toUpperCase()) {
+                    this.codeRight = true
+                    return true
+                } else {
+                    this.codeMsg = '验证码错误'
+                    this.codeRight = false
+                    this.changeCode()
+                    return false
+                }
             },
             // 重置错误提示
             resetCode () {

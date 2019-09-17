@@ -65,21 +65,21 @@ export default {
             hideDirectory: false, // 是否隐藏目录
             isActive: 0, // 当前激活项
             bgList: [
-                require('@/images/bg/scenery1.jpg'),
-                require('@/images/bg/scenery2.jpg'),
-                require('@/images/bg/scenery3.jpg'),
-                require('@/images/bg/scenery4.jpg'),
-                require('@/images/bg/scenery5.jpg'),
-                require('@/images/bg/scenery6.jpg'),
-                require('@/images/bg/scenery7.jpg'),
-                require('@/images/bg/scenery8.jpg'),
-                require('@/images/bg/scenery9.jpg'),
-                require('@/images/bg/scenery10.jpg'),
-                require('@/images/bg/scenery11.jpg'),
-                require('@/images/bg/scenery12.jpg'),
-                require('@/images/bg/scenery13.jpg'),
-                require('@/images/bg/scenery14.jpg'),
-                require('@/images/bg/scenery15.jpg')
+                'http://cdn.jie12366.xyz/scenery1.jpg',
+                'http://cdn.jie12366.xyz/scenery2.jpg',
+                'http://cdn.jie12366.xyz/scenery3.jpg',
+                'http://cdn.jie12366.xyz/scenery4.jpg',
+                'http://cdn.jie12366.xyz/scenery5.jpg',
+                'http://cdn.jie12366.xyz/scenery6.jpg',
+                'http://cdn.jie12366.xyz/scenery7.jpg',
+                'http://cdn.jie12366.xyz/scenery8.jpg',
+                'http://cdn.jie12366.xyz/scenery9.jpg',
+                'http://cdn.jie12366.xyz/scenery10.jpg',
+                'http://cdn.jie12366.xyz/scenery11.jpg',
+                'http://cdn.jie12366.xyz/scenery12.jpg',
+                'http://cdn.jie12366.xyz/scenery13.jpg',
+                'http://cdn.jie12366.xyz/scenery14.jpg',
+                'http://cdn.jie12366.xyz/scenery15.jpg'
             ],
             index: 2, // 默认背景图片索引
             userInfo: '', // 用户信息

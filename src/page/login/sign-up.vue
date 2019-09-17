@@ -85,7 +85,7 @@
                 } else {
                     this.$api.login.checkAccount(this.phone)
                     .then(data => {
-                        if (data.code === 20005) {
+                        if (data.code === 1) {
                             this.isRegister = true
                             this.registerTip = '已注册'
                             this.hideTip = false

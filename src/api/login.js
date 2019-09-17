@@ -1,26 +1,6 @@
-import axios from '@/service/http'
 import { requestUrl, requestJson } from '@/service/axios'
 
 const login = {
-    // 获取图片验证码
-    getCaptcha () {
-        return axios.get('/imageCaptcha', {
-            responseType: 'arraybuffer' // 服务器响应的数据类型
-        }).then(response => {
-            // 将二进制流的图片转码为base64(使用Uint8Array来读取arraybuffer)
-            return ('data:image/png;base64,' + btoa(
-                new Uint8Array(response.data)
-                .reduce((data, byte) => data + String.fromCharCode(byte), '')
-            ))
-        })
-    },
-    // 检查图片验证码是否正确或过期
-    checkImageCaptcha (code) {
-        return requestUrl('post', '/captcha', {
-            key: 'imageCaptcha',
-            code
-        })
-    },
     // 登录
     signIn (data) {
         return requestJson('post', '/login', {

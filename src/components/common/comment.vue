@@ -287,6 +287,7 @@ export default {
   .comments{
     position: relative;
     top: 20px;
+    font-family: "Microsoft YaHei";
     section{
       background-color: #f8fbfd;
       margin-bottom: 50px;
@@ -304,15 +305,15 @@ export default {
         }
         .nickname{
           display: inline-block;
-          left: -45%;
+          left: -47%;
           top: 0px;
           @include sc(25px,#6699CC);
         }
         .content{
           position: relative;
-          left: -45%;
+          left: -47%;
           display: inline-block;
-          @include sc(28px,#333333);
+          @include sc(28px,#606266);
           /deep/ p{
             width: 1700px;
             @media screen and (max-width: 1300px){
@@ -358,7 +359,7 @@ export default {
       }
       .reply-comment{
         .reply-content-main{
-          background-color: #f1f1f4;
+          background-color: #f6f6f8;
           width: 100%;
           .reply-nickname{
             left: -49%;
