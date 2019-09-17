@@ -3,8 +3,8 @@
 active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
     <router-link to="/home"><span class="logo">Canary</span></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
-    <el-badge :is-dot="tip"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
-    <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
+    <el-badge :is-dot="tip"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;left:20vw;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
+    <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;left:20vw;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
     @focus="changeStyle" @blur="resumeStyle"/>
@@ -213,7 +213,7 @@ export default {
     }
     .search{
         padding-top: 20px;
-        margin-left: 100px;
+        left:24vw;
         width: 15vw;
         @media screen and(max-width:800px) {
             margin-left: 30px;
@@ -231,7 +231,7 @@ export default {
     }
     .logo{
         position: absolute;
-        left:8vw;
+        left:5vw;
         top: 1vh;
         @include sc(70px,#ea705b);
         @media screen and(max-width:800px) {
@@ -243,7 +243,7 @@ export default {
         }
     }
     .home{
-        margin-left: 20%;
+        left:20vw;
         font-size: 36px;
         @media screen and(max-width:800px) {
             margin-left: 70px;
