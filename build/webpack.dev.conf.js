@@ -56,7 +56,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true,
-      favicon:'static/logo.ico'
+      favicon:'http://cdn.jie12366.xyz/logo.ico'
     }),
     // copy custom static assets
     new CopyWebpackPlugin([
