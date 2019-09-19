@@ -18,7 +18,7 @@
                 <div class="tag">
                     <i class="icon iconfont icon-vue-tag1"></i>
                     <span @click="toTagNotes(item.tag)" :key="index" v-for="(item,index) in article.tags">
-                        <span>{{item.tag}}</span>
+                        <span style="padding-right:10px;">{{item.tag}}</span>
                     </span>
                 </div>
             </div>
@@ -216,7 +216,10 @@ export default {
         toTagNotes (tag) {
             this.$router.push(`/${this.userInfo.nickName}/${this.uid}/tag/${tag}`)
         },
+        // 点赞/取消点赞
         toLike () {
+            // 发个请求判断是否登录
+            this.$api.login.getToken()
             this.$api.message.likeArticle(this.uid, this.aid)
             .then(res => {
                 if (res.code === 1) {
@@ -251,6 +254,9 @@ export default {
 .main{
     position: relative;
     top: 900px;
+    @media screen and(max-width: 1100px){
+        background-color: #f8fbfd;
+    }
     .main-top{
         width: 100%;
         height:300px;
@@ -328,12 +334,12 @@ export default {
         @media screen and (max-width: 900px) {
             margin-left: 100px;
             width: 84%;
-            @include sc(25px,#303133);
+            @include sc(30px,#303133);
         }
         @media screen and (max-width: 500px) {
             margin:auto;
             width: 100%;
-            @include sc(25px,#303133);
+            @include sc(30px,#303133);
         }
         .content{
             padding-left: 60px;
@@ -341,18 +347,17 @@ export default {
             padding-top: 30px;
             padding-bottom: 50px;
             background-color: #f8fbfd;
+            @media screen and (max-width: 1100px) {
+                background-color: #fff;
+            }
             /*改变渲染的html内容中的样式*/
                 /deep/ h2{
-                    border-bottom: 2px solid #cccccc;
+                    border-bottom: 1px solid #cccccc;
                 }
                 /deep/ h3{
-                    color:#506633;
-                    font-weight:bold;
-                    background-color: #f6f6f6;
+                    color:#003333;
                     margin:20px 0;
-                    border-bottom: 0px solid #12b4f0;
                     padding: 5px 12px;
-                    border-left: 5px solid #24b4f0;
                     margin:12px 0px;
                 }
                 /deep/ code{
@@ -366,7 +371,7 @@ export default {
                     }
                 }
                 /deep/ a{
-                    color: #99CCFF;
+                    color: #666699;
                 }
             /deep/ img{
                 max-width:100%;
