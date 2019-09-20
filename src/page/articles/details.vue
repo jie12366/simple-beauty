@@ -33,6 +33,7 @@
                 </div>
             </div>
             <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
+                <div style="font-size:18px;padding-left:50px;padding-bottom:10px;">文章目录</div>
                 <div :key="index" v-for="(item,index) in directory">
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h2">{{item.h2}}</div>
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:15px;">{{item.h3}}</div>
@@ -66,7 +67,7 @@ export default {
             isActive: 0, // 当前激活项
             bgList: [
                 'http://cdn.jie12366.xyz/scenery1.jpg',
-                'http://cdn.jie12366.xyz/scenery2.jpg',
+                'http://cdn.jie12366.xyz/long-bg2.jpg',
                 'http://cdn.jie12366.xyz/scenery3.jpg',
                 'http://cdn.jie12366.xyz/scenery4.jpg',
                 'http://cdn.jie12366.xyz/scenery5.jpg',
@@ -81,7 +82,7 @@ export default {
                 'http://cdn.jie12366.xyz/scenery14.jpg',
                 'http://cdn.jie12366.xyz/scenery15.jpg'
             ],
-            index: 2, // 默认背景图片索引
+            index: Math.round(Math.random() * 14), // 默认背景图片索引
             userInfo: '', // 用户信息
             dirTop: '500px', // 目录到顶部距离
             screenWidth: document.body.clientWidth, // 屏幕宽度
@@ -109,12 +110,22 @@ export default {
         // 监听滚动
         window.addEventListener('scroll', () => {
             this.scrollTop = document.documentElement.scrollTop ||
-                window.pageYOffset || document.body.scrollTop ||
-                document.querySelector(this.el).scrollTop
+                window.pageYOffset || document.body.scrollTop
             if (this.scrollTop > 300) {
                 this.dirTop = '50px'
             } else {
                 this.dirTop = '500px'
+            }
+            // 监听目录跟随
+            for (let i = 0; i < this.directory.length; i++) {
+                // 这里要得到top的距离和元素自身的高度
+                let offsetTop = document.getElementById(this.directory[i].id).offsetTop
+                let offsetHeight = document.getElementById(this.directory[i].id).offsetHeight
+                // 判断页面滚动的距离是否大于当前目录的位置
+                if (this.scrollTop > (offsetTop - offsetHeight * 2 + 280)) {
+                    // 设置激活项
+                    this.isActive = i
+                }
             }
         }, true)
         const that = this
@@ -220,11 +231,15 @@ export default {
         toLike () {
             // 发个请求判断是否登录
             this.$api.login.getToken()
-            this.$api.message.likeArticle(this.uid, this.aid)
             .then(res => {
                 if (res.code === 1) {
-                    this.article.likes = res.data
-                    this.getLike()
+                    this.$api.message.likeArticle(this.uid, this.aid)
+                    .then(res => {
+                        if (res.code === 1) {
+                            this.article.likes = res.data
+                            this.getLike()
+                        }
+                    })
                 }
             })
         }
@@ -244,10 +259,14 @@ export default {
     top: 0;
     .top-img{
         background-repeat: no-repeat;
-        background-size: 100% 100%;
-        @include wh(100%, 900px);
+        background-size: 99vw 100vh;
+        @include wh(99vw, 900px);
+        overflow: hidden;
         @media screen and (max-width: 1300px) {
-            @include wh(100%, 600px);
+            @include wh(98.6vw, 600px);
+        }
+        &:hover{
+            cursor: pointer;
         }
     }
 }
@@ -430,12 +449,12 @@ export default {
         left: 40px;
         width: 500px;
         overflow:auto;
-        border-left: 1px #909399 solid;
+        border-left: 3px #CCCCCC solid;
         padding-left: 15px;
         .title{
             margin-top: 10px;
         }
-        div,p{
+        div{
             @include sc(28px,#909399);
             &:hover{
                 color:rgb(234, 112, 91);

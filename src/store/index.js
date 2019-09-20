@@ -9,7 +9,7 @@ Vue.use(Vuex) // 显式调用vuex
 
 const state = {
     token: null, // 登录令牌,存在localStorage中，防止刷新页面丢失数据
-    imgUrl: require('@/images/head-boy.png'), // 用户头像
+    imgUrl: 'http://cdn.jie12366.xyz/head-boy.png', // 用户头像
     uid: 0, // 用户id
     account: '' // 用户账号
 }

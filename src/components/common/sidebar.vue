@@ -198,6 +198,9 @@ export default {
   @include sc(25px, #ffffff);
   border: 5px #ffffff solid;
   padding-left: 8px;
+  @media screen and(max-width: 600px){
+    right: 8px !important;
+  }
   &:hover {
     color: #dddddd;
     border: 5px #dddddd solid;

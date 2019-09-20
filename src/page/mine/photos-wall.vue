@@ -7,7 +7,10 @@
                     <div class="hovereffect">
                         <img class="img-responsive" :src="img.url" :alt="img.alt">
                             <div class="overlay">
-                                <h2><span style="font-size:12px;margin-bottom:30px;">{{img.uploadTime}}</span><br/>{{img.alt}}</h2>
+                                <section>
+                                    <div class="alt">{{img.alt}}</div>
+                                    <div class="time" style="float:right">{{img.uploadTime}}</div>
+                                </section>
                             </div>
                     </div>
                 </viewer>
@@ -106,11 +109,10 @@ export default {
 .hovereffect .overlay {
   position: absolute;
   overflow: hidden;
-  width: 50%;
-  height: 50%;
-  left: 25%;
-  top: 25%;
-  border-bottom: 1px solid #FFF;
+  width: 100%;
+  height: 20%;
+  left: 0%;
+  top: 80%;
   border-top: 1px solid #FFF;
   -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
   transition: opacity 0.35s, transform 0.35s;
@@ -140,24 +142,32 @@ export default {
   -webkit-filter: brightness(0.6);
 }
 
-.hovereffect h2 {
+.hovereffect section {
   text-transform: uppercase;
-  text-align: center;
-  position: relative;
-  top: -20px;
-  font-size: 35px;
+  font-size: 30px;
   background-color: transparent;
   color: #FFF;
-  padding: 1em 0;
   opacity: 0;
   filter: alpha(opacity=0);
   -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
   transition: opacity 0.35s, transform 0.35s;
   -webkit-transform: translate3d(0,-100%,0);
   transform: translate3d(0,-100%,0);
+  .alt{
+      padding-left: 20px;
+  }
+  .time{
+      position: absolute;
+      font-size: 25px;
+      right: 20px;
+      top: 30px;
+      @media screen and(max-width: 600px){
+          top: 5px;
+      }
+  }
 }
 
-.hovereffect:hover h2 {
+.hovereffect:hover section {
   opacity: 1;
   filter: alpha(opacity=100);
   -webkit-transform: translate3d(0,0,0);
