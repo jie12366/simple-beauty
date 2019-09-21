@@ -194,7 +194,7 @@ export default {
         },
         // 获取文章数据
         getArticle () {
-            this.$api.articles.getArticle(this.aid, this.uid)
+            this.$api.articles.getArticle(this.aid)
             .then(res => {
                 this.article = res.data
                 document.title = this.article.title

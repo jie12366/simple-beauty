@@ -268,6 +268,9 @@ export default {
         .writer_font{
             color: #ffffff;
         }
+        .icon-vue-xiezuo{
+            color: #ffffff
+        }
     }
     .mine{
         position: absolute;
