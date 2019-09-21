@@ -9,9 +9,7 @@ const login = {
     },
     // 注销
     logout (account) {
-        return requestUrl('delete', '/logout', {
-            account
-        })
+        return requestUrl('delete', `/logout/${account}`)
     },
     // 检查账号是否存在
     checkAccount (account) {

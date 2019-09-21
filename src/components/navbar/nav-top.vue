@@ -193,11 +193,17 @@ export default {
                 return (searchQuery.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
             }
         },
+        // 账号注销
         logout () {
-            // 移除token
-            this.$store.commit(RECORD_TOKEN, null)
-            window.localStorage.removeItem('token')
-            location.reload()
+            this.$api.login.logout(this.account)
+            .then(res => {
+                if (res.code === 1) {
+                    // 移除前端本地token
+                    this.$store.commit(RECORD_TOKEN, null)
+                    window.localStorage.removeItem('token')
+                    location.reload()
+                }
+            })
         }
     }
 }
