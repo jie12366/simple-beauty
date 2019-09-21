@@ -144,7 +144,7 @@
                         'uaccount': this.account,
                         'upwd': this.pwd
                     }
-                    await this.$api.login.signIn(data)
+                    await this.$api.login.signIn(data, this.remeberMe)
                     .then(res => {
                         if (res.code === 20002) {
                             loading.close()

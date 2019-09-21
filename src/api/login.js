@@ -2,8 +2,8 @@ import { requestUrl, requestJson } from '@/service/axios'
 
 const login = {
     // 登录
-    signIn (data) {
-        return requestJson('post', '/login', {
+    signIn (data, remeberMe) {
+        return requestJson('post', `/login?remeberMe=${remeberMe}`, {
             data
         })
     },
