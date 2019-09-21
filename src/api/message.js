@@ -7,7 +7,7 @@ const message = {
     },
     // 判断用户是否点赞了文章
     isLike (uid, aid) {
-        return requestUrl('get', `/article/${aid}/${uid}`)
+        return requestUrl('get', `/article/like/${aid}/${uid}`)
     },
     // 获取消息未读数
     getNoReads (uid) {

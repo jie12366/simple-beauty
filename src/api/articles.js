@@ -51,8 +51,8 @@ const articles = {
         return requestUrl('get', `/articleDetail/${aid}`)
     },
     // 获取文章数据
-    getArticle (aid) {
-        return requestUrl('get', `/article/${aid}`)
+    getArticle (aid, uid) {
+        return requestUrl('get', `/article/${aid}/${uid}`)
     },
     // 获取用户的所有标签
     getTags (uid) {
