@@ -39,7 +39,7 @@
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:15px;">{{item.h3}}</div>
                 </div>
             </div>
-            <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :uid="article.uid" class="comment"></comment>
+            <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :uid="article.uid" :toUid="uid" class="comment"></comment>
         </div>
     </div>
 </template>
@@ -229,17 +229,11 @@ export default {
         },
         // 点赞/取消点赞
         toLike () {
-            // 发个请求判断是否登录
-            this.$api.login.getToken()
+            this.$api.message.likeArticle(this.uid, this.aid)
             .then(res => {
                 if (res.code === 1) {
-                    this.$api.message.likeArticle(this.uid, this.aid)
-                    .then(res => {
-                        if (res.code === 1) {
-                            this.article.likes = res.data
-                            this.getLike()
-                        }
-                    })
+                    this.article.likes = res.data
+                    this.getLike()
                 }
             })
         }

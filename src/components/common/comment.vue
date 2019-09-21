@@ -89,7 +89,8 @@ export default {
     'width',
     'defaultOpen',
     'aid',
-    'uid'
+    'uid',
+    'toUid'
   ],
   created () {
     this.getComments(this.aid, this.index, this.size)
@@ -192,7 +193,8 @@ export default {
         } else {
           content = this.$refs.md.d_render
         }
-        this.$api.comments.saveComment(this.aid, this.uid, content)
+        console.log(this.toUid)
+        this.$api.comments.saveComment(this.aid, this.uid, this.toUid, content)
         .then(res => {
           console.log(res)
           if (res.code === 1) {

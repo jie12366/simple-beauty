@@ -2,10 +2,11 @@ import { requestUrl } from '@/service/axios'
 
 const comments = {
     // 保存评论
-    saveComment (aid, uid, content) {
+    saveComment (aid, uid, toUid, content) {
         return requestUrl('post', 'comments', {
             aid,
             uid,
+            toUid,
             content
         })
     },

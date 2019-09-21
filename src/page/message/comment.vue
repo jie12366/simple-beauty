@@ -1,5 +1,5 @@
 <template>
-    <message type="like"></message>
+    <message type="comment"></message>
 </template>
 <script>
 import message from '@components/common/message'

@@ -8,6 +8,7 @@ Vue.use(Router)
 const home = r => require.ensure([], () => r(require('@page/home/home')), 'home')
 const message = r => require.ensure([], () => r(require('@page/message/index')), 'message')
 const like = r => require.ensure([], () => r(require('@page/message/like')), 'like')
+const comment = r => require.ensure([], () => r(require('@page/message/comment')), 'comment')
 const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
@@ -58,6 +59,14 @@ const router = new Router({
               component: like,
               meta: {
                 title: '点赞列表',
+                requiresAuth: true
+              }
+            },
+            {
+              path: 'comment',
+              component: comment,
+              meta: {
+                title: '评论列表',
                 requiresAuth: true
               }
             }

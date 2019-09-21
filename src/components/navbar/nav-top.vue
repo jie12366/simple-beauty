@@ -123,7 +123,7 @@ export default {
             this.hasConnect = true
         },
         websocketonmessage (e) { // 数据接收
-            if (e.data === 'hasRead' || e.data === 'like') {
+            if (e.data === 'hasRead' || e.data === 'like' || e.data === 'unLike' || e.data === 'comment') {
                 this.getNoReads()
             }
         },

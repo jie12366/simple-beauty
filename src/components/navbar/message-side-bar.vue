@@ -13,11 +13,11 @@
       >
         <el-menu-item index="/message/like" class="item">
           <i class="icon iconfont icon-vue-like"></i>
-          <span>点赞</span>
+          <el-badge :is-dot="likeNoRead">点赞</el-badge>
         </el-menu-item>
         <el-menu-item index="/message/comment" class="item">
           <i class="icon iconfont icon-vue-comment"></i>
-          <span>评论</span>
+          <el-badge :is-dot="commentNoRead">评论</el-badge>
         </el-menu-item>
         <el-menu-item index="/message/attention" class="item">
           <i class="icon iconfont icon-vue-guanzhu"></i>
@@ -37,11 +37,16 @@
 </template>
 <script>
 import navTop from '@/components/navbar/nav-top'
+import baseURL from '../../service/base-url'
 export default {
   data () {
     return {
       isCollapse: false, // 是否折叠菜单
-      width: document.documentElement.clientWidth
+      width: document.documentElement.clientWidth,
+      uid: this.$store.state.uid,
+      websock: null, // websocket
+      likeNoRead: false, // 点赞未读
+      commentNoRead: false // 评论未读
     }
   },
   mounted () {
@@ -52,6 +57,8 @@ export default {
                 that.width = document.documentElement.clientWidth
             })()
         }
+        this.initWebSocket()
+        this.getNoReads()
     },
   watch: {
     // 监听屏幕宽度
@@ -65,6 +72,18 @@ export default {
         }
   },
   methods: {
+    initWebSocket () { // 初始化weosocket
+            let hostUrl = baseURL.substring(7) // 取出ip地址，去除http://
+            const wsuri = 'ws://' + hostUrl + `/webSocket/${this.uid}`
+            this.websock = new WebSocket(wsuri)
+            this.websock.onmessage = this.websocketonmessage
+        },
+        websocketonmessage (e) { // 数据接收
+            console.log(e.data)
+            if (e.data === 'hasRead' || e.data === 'like' || e.data === 'unLike' || e.data === 'comment') {
+                this.getNoReads()
+            }
+        },
     // 自适应屏幕
         fitScreen () {
             if (this.width < 600) {
@@ -72,6 +91,34 @@ export default {
             } else {
                 this.isCollapse = false
             }
+        },
+        // 获取某类型的未读消息数
+        getNoReadsByType (type) {
+            this.$api.message.getNoReadsByType(type, this.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    if (res.data > 0) {
+                      if (type === 'like') {
+                        this.likeNoRead = true
+                      } else if (type === 'comment') {
+                        this.commentNoRead = true
+                      }
+                    } else {
+                        if (type === 'like') {
+                        this.likeNoRead = false
+                      } else if (type === 'comment') {
+                        this.commentNoRead = false
+                      }
+                    }
+                }
+            })
+        },
+        // 获取所有的未读消息
+        getNoReads () {
+          this.getNoReadsByType('like')
+          this.getNoReadsByType('comment')
+          this.getNoReadsByType('attention')
+          this.getNoReadsByType('tongzhi')
         }
   },
   components: {
