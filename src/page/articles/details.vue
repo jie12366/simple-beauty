@@ -384,6 +384,7 @@ export default {
                     font-size: 40px;
                 }
                 /deep/ pre code{
+                    overflow: auto;
                     font-size: 34px;
                     @media screen and (max-width: 900px) {
                         font-size: 25px;
