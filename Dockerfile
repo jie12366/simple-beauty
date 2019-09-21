@@ -12,8 +12,6 @@ RUN npm run build
 # 重定向标准输出和标准错误
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
-# 删除nginx 默认配置
-RUN rm /etc/nginx/conf.d/default.conf
 # 添加我们自己的配置 default.conf 在下面
 ADD nginx.conf /etc/nginx/conf.d/ 
 # 启动端口为80
