@@ -11,6 +11,7 @@ const like = r => require.ensure([], () => r(require('@page/message/like')), 'li
 const comment = r => require.ensure([], () => r(require('@page/message/comment')), 'comment')
 const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
+const forget = r => require.ensure([], () => r(require('@page/login/forget')), 'forget')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
 const articles = r => require.ensure([], () => r(require('@page/articles/details')), 'articles')
 const articlesPwd = r => require.ensure([], () => r(require('@page/articles/decrypt')), 'articlesPwd')
@@ -86,6 +87,14 @@ const router = new Router({
           component: signUp,
           meta: {
             title: '注册'
+          }
+        },
+        // 注册页
+        {
+          path: '/forget',
+          component: forget,
+          meta: {
+            title: '忘记密码'
           }
         },
         // 写文章

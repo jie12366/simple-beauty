@@ -1,6 +1,14 @@
 <template>
     <div>
         <login-top>
+            <section class="form-top">
+                <router-link to="/sign-in">
+                    <span style="margin-right:20px;font-size:20px">登录</span>
+                </router-link><em style="font-size:23px">·</em>
+                <router-link to="/sign-up">
+                    <span style="margin-left:20px;font-size:20px">注册</span>
+                </router-link>
+            </section>
             <div class="form-data">
             <form>
                 <section>

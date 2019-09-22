@@ -104,6 +104,9 @@ export default {
             this.$api.user.getUsersInfo(uid)
             .then(res => {
                 this.copyinfo(this.info, res.data)
+                if (res.data.email === '') {
+                    this.notify()
+                }
             })
         },
         // 把返回的数据赋值给对象
@@ -229,15 +232,22 @@ export default {
         },
         // 保存资料
         async saveInfo () {
-            let checkNickname = await this.checkNickname()
-            if (checkNickname) {
-                this.$api.user.updateInfo(this.info.nickname, this.info.introduction, this.info.uid)
-                .then(res => {
-                    if (res.code === 1) {
-                        this.$message.success('保存成功')
-                    }
-                })
-            }
+            this.$api.user.updateInfo(this.info.nickname, this.info.introduction, this.info.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    this.$message.success('保存成功')
+                }
+            })
+        },
+        notify () {
+            this.$notify({
+                title: '请绑定邮箱',
+                dangerouslyUseHTMLString: true,
+                type: 'warning',
+                offset: 100,
+                message: '您还没有绑定邮箱，请尽快绑定邮箱，否则你将无法重置密码',
+                duration: 5000
+            })
         }
     },
     components: {

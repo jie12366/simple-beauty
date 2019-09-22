@@ -35,7 +35,7 @@ npm run dev
 项目地址：[simple-beauty-after](https://github.com/jie12366/simple-blog-after.git)
 ## 目标功能
 - [x] 登录注册  --完成
-- [ ] 修改密码  --待完成
+- [x] 修改密码  --待完成
 - [ ] 第三方登录  --待完成
 - [x] 个人中心  --完成
 - [x] 消息提醒  --完成

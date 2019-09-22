@@ -3,7 +3,7 @@
 active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
     <router-link to="/home"><span class="logo">Canary</span></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
-    <el-badge :is-dot="tip" style="left:20vw;"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
+    <el-badge :is-dot="tip" style="left:20vw;top:-2.5px;"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
     <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;left:20vw;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
@@ -267,7 +267,7 @@ export default {
         }
         @media screen and(max-width:500px) {
             left:5px;
-            top:1vh;
+            top:2vh;
             width: 220px;
             height: 80px;
         }
@@ -324,7 +324,7 @@ export default {
         top:30px;
         @media screen and(max-width:500px) {
             right: 8vw;
-            top:1vh;
+            top:2vh;
         }
         .sign_in{
             @include sc(30px,#aaaaaa);

@@ -2,14 +2,7 @@
     <div class="wrap">
         <router-link to="/home"><span class="title">Canary</span></router-link>
         <div class="form">
-            <section class="form-top">
-                <router-link to="/sign-in">
-                    <span style="margin-right:20px;font-size:20px">登录</span>
-                </router-link><em style="font-size:23px">·</em>
-                <router-link to="/sign-up">
-                    <span style="margin-left:20px;font-size:20px">注册</span>
-                </router-link>
-            </section>
+            <router-link to="/home"><span class="title1">Canary</span></router-link>
             <slot></slot>
         </div>
     </div>
@@ -59,6 +52,19 @@
         @media screen and(max-width: 900px) {
             left: 2vw;
             @include sc(50px,#1f1d1a);
+        }
+    }
+    .title1{
+        position: absolute;
+        left: 3vw;
+        top:50px;
+        @include sc(40px,#ea705b);
+        font: {
+            weight:400;
+            family:'calgary';
+        }
+        @media screen and(min-width: 900px) {
+            display: none;
         }
     }
 </style>

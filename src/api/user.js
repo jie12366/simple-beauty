@@ -31,9 +31,16 @@ const user = {
             nickname
         })
     },
+    // 更新用户信息
     updateInfo (nickname, introduction, uid) {
         return requestUrl('put', 'usersInfo', {
             nickname, introduction, uid
+        })
+    },
+    // 重置密码
+    resetPwd (email, pwd) {
+        return requestUrl('put', '/password', {
+            email, pwd
         })
     }
 }

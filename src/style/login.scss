@@ -6,7 +6,7 @@ $fc:#fff;
 
 .wrap{
     box-sizing: border-box;
-    height: 100vh;
+    height: 98vh;
     text-align: center;
     background: url("http://cdn.jie12366.xyz/bg.jpg");
     background-size: 100% 100%;
@@ -23,9 +23,15 @@ $fc:#fff;
     box-shadow: 0 0 30px rgba(0,0,0,.1);
     padding: 65px 0 30px 0;
     position: fixed;
-    @media screen and (max-width:760px){
-        width: 100vw;
-        height: 100vh;
+    @media screen and (max-width:1300px){
+        width: 50vw;
+        height: 64vh;
+        left: 25%;
+        top: 10%;
+    }
+    @media screen and (max-width:900px){
+        width: 100%;
+        height: 100%;
         top:0px;
         left:0px
     }
@@ -64,8 +70,14 @@ $fc:#fff;
         position: absolute;
         color: #ea5d5f;
         font-size: 24px;
-        right: 200px;
+        right: 350px;
         margin-top:80px;
+        @media screen and(max-width: 900px){
+            right: 35%;
+        }
+        @media screen and(max-width: 600px){
+            right: 20%;
+        }
     }
     .qq{
         @include sc(40px,#498ad5);

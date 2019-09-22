@@ -1,6 +1,14 @@
 <template>
     <div>
         <login-top>
+            <section class="form-top">
+                <router-link to="/sign-in">
+                    <span style="margin-right:20px;font-size:20px">登录</span>
+                </router-link><em style="font-size:23px">·</em>
+                <router-link to="/sign-up">
+                    <span style="margin-left:20px;font-size:20px">注册</span>
+                </router-link>
+            </section>
             <div class="form-data">
             <form>
                 <section>
@@ -100,8 +108,8 @@
             },
             // 检查输入的密码是否合法
             checkPwd () {
-                if (!/^\w{6,20}$/.test(this.pwd)) {
-                    this.pwdMsg = '只能是6-20位的字母/数字/下划线'
+                if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{6,16}$/.test(this.pwd)) {
+                    this.pwdMsg = '必须是6-16位且包含大小写字母以及数字'
                     this.pwdAlert = false
                     return false
                 } else {

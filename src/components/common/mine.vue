@@ -6,7 +6,7 @@
     <div class="top" id="top">
       <el-image class="bg_img" fit="cover" :src="url"></el-image>
       <div class="title">{{usersInfo.nickName}}的技术博客</div>
-      <p class="des">活在当下，别在怀念过去或者憧憬未来中浪费掉你现在的生活</p>
+      <p class="des">{{usersInfo.introduction}}</p>
       <div class="arrow" @click="scroolBottom">
         <i class="el-icon-arrow-down"></i>
       </div>
