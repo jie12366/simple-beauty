@@ -38,7 +38,7 @@
                 <el-divider>社交方式登录</el-divider>
                 <span><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></span>
                 <span @click="oauthLogin('gitee')"><i class="icon-vue-gitee gitee"></i></span>
-                <a href="http://127.0.0.1:81/api/oauth/login/github"><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></a>
+                <span @click="oauthLogin('github')"><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></span>
             </div>
         </div>
         </login-top>
