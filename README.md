@@ -52,4 +52,12 @@ npm run dev
 ## 项目演示
 项目演示地址为：[Canary](http://jie12366.xyz:8081)
 ## 部分截图
+### 1、首页
 ![首页](http://cdn.jie12366.xyz/home.png)
+### 2、文章详情
+![文章详情](http://cdn.jie12366.xyz/details.png)
+### 3、照片墙
+![照片墙](http://cdn.jie12366.xyz/photo-wall.png)
+## 开源协议
+MIT LICENSE
+![MIT](http://cdn.jie12366.xyz/license.png)
