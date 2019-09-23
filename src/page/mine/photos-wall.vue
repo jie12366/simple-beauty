@@ -38,7 +38,7 @@ export default {
             .then(res => {
                 console.log(res)
                 if (res.code === 50001) {
-                    this.$message.error('没有数据')
+                    this.$message.warning('还没有照片哦')
                 } else if (res.code === 1) {
                     this.imgList = res.data.photos
                     // 将照片按时间倒序排序

@@ -12,6 +12,7 @@ const comment = r => require.ensure([], () => r(require('@page/message/comment')
 const signIn = r => require.ensure([], () => r(require('@page/login/sign-in')), 'sign-in')
 const signUp = r => require.ensure([], () => r(require('@page/login/sign-up')), 'sign-up')
 const forget = r => require.ensure([], () => r(require('@page/login/forget')), 'forget')
+const oauth = r => require.ensure([], () => r(require('@page/login/oauthLogin')), 'oauth')
 const writer = r => require.ensure([], () => r(require('@page/articles/writer')), 'writer')
 const articles = r => require.ensure([], () => r(require('@page/articles/details')), 'articles')
 const articlesPwd = r => require.ensure([], () => r(require('@page/articles/decrypt')), 'articlesPwd')
@@ -89,12 +90,20 @@ const router = new Router({
             title: '注册'
           }
         },
-        // 注册页
+        // 重置密码
         {
           path: '/forget',
           component: forget,
           meta: {
             title: '忘记密码'
+          }
+        },
+        // 第三方登录中转页
+        {
+          path: '/oauth',
+          component: oauth,
+          meta: {
+            title: '第三方登录'
           }
         },
         // 写文章

@@ -8,8 +8,8 @@ const login = {
         })
     },
     // 注销
-    logout (account) {
-        return requestUrl('delete', `/logout/${account}`)
+    logout (uid) {
+        return requestUrl('delete', `/logout/${uid}`)
     },
     // 检查账号是否存在
     checkAccount (account) {

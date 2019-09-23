@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/gitee': {//接口
+        target: 'http://gitee.com',//要访问的源
+        changeOrigin: true, //允许跨域
+        pathRewrite: {
+          '^/gitee': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

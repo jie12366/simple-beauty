@@ -36,9 +36,9 @@
             </form>
             <div class="login-bottom">
                 <el-divider>社交方式登录</el-divider>
-                <router-link to=""><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></router-link>
-                <router-link to=""><font-awesome-icon :icon="['fab','weixin']" class="weixin"></font-awesome-icon></router-link>
-                <router-link to=""><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></router-link>
+                <span><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></span>
+                <span @click="oauthLogin('gitee')"><i class="icon-vue-gitee gitee"></i></span>
+                <a href="http://127.0.0.1:81/api/oauth/login/github"><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></a>
             </div>
         </div>
         </login-top>
@@ -51,6 +51,7 @@
     import loginTop from '@components/login/login-top'
     import alertSpan from '@components/login/alert-span'
     import { RECORD_TOKEN, SAVE_HEAD_IMG, SAVE_UID, SAVE_ACCOUNT } from '@/store/mutation-types'
+    import baseURL from '../../service/base-url'
     const jwt = require('jsonwebtoken')
     export default {
         data () {
@@ -191,6 +192,10 @@
                             })
                     })
                 }
+            },
+            // 第三方登录
+            oauthLogin (type) {
+                location.href = `${baseURL}/oauth/login/${type}`
             }
         }
     }

@@ -195,7 +195,7 @@ export default {
         },
         // 账号注销
         logout () {
-            this.$api.login.logout(this.account)
+            this.$api.login.logout(this.uid)
             .then(res => {
                 if (res.code === 1) {
                     // 移除前端本地token

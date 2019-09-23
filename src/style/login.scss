@@ -81,14 +81,23 @@ $fc:#fff;
     }
     .qq{
         @include sc(40px,#498ad5);
-        padding-right:20px
+        padding-right:20px;
+        &:hover{
+            cursor: pointer;
+        }
     }
-    .weixin{
-        @include sc(40px,#00bb29);
-        padding-right:20px
+    .gitee{
+        @include sc(40px,#cc3339);
+        padding-right:20px;
+        &:hover{
+            cursor: pointer;
+        }
     }
     .github{
         @include sc(40px,#666666);
+        &:hover{
+            cursor: pointer;
+        }
     }
     .hide{
         display: none;
