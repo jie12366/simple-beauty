@@ -64,6 +64,7 @@ export default {
     return {
       comment: '', // 评论内容
       comments: [], // 评论集合
+      uid: this.$store.state.uid,
       rUid: '',
       rComment: '',
       index: 0,
@@ -89,7 +90,6 @@ export default {
     'width',
     'defaultOpen',
     'aid',
-    'uid',
     'toUid'
   ],
   created () {

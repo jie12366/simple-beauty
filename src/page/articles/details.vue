@@ -39,7 +39,7 @@
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:15px;">{{item.h3}}</div>
                 </div>
             </div>
-            <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :uid="article.uid" :toUid="uid" class="comment"></comment>
+            <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :toUid="uid" class="comment"></comment>
         </div>
     </div>
 </template>

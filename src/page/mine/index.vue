@@ -18,7 +18,7 @@ import showArticle from '@components/common/show-article'
 export default {
   data () {
     return {
-        uid: parseInt(this.$route.params.uid),
+        uid: this.$route.params.uid,
         articleList: [], // 我的文章列表
         total: 0,
         index: 1, // 当前页

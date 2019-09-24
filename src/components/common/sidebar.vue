@@ -107,8 +107,7 @@ export default {
       default: 0
     },
     uid: {
-      type: Number,
-      default: 0
+      type: String
     }
   },
   mounted () {

@@ -19,7 +19,7 @@ import showArticle from '@components/common/show-article'
 export default {
     data () {
         return {
-            uid: parseInt(this.$route.params.uid),
+            uid: this.$route.params.uid,
             category: this.$route.params.category,
             articleList: [],
             total: 0,

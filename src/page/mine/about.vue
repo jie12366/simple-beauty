@@ -29,7 +29,7 @@ export default {
             git: '',
             qq: '',
             introduction: '',
-            uid: parseInt(this.$route.params.uid)
+            uid: this.$route.params.uid
         }
     },
     created () {

@@ -15,7 +15,7 @@ import mine from '@components/common/mine'
 export default {
     data () {
         return {
-            uid: parseInt(this.$route.params.uid),
+            uid: this.$route.params.uid,
             categorys: [] // 标签集合
         }
     },

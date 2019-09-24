@@ -24,7 +24,7 @@ import moment from 'moment'
 export default {
     data () {
         return {
-            uid: parseInt(this.$route.params.uid),
+            uid: this.$route.params.uid,
             imgList: []
         }
     },
