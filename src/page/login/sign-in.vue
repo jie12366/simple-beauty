@@ -36,7 +36,7 @@
             </form>
             <div class="login-bottom">
                 <el-divider>社交方式登录</el-divider>
-                <span><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></span>
+                <span @click="oauthLogin('qq')"><font-awesome-icon :icon="['fab','qq']" class="qq"></font-awesome-icon></span>
                 <span @click="oauthLogin('gitee')"><i class="icon-vue-gitee gitee"></i></span>
                 <span @click="oauthLogin('github')"><font-awesome-icon :icon="['fab','github']" class="github"></font-awesome-icon></span>
             </div>
