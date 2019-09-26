@@ -33,11 +33,17 @@
                 </div>
             </div>
             <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
-                <div style="font-size:18px;padding-left:50px;padding-bottom:10px;">文章目录</div>
-                <div :key="index" v-for="(item,index) in directory">
+                <div style="font-size:18px;padding-bottom:10px;">
+                    <span class="text">文章目录</span>
+                    <span class="close" @click="closeDirectory">x</span>
+                </div>
+                <div class="content" :key="index" v-for="(item,index) in directory">
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h2">{{item.h2}}</div>
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:15px;">{{item.h3}}</div>
                 </div>
+            </div>
+            <div>
+                <i class="icon-vue-mulu" :style="{top:dirTop}" v-if="hideDirectory" @click="showDirectory"></i>
             </div>
             <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :toUid="uid" class="comment"></comment>
         </div>
@@ -236,6 +242,14 @@ export default {
                     this.getLike()
                 }
             })
+        },
+        // 关闭目录
+        closeDirectory () {
+            this.hideDirectory = true
+        },
+        // 显示目录
+        showDirectory () {
+            this.hideDirectory = false
         }
     },
     components: {
@@ -359,6 +373,7 @@ export default {
             padding-right: 60px;
             padding-top: 30px;
             padding-bottom: 50px;
+            overflow: auto;
             background-color: #f8fbfd;
             @media screen and (max-width: 1100px) {
                 background-color: #fff;
@@ -377,8 +392,8 @@ export default {
                     color: #6666CC;
                     font-size: 40px;
                 }
-                /deep/ pre code{
-                    overflow: auto;
+                /deep/ pre{
+                    width:100%;
                     font-size: 34px;
                     @media screen and (max-width: 900px) {
                         font-size: 25px;
@@ -441,19 +456,38 @@ export default {
         }
     .directory{
         position: fixed;
-        left: 40px;
+        left: 10px;
         width: 500px;
+        background-color: #222;
         overflow:auto;
-        border-left: 3px #CCCCCC solid;
-        padding-left: 15px;
-        .title{
-            margin-top: 10px;
+        padding-left: 30px;
+        padding-bottom: 50px;
+        .text{
+            padding-left: 100px;
+            color: #fff !important;
+            &:hover{
+                text-decoration: none;
+            }
         }
-        div{
-            @include sc(28px,#909399);
+        .close{
+            position: absolute;
+            right: 20px;
+            color: #fff;
+            font-weight: 300;
             &:hover{
                 color:rgb(234, 112, 91);
                 cursor: pointer;
+            }
+        }
+        .title{
+            margin-top: 20px;
+        }
+        .content{
+            @include sc(28px,#fff);
+            &:hover{
+                color:rgb(234, 112, 91);
+                cursor: pointer;
+                text-decoration: underline;
             }
             .active{
                 color:rgb(234, 112, 91) !important;
@@ -461,6 +495,15 @@ export default {
         }
         @media screen and(max-width: 1100px) {
             display: none;
+        }
+    }
+    .icon-vue-mulu{
+        position: fixed;
+        left: 80px;
+        font-size: 40px;
+        &:hover{
+            color:rgb(234, 112, 91);
+            cursor: pointer;
         }
     }
     .comment{

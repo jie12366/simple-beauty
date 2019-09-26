@@ -34,6 +34,7 @@
             </section>
             <section>
                 <span class="left-span">手机</span>
+                <el-button v-if="info.phone === '' ? true : false" type="success" plain round size="mini" style="margin-left:80px">点击绑定</el-button>
                 <span class="phone">{{phoneNumber}}</span><i class="icon iconfont icon-vue-dui"></i>
                 <el-divider></el-divider>
             </section>

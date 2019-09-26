@@ -9,25 +9,25 @@
     <div class="comments">
       <section :key="index" v-for="(item,index) in comments">
         <!--评论展示-->
-        <div v-if="item.ruid === 0">
+        <div v-if="item.ruid === null">
           <div class="comment-top">
             <img class="head-img" :src="item.headUrl"/>
             <div>
-              <span class="nickname">{{item.nickname}}:</span>
+              <span class="nickname" @click="toUser(item.nickname, item.uid)">{{item.nickname}}:</span>
               <span class="content" v-html="item.content"></span>
             </div>
           </div>
           <div class="comment-bottom">
             <div class="time">{{item.ctime}}</div>
           </div>
-          <div @click="reply(item.uid, item.content)" class="reply">回复</div>
+          <div @click="reply(item.uid, item.content, item.nickname)" class="reply">回复</div>
         </div>
         <!--评论回复展示-->
-        <div class="reply-comment" v-if="item.ruid != 0">
+        <div class="reply-comment" v-if="item.ruid != null">
           <div class="comment-top">
             <img class="head-img" :src="item.headUrl"/>
             <div>
-              <span class="nickname">{{item.nickname}}:</span>
+              <span class="nickname" @click="toUser(item.nickname, item.uid)">{{item.nickname}}:</span>
               <span class="content" v-html="item.content"></span>
             </div>
           </div>
@@ -38,7 +38,7 @@
           <div class="comment-bottom">
             <div class="time">{{item.ctime}}</div>
           </div>
-          <div @click="reply(item.uid, item.content)" class="reply">回复</div>
+          <div @click="reply(item.uid, item.content, item.nickname)" class="reply">回复</div>
         </div>
       </section>
       <!--加载更多-->
@@ -46,7 +46,7 @@
       <!--编辑器对话框-->
         <el-dialog :visible.sync="showInput" :width="width">
           <mavon-editor v-model="comment" class="input" ref=md @imgAdd="$imgAdd" :codeStyle="codeStyle"
-          @imgDel="$imgDel" :scrollStyle="scrollStyle" :toolbars="toolbars" :defaultOpen="defaultOpen"></mavon-editor>
+          @imgDel="$imgDel" :scrollStyle="scrollStyle" :toolbars="toolbars" :defaultOpen="defaultOpen" :placeholder="placeholder"></mavon-editor>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showInput = false" size="mini">取 消</el-button>
             <el-button type="success" v-if="!showReply" @click="publishComment" size="mini">发表评论</el-button>
@@ -83,6 +83,7 @@ export default {
         imagelink: true, // 图片链接
         code: true // code
       },
+      placeholder: '', // 回复框，提示回复谁
       show: true
     }
   },
@@ -97,8 +98,7 @@ export default {
   },
   methods: {
     showDialog () {
-      // 发个请求看是否登录
-      this.$api.login.getToken()
+      this.placeholder = '说点什么'
       this.showInput = true
     },
     // 上传图片
@@ -152,9 +152,10 @@ export default {
           duration: 1000
       })
     },
-    reply (rUid, rComment) {
+    reply (rUid, rComment, nickname) {
       this.rUid = rUid
       this.rComment = rComment
+      this.placeholder = '@' + nickname + '：'
       this.showInput = true
       this.showReply = true
     },
@@ -243,6 +244,10 @@ export default {
           this.show = false
         }
       })
+    },
+    // 跳转到用户
+    toUser (nickName, uid) {
+        this.$router.push(`/${nickName}/${uid}/index?`)
     }
   }
 }
@@ -310,6 +315,9 @@ export default {
           left: -47%;
           top: 0px;
           @include sc(25px,#6699CC);
+          &:hover{
+            cursor: pointer;
+          }
         }
         .content{
           position: relative;
@@ -361,7 +369,7 @@ export default {
       }
       .reply-comment{
         .reply-content-main{
-          background-color: #f6f6f8;
+          background-color: #f6f8f8;
           width: 100%;
           .reply-nickname{
             left: -49%;

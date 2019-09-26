@@ -13,11 +13,11 @@
       >
         <el-menu-item index="/message/like" class="item">
           <i class="icon iconfont icon-vue-like"></i>
-          <el-badge :is-dot="likeNoRead">点赞</el-badge>
+          <el-badge :is-dot="likeNoRead" :style="{display:hideText}">点赞</el-badge>
         </el-menu-item>
         <el-menu-item index="/message/comment" class="item">
           <i class="icon iconfont icon-vue-comment"></i>
-          <el-badge :is-dot="commentNoRead">评论</el-badge>
+          <el-badge :is-dot="commentNoRead" :style="{display:hideText}">评论</el-badge>
         </el-menu-item>
         <el-menu-item index="/message/attention" class="item">
           <i class="icon iconfont icon-vue-guanzhu"></i>
@@ -42,6 +42,7 @@ export default {
   data () {
     return {
       isCollapse: false, // 是否折叠菜单
+      hideText: '',
       width: document.documentElement.clientWidth,
       uid: this.$store.state.uid,
       websock: null, // websocket
@@ -66,8 +67,10 @@ export default {
             this.width = val
             if (this.width < 600) {
                 this.isCollapse = true
+                this.hideText = 'none'
             } else {
                 this.isCollapse = false
+                this.hideText = ''
             }
         }
   },
@@ -88,8 +91,10 @@ export default {
         fitScreen () {
             if (this.width < 600) {
                 this.isCollapse = true
+                this.hideText = 'none'
             } else {
                 this.isCollapse = false
+                this.hideText = ''
             }
         },
         // 获取某类型的未读消息数

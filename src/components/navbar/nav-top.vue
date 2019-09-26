@@ -213,7 +213,8 @@ export default {
     @import '../../style/mixin.scss';
     .top{
         position: fixed;
-        top: 0;
+        top: 0px;
+        padding-top:5px;
         width: 100%;
         z-index: 10;
     }
