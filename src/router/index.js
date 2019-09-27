@@ -6,6 +6,7 @@ import api from '@/api'
 Vue.use(Router)
 
 const home = r => require.ensure([], () => r(require('@page/home/home')), 'home')
+const searchResult = r => require.ensure([], () => r(require('@page/home/search-result')), 'searchResult')
 const message = r => require.ensure([], () => r(require('@page/message/index')), 'message')
 const like = r => require.ensure([], () => r(require('@page/message/like')), 'like')
 const comment = r => require.ensure([], () => r(require('@page/message/comment')), 'comment')
@@ -51,7 +52,16 @@ const router = new Router({
           meta: {
             title: '首页'
           }
-        }, // 消息页
+        },
+        // 搜索结果列表
+        {
+          path: '/search-result',
+          component: searchResult,
+          meta: {
+            title: 'Canary——搜索结果'
+          }
+        },
+        // 消息页
         {
           path: 'message',
           component: message,

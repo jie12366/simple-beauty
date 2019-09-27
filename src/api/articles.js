@@ -72,6 +72,16 @@ const articles = {
     // 根据归档分页获取文章
     getArticlesByArchive (uid, archive, index, size) {
         return requestUrl('get', `/articles/${uid}/archive/${archive}/${index}/${size}`)
+    },
+    // 模糊搜索文章标题
+    getTitleByRegex (regex, index, size) {
+        return requestUrl('get', `/title/regex/${regex}/${index}/${size}`)
+    },
+    // 模糊搜索文章
+    getArticleByRegex (regex, index, size) {
+        return requestUrl('post', '/article/regex', {
+            regex, index, size
+        })
     }
 }
 export default articles

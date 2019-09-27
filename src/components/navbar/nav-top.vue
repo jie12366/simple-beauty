@@ -7,7 +7,7 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
     <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;left:20vw;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
-    @focus="changeStyle" @blur="resumeStyle"/>
+    @focus="changeStyle" @blur="resumeStyle" @keydown.enter.native="search"/>
     <el-submenu class="mine" v-if="isLogin && !smallScreen" trigger="click">
         <template slot="title"><img class="head_img" :src="imgUrl"/></template>
         <el-menu-item :index="`/${this.account}/${this.uid}/index?`" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-menu-item>
@@ -178,18 +178,21 @@ export default {
         },
         // 异步动态搜索
         querySearchAsync (queryString, cb) {
-            var restaurants = this.restaurants
-            var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants
-            clearTimeout(this.timeout)
-            this.timeout = setTimeout(() => {
-                cb(results)
-            }, 3000 * Math.random())
+            this.$api.articles.getTitleByRegex(queryString, 0, 5)
+            .then(res => {
+                if (res.code === 1) {
+                    this.restaurants = res.data
+                    clearTimeout(this.timeout)
+                    this.timeout = setTimeout(() => {
+                        cb(this.restaurants)
+                    }, 100)
+                }
+            })
         },
-        // 过滤搜索的结果
-        createStateFilter (queryString) {
-            return (searchQuery) => {
-                return (searchQuery.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
-            }
+        // 搜索结果
+        search () {
+            console.log(this.searchQuery)
+            this.$router.push(`/search-result?queryString=${encodeURIComponent(this.searchQuery)}`)
         },
         // 账号注销
         logout () {
@@ -217,7 +220,7 @@ export default {
         z-index: 10;
     }
     .search{
-        padding-top: 20px;
+        margin-top: 20px;
         left:24vw;
         width: 15vw;
         @media screen and(max-width:800px) {
