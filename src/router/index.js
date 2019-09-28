@@ -31,6 +31,7 @@ const information = r => require.ensure([], () => r(require('@page/mine/informat
 const manage = r => require.ensure([], () => r(require('@page/manage/index')), 'manage')
 const articlesList = r => require.ensure([], () => r(require('@page/manage/articles')), 'articlesList')
 const photos = r => require.ensure([], () => r(require('@page/manage/photos')), 'photos')
+const themes = r => require.ensure([], () => r(require('@page/manage/themes')), 'themes')
 const aboutMe = r => require.ensure([], () => r(require('@page/manage/about-me')), 'aboutMe')
 
 const router = new Router({
@@ -194,6 +195,13 @@ const router = new Router({
               component: photos,
               meta: {
                 title: '照片管理',
+                requiresAuth: true
+              }
+            }, { // 设置自定义主题
+              path: 'themes',
+              component: themes,
+              meta: {
+                title: '自定义主题',
                 requiresAuth: true
               }
             }, { // 个人简介管理

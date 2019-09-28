@@ -178,16 +178,19 @@ export default {
         },
         // 异步动态搜索
         querySearchAsync (queryString, cb) {
-            this.$api.articles.getTitleByRegex(queryString, 0, 5)
-            .then(res => {
-                if (res.code === 1) {
-                    this.restaurants = res.data
-                    clearTimeout(this.timeout)
-                    this.timeout = setTimeout(() => {
-                        cb(this.restaurants)
-                    }, 100)
-                }
-            })
+            console.log(queryString)
+            if (queryString !== '') {
+                this.$api.articles.getTitleByRegex(queryString, 0, 5)
+                .then(res => {
+                    if (res.code === 1) {
+                        this.restaurants = res.data
+                        clearTimeout(this.timeout)
+                        this.timeout = setTimeout(() => {
+                            cb(this.restaurants)
+                        }, 100)
+                    }
+                })
+            }
         },
         // 搜索结果
         search () {

@@ -4,6 +4,7 @@ import user from './user'
 import comments from './comments'
 import manage from './manage'
 import message from './message'
+import theme from './theme'
 
 export default {
     login,
@@ -11,5 +12,6 @@ export default {
     user,
     comments,
     manage,
-    message
+    message,
+    theme
 }

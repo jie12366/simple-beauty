@@ -55,7 +55,7 @@ export default {
                         article.articleTime = moment(article.articleTime).format('YYYY-MM-DD HH:mm:ss')
                     })
                 } else if (res.code === 50001) {
-                    this.$message.warning('还没写文章哦')
+                    this.$message.info('还没写文章哦')
                 }
             })
         },

@@ -8,6 +8,7 @@
         </div>
         <div class="main" id="main">
             <vue-canvas-nest v-if="showCanvas" :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
+            <!--文章标题和标签-->
             <div class="main-top">
                 <span class="title">{{article.title}}</span>
                 <div style="margin-top:20px;">
@@ -22,6 +23,7 @@
                     </span>
                 </div>
             </div>
+            <!--文章内容-->
             <div class="content-main">
                 <div class="content" v-html="articleDetail.contentHtml"></div>
                 <div class="content-bottom">
@@ -32,6 +34,7 @@
                     </span>
                 </div>
             </div>
+            <!--目录-->
             <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
                 <div style="font-size:18px;padding-bottom:10px;">
                     <span class="text">文章目录</span>
@@ -45,6 +48,7 @@
             <div>
                 <i class="icon-vue-mulu" :style="{top:dirTop}" v-if="hideDirectory" @click="showDirectory"></i>
             </div>
+            <!--评论-->
             <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :toUid="uid" class="comment"></comment>
         </div>
     </div>
@@ -55,7 +59,11 @@ import sidebar from '@components/common/sidebar'
 import comment from '@components/common/comment'
 import moment from 'moment'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/atelier-lakeside-dark.css'
+
+// 动态加载highlight样式
+function highlight (props) {
+    require('highlight.js/styles/' + props + '.css')
+}
 const highlightCode = () => {
     // 使用highlightjs高亮代码(所有pre和code标签)
     const preEl = document.querySelectorAll('pre')
@@ -98,7 +106,8 @@ export default {
             confirmPwd: this.$route.query.pwd,
             myUid: this.$store.state.uid, // 登录账号
             isLike: false,
-            showCanvas: true
+            showCanvas: true,
+            style: ''
         }
     },
     props: [
@@ -106,6 +115,7 @@ export default {
         'aid' // 文章id
     ],
     created () {
+        this.getTheme()
         this.getLike()
         this.getArticle()
         this.getArticleDetail()
@@ -169,6 +179,10 @@ export default {
                 this.width = '50%'
                 this.defaultOpen = ''
             }
+        },
+        // 监听样式改变
+        style (val) {
+            highlight(val)
         }
     },
     updated () {
@@ -183,6 +197,16 @@ export default {
                     this.isLike = true
                 } else if (res.code === 50001) {
                     this.isLike = false
+                }
+            })
+        },
+        // 获取用户主题
+        getTheme () {
+            this.$api.theme.getTheme(this.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    console.log(res.data)
+                    this.style = res.data.style
                 }
             })
         },
@@ -389,10 +413,9 @@ export default {
                     margin:12px 0px;
                 }
                 /deep/ code{
-                    color: #6666CC;
                     font-size: 40px;
                 }
-                /deep/ pre{
+                /deep/ pre code{
                     width:100%;
                     font-size: 34px;
                     @media screen and (max-width: 900px) {
