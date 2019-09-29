@@ -34,7 +34,7 @@
             </section></router-link>
           </div>
         </div>
-        <el-image class="right_img" fit="cover" :src="url2"></el-image>
+        <el-image class="right_img" fit="cover" :src="sideImage"></el-image>
       </div>
     </div>
   </div>
@@ -44,7 +44,6 @@ export default {
   data () {
     return {
       showRight: false,
-      url2: '',
       menuList: [
         {
           name: '首页',
@@ -108,10 +107,10 @@ export default {
     },
     uid: {
       type: String
+    },
+    sideImage: {
+      type: String
     }
-  },
-  created () {
-    this.getTheme()
   },
   mounted () {
     // 监听滚动
@@ -183,16 +182,7 @@ export default {
     // 通过遮罩层关闭侧边栏
     closeByMask () {
       this.showRight = false
-    },
-    // 获取主题
-        getTheme () {
-            this.$api.theme.getTheme(this.uid)
-            .then(res => {
-                if (res.code === 1) {
-                    this.url2 = res.data.sideBackground
-                }
-            })
-        }
+    }
   }
 }
 </script>

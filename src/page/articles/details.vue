@@ -1,7 +1,7 @@
 <template>
     <div>
         <sidebar :name="userInfo.nickName" :headUrl="userInfo.headPath" :articles="userInfo.articles"
-            :likes="userInfo.likes" :fans="userInfo.fans" :attentions="userInfo.attentions" :uid="userInfo.uid">
+            :likes="userInfo.likes" :fans="userInfo.fans" :attentions="userInfo.attentions" :uid="userInfo.uid" :sideImage="sideImage">
         </sidebar>
         <div class="top" @click="changeImg">
             <el-image class="top-img" :src="bgList[index]" fit="cover"></el-image>
@@ -103,7 +103,8 @@ export default {
             confirmPwd: this.$route.query.pwd,
             myUid: this.$store.state.uid, // 登录账号
             isLike: false,
-            showCanvas: true
+            showCanvas: true,
+            sideImage: '' // 侧边背景
         }
     },
     props: [
@@ -112,6 +113,7 @@ export default {
     ],
     created () {
         this.getLike()
+        this.getTheme()
         this.getArticle()
         this.getArticleDetail()
     },
@@ -188,6 +190,15 @@ export default {
                     this.isLike = true
                 } else if (res.code === 50001) {
                     this.isLike = false
+                }
+            })
+        },
+        // 获取主题
+        getTheme () {
+            this.$api.theme.getTheme(this.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    this.sideImage = res.data.sideBackground
                 }
             })
         },

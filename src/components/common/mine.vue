@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <sidebar :name="usersInfo.nickName" :headUrl="usersInfo.headPath" :articles="usersInfo.articles" :attentions="usersInfo.attentions"
-    :likes="usersInfo.likes" :fans="usersInfo.fans" :uid="uid">
+    :likes="usersInfo.likes" :fans="usersInfo.fans" :uid="uid" :sideImage="sideImage">
     </sidebar>
     <div class="top" id="top">
       <el-image class="bg_img" fit="cover" :src="url"></el-image>
@@ -31,7 +31,8 @@ export default {
       usersInfo: '',
       url: '', // 背景图片
       showCanvas: true, // 是否显示背景动画
-      screenWidth: document.body.clientWidth // 屏幕宽度
+      screenWidth: document.body.clientWidth, // 屏幕宽度
+      sideImage: ''
     }
   },
   props: [
@@ -80,6 +81,7 @@ export default {
                 if (res.code === 1) {
                     console.log(res.data)
                     this.url = res.data.indexBackground
+                    this.sideImage = res.data.sideBackground
                 }
             })
         },
