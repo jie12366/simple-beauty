@@ -103,8 +103,7 @@ export default {
             confirmPwd: this.$route.query.pwd,
             myUid: this.$store.state.uid, // 登录账号
             isLike: false,
-            showCanvas: true,
-            style: ''
+            showCanvas: true
         }
     },
     props: [
@@ -393,6 +392,9 @@ export default {
                     margin:20px 0;
                     padding: 5px 12px;
                     margin:12px 0px;
+                }
+                /deep/ p{
+                    line-height:2;
                 }
                 /deep/ code{
                     font-size: 40px;
