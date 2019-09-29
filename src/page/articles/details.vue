@@ -59,11 +59,8 @@ import sidebar from '@components/common/sidebar'
 import comment from '@components/common/comment'
 import moment from 'moment'
 import hljs from 'highlight.js'
+import 'highlight.js/styles/paraiso-light.css'
 
-// 动态加载highlight样式
-function highlight (props) {
-    require('highlight.js/styles/' + props + '.css')
-}
 const highlightCode = () => {
     // 使用highlightjs高亮代码(所有pre和code标签)
     const preEl = document.querySelectorAll('pre')
@@ -115,7 +112,6 @@ export default {
         'aid' // 文章id
     ],
     created () {
-        this.getTheme()
         this.getLike()
         this.getArticle()
         this.getArticleDetail()
@@ -179,10 +175,6 @@ export default {
                 this.width = '50%'
                 this.defaultOpen = ''
             }
-        },
-        // 监听样式改变
-        style (val) {
-            highlight(val)
         }
     },
     updated () {
@@ -197,16 +189,6 @@ export default {
                     this.isLike = true
                 } else if (res.code === 50001) {
                     this.isLike = false
-                }
-            })
-        },
-        // 获取用户主题
-        getTheme () {
-            this.$api.theme.getTheme(this.uid)
-            .then(res => {
-                if (res.code === 1) {
-                    console.log(res.data)
-                    this.style = res.data.style
                 }
             })
         },
@@ -417,7 +399,7 @@ export default {
                 }
                 /deep/ pre code{
                     width:100%;
-                    font-size: 34px;
+                    font-size: 30px;
                     @media screen and (max-width: 900px) {
                         font-size: 25px;
                     }

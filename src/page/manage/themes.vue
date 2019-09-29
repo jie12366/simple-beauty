@@ -8,19 +8,19 @@
                     action="#"
                     :show-file-list="false"
                     :http-request="uploadImg">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <img v-if="indexImage" :src="indexImage" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </section>
             <el-divider></el-divider>
-            <section>
+            <section style="height:180px">
                 <h2>侧边背景</h2>
                 <el-upload
                     class="avatar-uploader"
                     action="#"
                     :show-file-list="false"
-                    :http-request="uploadImg">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    :http-request="uploadSide">
+                    <img v-if="sideImage" :src="sideImage" class="avatar2">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </section>
@@ -56,6 +56,9 @@ public abstract class L2Char extends L2Object {
                     </code>
                 </pre>
             </div>
+            <div>
+                <el-button @click="revertSetting" type="success" size="small">还原设置</el-button>
+            </div>
         </side-bar>
     </div>
 </template>
@@ -67,7 +70,7 @@ import hljs from 'highlight.js'
 
 // 动态加载highlight样式
 function highlight (props) {
-    require('highlight.js/styles/' + props + '.css')
+    import('highlight.js/styles/' + props + '.css')
 }
 const highlightCode = () => {
     // 使用highlightjs高亮代码(pre标签)
@@ -83,7 +86,8 @@ export default {
             indexBackground: '',
             dialogVisible: false,
             showUpload: true,
-            imageUrl: '',
+            indexImage: '',
+            sideImage: '',
             styles: [{
                 value: 'atelier-cave-dark',
                 label: 'atelier-cave-dark'
@@ -158,7 +162,31 @@ export default {
                         })
                     } else if (res.data.code === 1) {
                         console.log(res.data)
-                        this.imageUrl = res.data.data.indexBackground
+                        this.indexImage = res.data.data.indexBackground
+                    }
+                }).then(error => {
+                    console.log(error)
+            })
+        },
+        uploadSide (f) {
+            let formdata = new FormData()
+            formdata.append('img', f.file)
+            formdata.append('uid', this.uid)
+            axios({
+                url: baseURL + '/sideBackground',
+                method: 'put',
+                data: formdata,
+                headers: {'Content-Type': 'multipart/form-data'}
+                }).then(res => {
+                    if (res.data.code === 30003) {
+                        this.$message({
+                            message: '数据错误',
+                            type: 'error',
+                            duration: 1000
+                        })
+                    } else if (res.data.code === 1) {
+                        console.log(res.data)
+                        this.sideImage = res.data.data.sideBackground
                     }
                 }).then(error => {
                     console.log(error)
@@ -170,7 +198,8 @@ export default {
             .then(res => {
                 if (res.code === 1) {
                     console.log(res.data)
-                    this.imageUrl = res.data.indexBackground
+                    this.indexImage = res.data.indexBackground
+                    this.sideImage = res.data.sideBackground
                     this.value = res.data.style
                 }
             })
@@ -181,6 +210,20 @@ export default {
             .then(res => {
                 if (res.code === 1) {
                     highlight(value)
+                }
+            })
+        },
+        // 还原设置
+        revertSetting () {
+            this.$api.theme.revert(this.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    this.getTheme()
+                    this.$message({
+                        message: '还原成功',
+                        type: 'success',
+                        duration: 1000
+                    })
                 }
             })
         }
@@ -208,14 +251,19 @@ section{
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        width: 178px;
+        width: 300px;
         height: 178px;
         line-height: 178px;
         text-align: center;
     }
     .avatar {
-        width: 178px;
+        width: 300px;
         height: 178px;
+        display: block;
+    }
+    .avatar2{
+        width: 200px;
+        height: 350px;
         display: block;
     }
 }

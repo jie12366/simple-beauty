@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       usersInfo: '',
-      url: 'http://cdn.jie12366.xyz/dog.jpg', // 背景图片
+      url: '', // 背景图片
       showCanvas: true, // 是否显示背景动画
       screenWidth: document.body.clientWidth // 屏幕宽度
     }
@@ -38,6 +38,7 @@ export default {
     'uid'
   ],
   created () {
+    this.getTheme()
     this.getUsersInfo()
   },
   mounted () {
@@ -70,6 +71,16 @@ export default {
             .then(res => {
                 this.usersInfo = res.data
                 document.title = this.usersInfo.nickName + '的技术博客'
+            })
+        },
+    // 获取主题
+        getTheme () {
+            this.$api.theme.getTheme(this.uid)
+            .then(res => {
+                if (res.code === 1) {
+                    console.log(res.data)
+                    this.url = res.data.indexBackground
+                }
             })
         },
     // 设置锚点

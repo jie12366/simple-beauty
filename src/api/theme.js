@@ -10,6 +10,10 @@ const theme = {
         return requestUrl('put', '/codeStyle', {
             style, uid
         })
+    },
+    // 还原设置
+    revert (uid) {
+        return requestUrl('delete', `/setting/${uid}`)
     }
 }
 export default theme
