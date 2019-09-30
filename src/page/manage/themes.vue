@@ -27,7 +27,7 @@
             <el-divider></el-divider>
             <div>
                 <h2>代码样式</h2>
-                <el-select v-model="value" @change="changeStyle" placeholder="请选择">
+                <el-select v-model="value" placeholder="请选择">
                 <el-option
                     v-for="item in styles"
                     :key="item.value"
@@ -67,11 +67,7 @@ import axios from '@/service/http'
 import baseURL from '@/service/base-url'
 import sideBar from '@/components/navbar/manage-side-bar'
 import hljs from 'highlight.js'
-
-// 动态加载highlight样式
-function highlight (props) {
-    import('highlight.js/styles/' + props + '.css')
-}
+import 'highlight.js/styles/paraiso-light.css'
 const highlightCode = () => {
     // 使用highlightjs高亮代码(pre标签)
     const preEl = document.querySelectorAll('pre')
@@ -135,11 +131,9 @@ export default {
         this.getTheme()
     },
     mounted () {
-        highlight(this.value)
         highlightCode()
     },
     updated () {
-        highlight(this.value)
         highlightCode()
     },
     methods: {
@@ -201,15 +195,6 @@ export default {
                     this.indexImage = res.data.indexBackground
                     this.sideImage = res.data.sideBackground
                     this.value = res.data.style
-                }
-            })
-        },
-        // 修改样式
-        changeStyle (value) {
-            this.$api.theme.updateStyle(value, this.uid)
-            .then(res => {
-                if (res.code === 1) {
-                    highlight(value)
                 }
             })
         },
