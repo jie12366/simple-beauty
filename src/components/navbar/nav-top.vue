@@ -4,7 +4,6 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
     <router-link to="/home"><span class="logo">Canary</span></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
     <el-badge :is-dot="tip" style="left:20vw;top:-2.5px;"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
-    <el-menu-item index="/attention" v-if="!smallScreen" style="font-size:18px;left:20vw;"><font-awesome-icon :icon="['far','heart']" style="margin-top:3px;margin-right:3px;color:#666666;font-weight:bold"></font-awesome-icon><span class="hide">关注</span></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
     @focus="changeStyle" @blur="resumeStyle" @keydown.enter.native="search"/>
@@ -21,7 +20,6 @@ active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" 
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="/home"><i class="icon iconfont icon-vue-index" style="margin-right:12px;color:#ea705b;font-size:20px;"></i>首页</el-dropdown-item>
                 <el-dropdown-item command="/message/like"><i class="icon iconfont icon-vue-message" style="margin-right:14px;color:#ea705b;font-size:21px;"></i><el-badge :value="num">消息</el-badge></el-dropdown-item>
-                <el-dropdown-item command="/attention"><i class="icon iconfont icon-vue-attention" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>关注</el-dropdown-item>
                 <el-dropdown-item :command="`/${this.account}/${this.uid}/index?`"><i class="icon iconfont icon-vue-mine" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>我的主页</el-dropdown-item>
                 <el-dropdown-item command="/manage/articles-list" style="height:40px;font-size:14px;"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>管理博客</el-dropdown-item>
                 <el-dropdown-item :command="`/${this.account}/information`"><i class="icon iconfont icon-vue-setting" style="margin-right:15px;color:#ea705b;font-size:20px;"></i>设置</el-dropdown-item>
@@ -224,13 +222,16 @@ export default {
     }
     .search{
         margin-top: 20px;
-        left:24vw;
+        left:30vw;
         width: 15vw;
+        @media screen and(max-width:1300px) {
+            left:25vw;
+        }
         @media screen and(max-width:800px) {
             margin-left: 30px;
             width: 20vw;
         }
-        @media screen and(max-width:500px) {
+        @media screen and(max-width:700px) {
             display: none;
         }
     }

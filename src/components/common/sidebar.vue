@@ -17,17 +17,14 @@
           <div class="mine-info">
             <div>
               <span>{{articles}}&nbsp;文章</span>
-              <span style="margin-left:20px;">{{attentions}}&nbsp;关注</span>
             </div>
             <div>
               <span>{{likes}}&nbsp;喜欢</span>
-              <span style="margin-left:20px;">{{fans}}&nbsp;粉丝</span>
             </div>
           </div>
-          <span class="divider">
-            —————————————
-            <i class="icon iconfont icon-vue-love1"></i>——————————
-          </span>
+          <section class="divider">
+            <el-input prefix-icon="el-icon-search" size="small" placeholder="搜索"></el-input>
+          </section>
           <div class="link" :key="index" v-for="(item, index) in menuList">
             <router-link :to="item.path"><section>
               <i :class="item.icon"></i><span>{{item.name}}</span>
@@ -269,7 +266,7 @@ export default {
       position: relative;
       width: 120px;
       height: 120px;
-      margin-left: 250px;
+      margin-left: 50px;
       margin-top: 80px;
       border-radius: 50%;
       border: 6px #eee solid;
@@ -282,8 +279,8 @@ export default {
     .mine-info {
       position: relative;
       top: 50px;
-      margin-left: 210px;
-      span {
+      margin-left: 75px;
+      div {
         margin-top: 10px;
       }
     }
@@ -291,17 +288,13 @@ export default {
       position: relative;
       font-size: 20px;
       top: 120px;
+      left: -100px;
       color: #eee;
-      .icon-vue-love1 {
-        font-size: 35px;
-        color: #d4237a;
-        margin-left: 30px;
-        margin-right: 30px;
-      }
     }
     .link {
       position: relative;
       top: 220px;
+      margin-left: -180px;
       section{
         padding-left: 100px;
         height: 80px;

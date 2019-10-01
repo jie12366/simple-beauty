@@ -19,10 +19,6 @@
           <i class="icon iconfont icon-vue-comment"></i>
           <el-badge :is-dot="commentNoRead" :style="{display:hideText}">评论</el-badge>
         </el-menu-item>
-        <el-menu-item index="/message/attention" class="item">
-          <i class="icon iconfont icon-vue-guanzhu"></i>
-          <span>关注</span>
-        </el-menu-item>
         <el-menu-item index="/message/tongzhi" class="item">
           <i class="icon iconfont icon-vue-tongzhi"></i>
           <span>通知</span>
