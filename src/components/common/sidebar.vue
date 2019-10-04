@@ -287,7 +287,7 @@ export default {
     }
     .divider {
       position: relative;
-      font-size: 20px;
+      font-size: 32px;
       top: 120px;
       left: -100px;
       color: #eee;
