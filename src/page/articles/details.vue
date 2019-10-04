@@ -302,12 +302,12 @@ export default {
     }
     .main-top{
         width: 100%;
-        height:300px;
+        height:320px;
         margin: auto;
         padding-top: 30px;
         text-align:center;
         .title{
-            @include sc(50px,#000);
+            @include sc(45px,#000);
         }.icon-vue-date{
             padding-right: 10px;
             color:#606266;
@@ -399,7 +399,7 @@ export default {
                     border-bottom: 1px solid #cccccc;
                 }
                 /deep/ h3{
-                    color:#003333;
+                    color:#2a274b;
                     margin:20px 0;
                     padding: 5px 12px;
                     margin:12px 0px;
@@ -476,10 +476,15 @@ export default {
         position: fixed;
         left: 10px;
         width: 500px;
-        background-color: #222;
+        background-color: #333;
         overflow:auto;
         padding-left: 30px;
         padding-bottom: 50px;
+        overflow:hidden; /*超出部分隐藏*/
+        white-space:nowrap;
+        /*文本溢出用"..."表示*/
+        text-overflow:ellipsis; /*适用IE*/
+        -o-text-overflow:ellipsis; /*适用opera*/
         .text{
             padding-left: 100px;
             color: #fff !important;

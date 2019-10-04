@@ -1,6 +1,7 @@
 <template>
   <div>
     <mineCommon :uid="uid">
+      <div class="title-main"><span class="title">搜索结果</span></div>
       <show-article :uid="uid" :articleList="articleList"></show-article>
       <el-pagination
     layout="prev, pager, next"
@@ -19,27 +20,28 @@ export default {
   data () {
     return {
         uid: this.$route.params.uid,
+        regex: this.$route.query.query,
         articleList: [], // 我的文章列表
         total: 0,
         index: 1, // 当前页
         size: 10 // 每页大小
     }
   },
-  mounted () {
-      this.getArticles(0, this.size)
+  created () {
+    this.getArticles(0, this.size)
   },
   methods: {
     // 获取我的文章
     getArticles (index, size) {
-      this.$api.articles.getArticlesByUid(this.uid, index, size).then(res => {
+      this.$api.articles.getArticleByRegexByUid(this.regex, this.uid, index, size).then(res => {
         if (res.code === 1) {
               this.articleList = res.data.content
               this.total = res.data.totalElements
               this.articleList.forEach(function (article) {
-                  article.articleTime = moment(article.articleTime).format('YYYY-MM-DD')
+                article.articleTime = moment(article.articleTime).format('YYYY-MM-DD')
               })
           } else if (res.code === 50001) {
-              this.$message.info('还没写文章哦')
+              this.$message.info('没有匹配的文章哦')
           }
       })
     },
@@ -55,6 +57,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.title-main{
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    font-size: 60px;
+    color: #606266;
+}
 .pageCut{
   position: relative;
   width: 100%;

@@ -82,6 +82,10 @@ const articles = {
         return requestUrl('post', '/article/regex', {
             regex, index, size
         })
+    },
+    // 站内模糊搜索文章
+    getArticleByRegexByUid (regex, uid, index, size) {
+        return requestUrl('get', `/article/${regex}/${uid}/${index}/${size}`)
     }
 }
 export default articles

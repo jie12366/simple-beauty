@@ -19,6 +19,7 @@ const articles = r => require.ensure([], () => r(require('@page/articles/details
 const articlesPwd = r => require.ensure([], () => r(require('@page/articles/decrypt')), 'articlesPwd')
 const mine = r => require.ensure([], () => r(require('@page/mine/mine')), 'mine')
 const index = r => require.ensure([], () => r(require('@page/mine/index')), 'index')
+const indexSearch = r => require.ensure([], () => r(require('@page/mine/index-search')), 'indexSearch')
 const tags = r => require.ensure([], () => r(require('@page/mine/tags')), 'tags')
 const tagNotes = r => require.ensure([], () => r(require('@page/mine/tag-notes')), 'tagNotes')
 const categorys = r => require.ensure([], () => r(require('@page/mine/categorys')), 'categorys')
@@ -144,6 +145,9 @@ const router = new Router({
             { // 主页
               path: ':uid/index',
               component: index
+            }, { // 搜索列表
+              path: ':uid/index-search',
+              component: indexSearch
             }, { // 标签墙
               path: ':uid/tags',
               component: tags

@@ -15,15 +15,11 @@
         <div class="right-body">
           <img class="head-img" :src="headUrl">
           <div class="mine-info">
-            <div>
-              <span>{{articles}}&nbsp;文章</span>
-            </div>
-            <div>
-              <span>{{likes}}&nbsp;喜欢</span>
-            </div>
+            <span>文章&nbsp;{{articles}}</span>
+            <span style="margin-left:50px;">喜欢&nbsp;{{likes}}</span>
           </div>
           <section class="divider">
-            <el-input prefix-icon="el-icon-search" size="small" placeholder="搜索"></el-input>
+            <el-input prefix-icon="el-icon-search" v-model="query" size="small" @keyup.enter.native="queryArticles" placeholder="搜索"></el-input>
           </section>
           <div class="link" :key="index" v-for="(item, index) in menuList">
             <router-link :to="item.path"><section>
@@ -76,7 +72,8 @@ export default {
       color: '#fff', // menu样式
       show_text: true,
       width: '70px',
-      right: '30px'
+      right: '30px',
+      query: '' // 搜索框内容
     }
   },
   props: {
@@ -179,6 +176,10 @@ export default {
     // 通过遮罩层关闭侧边栏
     closeByMask () {
       this.showRight = false
+    },
+    // 文章站内搜索
+    queryArticles () {
+      this.$router.push(`/${this.name}/${this.uid}/index-search?query=${encodeURIComponent(this.query)}`)
     }
   }
 }
@@ -279,7 +280,7 @@ export default {
     .mine-info {
       position: relative;
       top: 50px;
-      margin-left: 75px;
+      margin-left: -20px;
       div {
         margin-top: 10px;
       }
@@ -293,7 +294,7 @@ export default {
     }
     .link {
       position: relative;
-      top: 220px;
+      top: 200px;
       margin-left: -180px;
       section{
         padding-left: 100px;

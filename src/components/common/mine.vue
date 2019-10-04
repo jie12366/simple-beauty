@@ -14,12 +14,12 @@
     <div class="main" id="main">
       <vue-canvas-nest v-if="showCanvas" :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
       <slot></slot>
-      <div class="footer">
+    </div>
+    <div class="footer">
           <div>总访问量：{{usersInfo.reads}}次</div>
           <div>copyright ©️<span class="nick" @click="toCopyright">{{usersInfo.nickName}}</span>All Rights Reserved</div>
           <span style="margin-left:10px;">powered by <a href="https://github.com/jie12366/simple-beauty">simple-beauty</a></span>
       </div>
-    </div>
   </div>
 </template>
 <script>
@@ -105,6 +105,8 @@ export default {
 <style lang="scss" scoped>
 @import "../../style/mixin";
 .container {
+  width: 100vw;
+  overflow: hidden;
   .top {
     width: 100vw;
     height: 98vh;
@@ -113,7 +115,8 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100vw;
+      right: 0;
+      width: 102vw;
       height: 98vh;
       @media screen and (min-width: 1300px) {
         width: 100vw;
@@ -169,12 +172,13 @@ export default {
   }
   .footer{
     background-color: #444444;
-    width: 100vw;
+    width: 100%;
     height: 200px;
+    bottom: 0;
     line-height: 60px;
-      position: absolute;
-      left: -20px;
-      margin-top: 250px;
+      position: relative;
+      margin-left: -10px;
+      margin-top: 30px;
       margin-bottom: 0px;
       text-align: center;
       @include sc(24px, #909399);

@@ -90,7 +90,7 @@ export default {
             .img{
                 width:35vw;
                 height:40vh;
-                top: 80px;
+                top: 40px;
                 @media screen and (max-width: 1300px) {
                     width:50vw;
                 }
