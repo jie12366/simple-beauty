@@ -5,19 +5,19 @@
 
 ## 技术栈
 
- - vue2 用于构建用户界面的渐进式框架
- - vue-router Vue.js 官方的路由管理器
- - vuex 专为 Vue.js 应用程序开发的状态管理模式
- - webpack 模块打包器
- - es6/eslint 采用es6语法，并使用eslint检查语法
- - axios 尤雨溪推荐使用axios来完成ajax请求
- - sass 对CSS的扩展，让CSS语言更强大、优雅
- - Element-ui 基于Vue 2.0 的桌面端组件库
- - mavon-editor 一个开源的markdown编辑器
- - highlight 代码语法高亮库
- - moment js的时间处理工具
- - viewer 强大的图片预览组件
- - fortawesome/iconfont 字体图标库
+ - vue2   用于构建用户界面的渐进式框架
+ - vue-router   Vue.js 官方的路由管理器
+ - vuex   专为 Vue.js 应用程序开发的状态管理模式
+ - webpack   模块打包器
+ - es6/eslint   采用es6语法，并使用eslint检查语法
+ - axios   尤雨溪推荐使用axios来完成ajax请求
+ - sass   对CSS的扩展，让CSS语言更强大、优雅
+ - Element-ui   基于Vue 2.0 的桌面端组件库
+ - mavon-editor   一个开源的markdown编辑器
+ - highlight   代码语法高亮库
+ - moment   js的时间处理工具
+ - viewer   强大的图片预览组件
+ - fortawesome/iconfont   字体图标库
 
 ## 项目构建运行
 
@@ -52,7 +52,7 @@ npm run dev
 - [x] 点赞、收藏  -- 完成
 - [x] 分类、标签、归档展示  -- 完成
 - [x] 照片墙、关于我  -- 完成
-- [x] 全文检索  -- 完成
+- [x] 全文检索/站内搜索  -- 完成
 ## 项目演示
 项目演示地址为：[Canary](http://jie12366.xyz:8081)
 ## 部分截图

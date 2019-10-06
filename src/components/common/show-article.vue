@@ -8,7 +8,14 @@
           <el-col :md="17" :sm="15" :xs="12">
             <div>
               <p>{{article.summary}}</p>
-              <span>
+            </div>
+          </el-col>
+          <el-col :md="7" :sm="9" :xs="12">
+            <el-image fit="cover" class="img" :src="article.coverPath" />
+          </el-col>
+        </el-row>
+        <section>
+          <div>
                 <span class="time">{{article.articleTime}}</span>
                 <i class="icon iconfont icon-vue-comment">
                   <span style="font-size:12px;margin-left:3px;">{{article.comments}}</span>
@@ -19,13 +26,8 @@
                 <i class="icon iconfont icon-vue-read">
                   <span style="font-size:12px;margin-left:3px;">{{article.reads}}</span>
                 </i>
-              </span>
-            </div>
-          </el-col>
-          <el-col :md="7" :sm="9" :xs="12">
-            <el-image fit="cover" class="img" :src="article.coverPath" />
-          </el-col>
-        </el-row>
+              </div>
+        </section>
         <el-divider></el-divider>
       </div>
       <!--没有封面图的展示-->

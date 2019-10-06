@@ -8,7 +8,13 @@
           <el-col :md="17" :sm="15" :xs="12">
             <div>
               <p>{{article.summary}}</p>
-              <span>
+            </div>
+          </el-col>
+          <el-col :md="7" :sm="9" :xs="12">
+            <el-image fit="cover" class="img" :src="article.coverPath" />
+          </el-col>
+        </el-row>
+        <span>
                 <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.nickName}}</router-link>
                 <i class="icon iconfont icon-vue-comment">
                   <span style="font-size:12px;margin-left:3px;">{{article.comments}}</span>
@@ -21,12 +27,6 @@
                 </i>
                 <span class="time">{{article.articleTime}}</span>
               </span>
-            </div>
-          </el-col>
-          <el-col :md="7" :sm="9" :xs="12">
-            <el-image fit="cover" class="img" :src="article.coverPath" />
-          </el-col>
-        </el-row>
         <el-divider></el-divider>
       </div>
       <div v-if="!article.coverPath">
@@ -125,25 +125,21 @@ export default {
             .icon-vue-comment{
                 position: relative;
                 @include sc(28px,#aaaaaa);
-                top: 3px;
                 left: 18px;
             }
             .icon-vue-like{
                 position: relative;
                 @include sc(28px,#aaaaaa);
-                top: 3px;
                 left: 40px;
             }
             .icon-vue-read{
                 position: relative;
                 @include sc(28px,#aaaaaa);
-                top: 3px;
                 left: 60px;
             }
             .time{
                 position: relative;
                 @include sc(24px,#aaaaaa);
-                top: 1px;
                 left: 80px;
             }
             a{
