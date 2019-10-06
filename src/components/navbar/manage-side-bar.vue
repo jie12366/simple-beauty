@@ -98,13 +98,13 @@ export default {
       font-size:36px;
     }
     .icon-vue-theme{
-      color: #9933FF !important;
+      color: #801dae !important;
     }.icon-vue-aboutMe{
-      color:#339966 !important;
+      color:#21a675 !important;
     }.icon-vue-photos{
-      color:#6699CC !important;
+      color:#4b5cc4 !important;
     }.icon-vue-post{
-      color:#FF6666 !important;
+      color:#ff8c31 !important;
     }
   }
 }

@@ -7,7 +7,7 @@
                 <el-dropdown placement="bottom-start" @command="handleCommand">
                     <img class="head_img" :src="imgUrl" />
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item icon="icon-vue-mine" command='/mine'>我的主页</el-dropdown-item>
+                        <el-dropdown-item icon="icon-vue-mine" :command="`/${this.account}/${this.uid}/index?`">我的主页</el-dropdown-item>
                         <el-dropdown-item icon="icon-vue-index" command='/home'>首页</el-dropdown-item>
                         <el-dropdown-item icon="icon-vue-exit1" style="margin-left:2px;" command="exit">退出</el-dropdown-item>
                     </el-dropdown-menu>

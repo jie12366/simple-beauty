@@ -330,7 +330,7 @@ export default {
             margin-top: 25px;
             @include sc(30px,#666);
             span{
-                color: #409EFF;
+                color: #21a675;
                 &:hover{
                     cursor: pointer;
                     color: #ea705b;
@@ -352,7 +352,7 @@ export default {
             @include sc(27px,#909399);
         }
         a{
-            color: #409EFF;
+            color: #21a675;
             text-decoration: none;
             &:hover{
                 color: #ea705b;
@@ -363,30 +363,30 @@ export default {
         width: 59%;
         margin: auto;
         font-weight: 349;
-        @include sc(30px,#303133);
+        @include sc(30px,#161823);
         @media screen and (max-width: 1300px) {
             width: 65%;
             margin-right: 300px;
-            @include sc(32px,#303133);
+            @include sc(32px,#161823);
         }
         @media screen and (max-width: 1100px) {
             margin-left: 100px;
             width: 80%;
-            @include sc(30px,#303133);
+            @include sc(30px,#161823);
         }
         @media screen and (max-width: 900px) {
             margin-left: 100px;
             width: 84%;
-            @include sc(30px,#303133);
+            @include sc(30px,#161823);
         }
         @media screen and (max-width: 500px) {
             margin:auto;
             width: 100%;
-            @include sc(30px,#303133);
+            @include sc(30px,#161823);
         }
         .content{
-            padding-left: 60px;
-            padding-right: 60px;
+            padding-left: 80px;
+            padding-right: 80px;
             padding-top: 30px;
             padding-bottom: 50px;
             overflow: auto;
@@ -399,7 +399,7 @@ export default {
                     border-bottom: 1px solid #cccccc;
                 }
                 /deep/ h3{
-                    color:#2a274b;
+                    color:#392f41;
                     margin:20px 0;
                     padding: 5px 12px;
                     margin:12px 0px;
@@ -476,7 +476,7 @@ export default {
         position: fixed;
         left: 10px;
         width: 500px;
-        background-color: #333;
+        background-color: #161823;
         overflow:auto;
         padding-left: 30px;
         padding-bottom: 50px;

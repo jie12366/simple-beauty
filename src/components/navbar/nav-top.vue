@@ -1,9 +1,9 @@
 <template>
     <el-menu text-color="#666666" :default-active="$route.path"
-active-text-color="#ea705b" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
+active-text-color="#003371" background-color="#ffffff" class="el-menu-demo top" router mode="horizontal" @select="handleSelect">
     <router-link to="/home"><span class="logo">Canary</span></router-link>
     <el-menu-item index="/home" v-if="!smallScreen" class="home"><font-awesome-icon icon="home" style="margin-top:3px;margin-right:3px"></font-awesome-icon><span class="hide">首页</span></el-menu-item>
-    <el-badge :is-dot="tip" style="left:20vw;top:-2.5px;"><el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-menu-item></el-badge>
+    <el-menu-item index="/message/like" v-if="!smallScreen" style="font-size:18px;left:20vw;"><el-badge :is-dot="tip"><font-awesome-icon :icon="['far','bell']" style="margin-top:2px;margin-right:3px"></font-awesome-icon><span class="hide">消息</span></el-badge></el-menu-item>
     <el-autocomplete class="inline-input search" :fetch-suggestions="querySearchAsync"
     v-model="searchQuery" placeholder="搜索" suffix-icon="el-icon-search" :class="{focus_search:searchFocus}"
     @focus="changeStyle" @blur="resumeStyle" @keydown.enter.native="search"/>
@@ -245,7 +245,7 @@ export default {
         position: absolute;
         left:5vw;
         top: 1vh;
-        @include sc(70px,#ea705b);
+        @include sc(70px,#003371);
         @media screen and(max-width:800px) {
             left:0;
             top: 1vh;
@@ -265,11 +265,11 @@ export default {
         position: absolute;
         right:5vw;
         top:1vh;
-        background-color: #f1967f;
+        background-color: #003371;
         border-radius: 50px;
         @include sc(30px,azure);
         &:hover{
-            background-color:#ea705b;
+            background-color:#3b2e7e;
         }
         @media screen and(max-width:500px) {
             left:5px;
@@ -336,7 +336,7 @@ export default {
             @include sc(30px,#aaaaaa);
             margin-right: 20px;
             &:hover{
-                @include sc(30px,#ea705b);
+                @include sc(30px,#003371);
             }
         }
     }
@@ -347,7 +347,7 @@ export default {
             color:#666666;
         }
         &:hover{
-            color: #ea705b;
+            color: #003371;
         }
     }
     @media screen and(max-width: 800px) {

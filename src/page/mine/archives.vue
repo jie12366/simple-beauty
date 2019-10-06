@@ -68,7 +68,7 @@ export default {
         padding: 20px;
         @include sc(28px,#606266);
         .archive{
-            color:#9933FF;
+            color:#057748;
             &:hover{
                 color: #303133;
                 text-decoration: underline;
