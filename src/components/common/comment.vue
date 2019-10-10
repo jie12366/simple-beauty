@@ -73,7 +73,7 @@ export default {
       showReply: false,
       scrollStyle: true,
       imgList: [],
-      codeStyle: 'atelier-lakeside-dark',
+      codeStyle: 'paraiso-light',
       toolbars: { // 工具栏对象
         header: true, // 标题
         ol: true, // 有序列表

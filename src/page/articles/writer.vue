@@ -55,7 +55,7 @@ export default {
             content: '', // 文章内容
             title: '', // 文章标题
             scrollStyle: true,
-            codeStyle: 'atelier-lakeside-dark',
+            codeStyle: 'paraiso-light',
             imgUrl: this.$store.state.imgUrl,
             showDialog: false, // 对话框是否可见
             tags: [], // 标签集合
