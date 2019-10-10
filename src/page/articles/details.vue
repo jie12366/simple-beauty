@@ -244,7 +244,7 @@ export default {
         toTitle (id, index) {
             var element = document.getElementById(id)
             this.isActive = index
-            element.scrollIntoView({block: 'start', behavior: 'smooth'})
+            element.scrollIntoView({block: 'start', behavior: 'instant'})
         },
         toTagNotes (tag) {
             this.$router.push(`/${this.userInfo.nickName}/${this.uid}/tag/${tag}`)
@@ -396,13 +396,10 @@ export default {
             }
             /*改变渲染的html内容中的样式*/
                 /deep/ h2{
-                    border-bottom: 1px solid #cccccc;
+                    border-bottom: 1.5px solid #c2ccd0;
                 }
                 /deep/ h3{
                     color:#392f41;
-                    margin:20px 0;
-                    padding: 5px 12px;
-                    margin:12px 0px;
                 }
                 /deep/ p{
                     line-height:2;
@@ -476,10 +473,11 @@ export default {
         position: fixed;
         left: 10px;
         width: 500px;
-        background-color: #161823;
+        background-color: #fff;
         overflow:auto;
         padding-left: 30px;
         padding-bottom: 50px;
+        box-shadow: 10px 10px 5px #888888;
         overflow:hidden; /*超出部分隐藏*/
         white-space:nowrap;
         /*文本溢出用"..."表示*/
@@ -487,7 +485,7 @@ export default {
         -o-text-overflow:ellipsis; /*适用opera*/
         .text{
             padding-left: 100px;
-            color: #fff !important;
+            color: #333 !important;
             &:hover{
                 text-decoration: none;
             }
@@ -495,7 +493,7 @@ export default {
         .close{
             position: absolute;
             right: 20px;
-            color: #fff;
+            color: #333;
             font-weight: 300;
             &:hover{
                 color:rgb(234, 112, 91);
@@ -505,15 +503,15 @@ export default {
         .title{
             margin-top: 20px;
         }
+        .active{
+            color:rgb(234, 112, 91) !important;
+        }
         .content{
-            @include sc(28px,#fff);
+            @include sc(28px,#333);
             &:hover{
                 color:rgb(234, 112, 91);
                 cursor: pointer;
                 text-decoration: underline;
-            }
-            .active{
-                color:rgb(234, 112, 91) !important;
             }
         }
         @media screen and(max-width: 1100px) {

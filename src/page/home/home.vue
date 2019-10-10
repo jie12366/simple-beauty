@@ -1,5 +1,5 @@
 <template>
-    <div ref="container">
+    <div ref="container" id= "inner">
         <nav-top></nav-top>
         <article-list :articles="articles">
             <el-carousel class="carousel" height="300px">
@@ -30,16 +30,14 @@ export default {
             size: 10, // 每页大小
             articles: [], // 文章列表
             showLoading: true,
-            nomore: false,
-            containerHeight: 0,
-            innerHeight: 0
+            nomore: false
         }
     },
     created () {
         this.getArticles(this.index, this.size)
     },
     mounted () {
-        this.containerHeight = window.screen.height
+        // 监听滚动
         window.addEventListener('scroll', this.initScroll)
     },
     methods: {
@@ -102,8 +100,8 @@ export default {
             // 如果正在加载或没有更多数据，就直接返回
             if (this.showLoading || this.nomore) return
             let scrollTop = document.documentElement.scrollTop
-            let height = 300 + 2100 * (this.index + 1)
-            if (scrollTop + this.containerHeight >= height) {
+            let innerHeight = document.getElementById('inner').offsetHeight
+            if (scrollTop + 600 >= innerHeight) {
                 console.log('-----------------触底了-------------')
                 // 当前页+1
                 this.index = this.index + 1
