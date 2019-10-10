@@ -22,7 +22,7 @@
                     layout="prev, pager, next"
                     :page-size="size"
                     :current-page="index"
-                    :total="total" class="pageCut" v-bind:current-change="changePage">
+                    :total="total" class="pageCut" @current-change="changePage">
                 </el-pagination>
             </div>
         </side-bar>

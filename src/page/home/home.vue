@@ -99,9 +99,13 @@ export default {
         initScroll (e) {
             // 如果正在加载或没有更多数据，就直接返回
             if (this.showLoading || this.nomore) return
+            // 滚动条距顶部距离
             let scrollTop = document.documentElement.scrollTop
+            // 浏览器窗口高度
+            let height = window.screen.height
+            // 元素高度
             let innerHeight = document.getElementById('inner').offsetHeight
-            if (scrollTop + 600 >= innerHeight) {
+            if (scrollTop + height >= innerHeight) {
                 console.log('-----------------触底了-------------')
                 // 当前页+1
                 this.index = this.index + 1

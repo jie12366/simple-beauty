@@ -6,7 +6,7 @@
     layout="prev, pager, next"
     :page-size="size"
     :current-page="index"
-    :total="total" class="pageCut" v-bind:current-change="changePage">
+    :total="total" class="pageCut" @current-change="changePage">
   </el-pagination>
     </mineCommon>
   </div>
@@ -44,9 +44,9 @@ export default {
       })
     },
     changePage (index) {
-            this.index = index
-            this.getArticles(index - 1, this.size)
-        }
+        this.index = index
+        this.getArticles(index - 1, this.size)
+    }
   },
   components: {
     mineCommon,
