@@ -42,7 +42,7 @@
                 </div>
                 <div class="content" :key="index" v-for="(item,index) in directory">
                     <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h2">{{item.h2}}</div>
-                    <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="margin-left:15px;">{{item.h3}}</div>
+                    <div class="title" @click="toTitle(item.id, index)" :class="{active : index === isActive}" v-if="item.h3" style="padding-left:25px">{{item.h3}}</div>
                 </div>
             </div>
             <div>
@@ -366,7 +366,7 @@ export default {
         @include sc(30px,#161823);
         @media screen and (max-width: 1300px) {
             width: 65%;
-            margin-right: 300px;
+            margin-right: 400px;
             @include sc(32px,#161823);
         }
         @media screen and (max-width: 1100px) {
@@ -393,6 +393,10 @@ export default {
             background-color: #f8fbfd;
             @media screen and (max-width: 1100px) {
                 background-color: #fff;
+            }
+            @media screen and (max-width: 500px) {
+                padding-left: 20px;
+                padding-right: 20px;
             }
             /*改变渲染的html内容中的样式*/
                 /deep/ h2{
@@ -472,19 +476,14 @@ export default {
     .directory{
         position: fixed;
         left: 10px;
-        width: 500px;
+        width: 400px;
         background-color: #fff;
         overflow:auto;
-        padding-left: 30px;
+        padding-left: 15px;
         padding-bottom: 50px;
         box-shadow: 10px 10px 5px #888888;
-        overflow:hidden; /*超出部分隐藏*/
-        white-space:nowrap;
-        /*文本溢出用"..."表示*/
-        text-overflow:ellipsis; /*适用IE*/
-        -o-text-overflow:ellipsis; /*适用opera*/
         .text{
-            padding-left: 100px;
+            padding-left: 20px;
             color: #333 !important;
             &:hover{
                 text-decoration: none;
@@ -496,20 +495,25 @@ export default {
             color: #333;
             font-weight: 300;
             &:hover{
-                color:rgb(234, 112, 91);
+                color:#21a675;
                 cursor: pointer;
             }
         }
         .title{
-            margin-top: 20px;
+            margin-top: 5px;
+            height: 50px;
+            line-height: 50px;
+            padding-left: 20px;
         }
         .active{
-            color:rgb(234, 112, 91) !important;
+            color:#21a675 !important;
+            background-color: #e9f1f6;
+            font-weight: bold;
         }
         .content{
             @include sc(28px,#333);
             &:hover{
-                color:rgb(234, 112, 91);
+                color:#21a675;
                 cursor: pointer;
                 text-decoration: underline;
             }
@@ -523,7 +527,7 @@ export default {
         left: 80px;
         font-size: 40px;
         &:hover{
-            color:rgb(234, 112, 91);
+            color:#21a675;
             cursor: pointer;
         }
     }
