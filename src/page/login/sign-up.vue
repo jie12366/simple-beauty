@@ -151,22 +151,26 @@
                 }
             },
             // 检查短信验证码是否正确或过期
-            checkSmsCaptcha () {
-                this.$api.login.checkSmsCaptcha(this.code)
+            async checkSmsCaptcha () {
+                let result = await this.$api.login.checkSmsCaptcha(this.code)
                     .then(res => {
                         if (res.code === 50004 || res.code === 50005) {
                             this.codeMsg = res.msg
                             this.codeAlert = false
+                            return false
                         } else if (res.code === 1) {
                             this.codeAlert = true
+                            return true
                         }
                     })
-                return true
+                return result
             },
             // 注册
-            signUp () {
+            async signUp () {
+                let checkSms = await this.checkSmsCaptcha()
+                console.log(checkSms)
                 if (this.checkPwd()) {
-                    if (this.checkSmsCaptcha() && this.codeAlert) {
+                    if (checkSms && this.codeAlert) {
                         let data = {
                             'uaccount': this.phone,
                             'upwd': this.pwd
