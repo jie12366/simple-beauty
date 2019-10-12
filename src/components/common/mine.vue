@@ -178,7 +178,7 @@ export default {
     line-height: 60px;
       position: relative;
       margin-left: -10px;
-      margin-top: 150px;
+      margin-top: 160px;
       margin-bottom: 0px;
       text-align: center;
       @include sc(24px, #909399);
