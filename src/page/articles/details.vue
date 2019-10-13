@@ -501,7 +501,6 @@ export default {
         }
         .title{
             margin-top: 5px;
-            height: 50px;
             line-height: 50px;
             padding-left: 20px;
         }
