@@ -414,7 +414,9 @@ export default {
                 /deep/ pre code{
                     width:100%;
                     font-size: 30px;
+                    line-height: 45px;
                     @media screen and (max-width: 900px) {
+                        line-height: 40px;
                         font-size: 25px;
                     }
                 }
@@ -481,6 +483,9 @@ export default {
         overflow:auto;
         padding-left: 15px;
         padding-bottom: 50px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
         box-shadow: 10px 10px 5px #888888;
         .text{
             padding-left: 20px;
