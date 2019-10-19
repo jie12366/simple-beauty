@@ -44,18 +44,22 @@
                 <el-button type="success" @click="finshPublish">发布文章</el-button>
             </div>
         </el-dialog>
-        <mavon-editor v-model="content" ref=md @imgAdd="$imgAdd" :codeStyle="codeStyle"
-        @imgDel="$imgDel" class="content" :scrollStyle="scrollStyle" :defaultOpen="defaultOpen" :toolbars="toolbars"></mavon-editor>
+        <textarea id="content"></textarea>
     </div>
 </template>
 <script>
+import prism from 'markdown-it-prism'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-bash'
+
 export default {
     data () {
         return {
-            content: '', // 文章内容
+            content: null, // 文章内容,md格式
+            contentHtml: null, // 文章内容,html格式
             title: '', // 文章标题
             scrollStyle: true,
-            codeStyle: 'paraiso-light',
             imgUrl: this.$store.state.imgUrl,
             showDialog: false, // 对话框是否可见
             tags: [], // 标签集合
@@ -75,40 +79,7 @@ export default {
             account: this.$store.state.account,
             aid: parseInt(this.$route.query.aid) || 0,
             width: '50%',
-            screenWidth: document.body.clientWidth, // 屏幕宽度
-            defaultOpen: '',
-            toolbars: null,
-            toolbars1: { // 工具栏对象
-                header: true, // 标题
-                ol: true, // 有序列表
-                ul: true, // 无序列表
-                quote: true, // 引用
-                link: true, // 链接
-                imagelink: true, // 图片链接
-                code: true // code
-            },
-            toolbars2: {
-                bold: true, // 粗体
-                italic: true, // 斜体
-                header: true, // 标题
-                underline: true, // 下划线
-                strikethrough: true, // 中划线
-                mark: true, // 标记
-                superscript: true, // 上角标
-                subscript: true, // 下角标
-                quote: true, // 引用
-                ol: true, // 有序列表
-                ul: true, // 无序列表
-                link: true, // 链接
-                imagelink: true, // 图片链接
-                code: true, // code
-                table: true, // 表格
-                fullscreen: true, // 全屏编辑
-                readmodel: true, // 沉浸式阅读
-                navigation: true, // 导航目录
-                subfield: true, // 单双栏模式
-                preview: true // 预览
-            }
+            screenWidth: document.body.clientWidth // 屏幕宽度
         }
     },
     created () {
@@ -122,6 +93,7 @@ export default {
         }
     },
     mounted () {
+        this.initEditor()
         const that = this
         // 监听屏幕宽度变化
         window.onresize = () => {
@@ -186,6 +158,36 @@ export default {
         }
     },
     methods: {
+        initEditor () {
+            var that = this
+            var HyperMD = require('hypermd')
+            require('hypermd/powerpack/fold-emoji-with-emojione') // 引入表情
+            require('hypermd/powerpack/insert-file-with-smms') // 引入sm.sm，用于上传图片
+            require('hypermd/powerpack/paste-with-turndown')
+            var content = document.getElementById('content')
+            var myEditor = HyperMD.fromTextArea(content, {
+                mode: {
+                    name: 'hypermd'
+                },
+                hmdFold: {
+                    image: true,
+                    link: true,
+                    math: true,
+                    html: false,
+                    emoji: true // 开启表情
+                }
+            })
+            myEditor.setSize(null, '85vh')
+            myEditor.focus()
+            // 如果内容不为空，就把编辑器内容初始化为改内容
+            if (that.content !== null) {
+                myEditor.setValue(that.content)
+            }
+            // 监听内容，如果变化则更新content
+            myEditor.on('change', function (editor) {
+                that.content = editor.getValue()
+            })
+        },
         // 获取文章内容
         getArticleContent () {
             this.$api.articles.getArticleByAid(this.aid)
@@ -260,6 +262,7 @@ export default {
             } else if (this.content === '') {
                 this.tip('文章内容不能为空', 'warning')
             } else {
+                this.getHtml()
                 this.showDialog = true
             }
         },
@@ -345,6 +348,14 @@ export default {
                 }
             }
         },
+        // 将markdown解析为html，并使用prism高亮代码
+        getHtml () {
+            var md = require('markdown-it')()
+            md.use(prism, {
+                defaultLanguage: 'bash' // 如果没有指定语言，就默认为bash
+            })
+            this.contentHtml = md.render(this.content)
+        },
         // 完成文章发布
         finshPublish () {
             const loading = this.$loading({
@@ -356,7 +367,7 @@ export default {
             let data = {
                 'title': this.title,
                 'contentMd': this.content,
-                'contentHtml': this.$refs.md.d_render,
+                'contentHtml': this.contentHtml,
                 'tags': this.tags,
                 'category': this.checkedList[0],
                 'pwd': this.pwd,

@@ -58,16 +58,10 @@ import vueCanvasNest from 'vue-canvas-nest'
 import sidebar from '@components/common/sidebar'
 import comment from '@components/common/comment'
 import moment from 'moment'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/paraiso-light.css'
+import Prism from 'prismjs'
+import 'prismjs/themes/prism.css'
+Prism.highlightAll()
 
-const highlightCode = () => {
-    // 使用highlightjs高亮代码(所有pre和code标签)
-    const preEl = document.querySelectorAll('pre')
-    preEl.forEach((el) => {
-        hljs.highlightBlock(el)
-    })
-}
 export default {
     data () {
         return {
@@ -119,7 +113,6 @@ export default {
     },
     mounted () {
         this.getUsersInfo()
-        highlightCode()
         // 监听滚动
         window.addEventListener('scroll', () => {
             this.scrollTop = document.documentElement.scrollTop ||
@@ -177,9 +170,6 @@ export default {
                 this.defaultOpen = ''
             }
         }
-    },
-    updated () {
-        highlightCode()
     },
     methods: {
         // 判断是否已点赞
