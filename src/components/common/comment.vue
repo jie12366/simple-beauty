@@ -44,7 +44,7 @@
       <!--加载更多-->
       <div class="show_more" v-show="show" @click="showMore">show more</div>
       <!--编辑器对话框-->
-        <el-dialog :visible.sync="showInput" :width="width" title="评论">
+        <el-dialog :visible.sync="showInput" :width="width" title="评论" @open="open">
           <textarea id="commentText"></textarea>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showInput = false" size="mini">取 消</el-button>
@@ -150,12 +150,15 @@ export default {
                 that.comment = editor.getValue()
             })
         },
+    open () {
+      this.$nextTick(function () {
+        this.comment1 = document.getElementById('commentText')
+      })
+    },
     showDialog () {
       this.placeholder = '说点什么'
       this.showReply = false
       this.showInput = true
-      this.comment1 = document.getElementById('commentText')
-      console.log(this.comment1)
     },
     // 上传图片
         $imgAdd (pos, $file) {
