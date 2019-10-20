@@ -44,9 +44,8 @@
       <!--加载更多-->
       <div class="show_more" v-show="show" @click="showMore">show more</div>
       <!--编辑器对话框-->
-        <el-dialog :visible.sync="showInput" :width="width">
-          <mavon-editor v-model="comment" class="input" ref=md @imgAdd="$imgAdd" :codeStyle="codeStyle"
-          @imgDel="$imgDel" :scrollStyle="scrollStyle" :toolbars="toolbars" :defaultOpen="defaultOpen" :placeholder="placeholder"></mavon-editor>
+        <el-dialog :visible.sync="showInput" :width="width" title="评论">
+          <textarea id="commentText"></textarea>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showInput = false" size="mini">取 消</el-button>
             <el-button type="success" v-if="!showReply" @click="publishComment" size="mini">发表评论</el-button>
@@ -59,10 +58,29 @@
 <script>
 import handleTime from '@/utils/show-time'
 import api from '@/api'
+import prism from 'markdown-it-prism'
+// 引入需要高亮的语言：java、kotlin、c、cpp、python、bash、lua、vim、yaml、docker、git、json
+import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-kotlin'
+import 'prismjs/components/prism-c'
+import 'prismjs/components/prism-cpp'
+import 'prismjs/components/prism-python'
+import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-lua'
+import 'prismjs/components/prism-vim'
+import 'prismjs/components/prism-yaml'
+import 'prismjs/components/prism-docker'
+import 'prismjs/components/prism-git'
+import 'prismjs/components/prism-json'
+require('hypermd/powerpack/fold-emoji-with-emojione') // 引入表情
+require('hypermd/powerpack/insert-file-with-smms') // 引入sm.sm，用于上传图片
+require('hypermd/powerpack/paste-with-turndown')
 export default {
   data () {
     return {
       comment: '', // 评论内容
+      comment1: null,
+      commentHtml: '', // 解析为html的内容
       comments: [], // 评论集合
       uid: this.$store.state.uid,
       rUid: '',
@@ -73,33 +91,71 @@ export default {
       showReply: false,
       scrollStyle: true,
       imgList: [],
-      codeStyle: 'paraiso-light',
-      toolbars: { // 工具栏对象
-        header: true, // 标题
-        ol: true, // 有序列表
-        ul: true, // 无序列表
-        quote: true, // 引用
-        link: true, // 链接
-        imagelink: true, // 图片链接
-        code: true // code
-      },
       placeholder: '', // 回复框，提示回复谁
-      show: true
+      show: true,
+      editor: null
     }
   },
   props: [
     'width',
-    'defaultOpen',
     'aid',
     'toUid'
   ],
   created () {
     this.getComments(this.aid, this.index, this.size)
   },
+  watch: {
+    comment1 (val) {
+      console.log(val)
+      if (val !== null) {
+        this.initEditor()
+      }
+    }
+  },
   methods: {
+    initEditor () {
+            var that = this
+            var HyperMD = require('hypermd')
+            var comment = this.comment1
+            this.editor = HyperMD.fromTextArea(comment, {
+                mode: {
+                    name: 'hypermd', // 编辑器加载模式 'hypermd'或者'codemirror'
+                    strikethrough: true, // 删除线语法 ~~xx~~
+                    front_matter: false, // 内容块变量 不需要该功能
+                    orgModeMarkup: false, // 标记模式 同上
+                    hashtag: false, // 标签语法 同上
+                    table: true, // 表格
+                    toc: true, // 文章目录
+                    emoji: true // 表情符号
+                },
+                // 在粘贴之前将粘贴板的内容转换为Markdown
+                hmdPaste: true,
+                // markdown解析的真实内容
+                hmdFold: {
+                    image: true,
+                    link: true,
+                    math: true,
+                    html: false,
+                    emoji: true
+                }
+            })
+            this.editor.setSize(null, '300px')
+            this.editor.focus()
+            // 如果内容不为空，就把编辑器内容初始化为改内容
+            if (that.comment !== null) {
+                this.editor.setValue(that.comment)
+            }
+            // 监听内容，如果变化则更新comment
+            this.editor.on('change', function (editor) {
+                that.comment = editor.getValue()
+            })
+        },
     showDialog () {
       this.placeholder = '说点什么'
+      this.showReply = false
       this.showInput = true
+      this.comment1 = document.getElementById('commentText')
+      console.log(this.comment1)
     },
     // 上传图片
         $imgAdd (pos, $file) {
@@ -159,18 +215,26 @@ export default {
       this.showInput = true
       this.showReply = true
     },
+    // 将markdown解析为html，并使用prism高亮代码
+        getHtml () {
+            var md = require('markdown-it')()
+            var emoji = require('markdown-it-emoji')
+            var anchor = require('markdown-it-anchor').default
+            md.use(prism, {
+                defaultLanguage: 'bash' // 如果没有指定语言，就默认为bash
+            })
+            md.use(anchor)
+            md.use(emoji)
+            this.commentHtml = md.render(this.comment)
+            console.log(this.commentHtml)
+        },
     // 回复评论
     replyComment () {
+      this.getHtml()
       if (this.comment.length < 2 || this.comment.length > 200) {
         this.tip('回复内容必须是2-200个字符', 'warning')
       } else {
-        let content
-        if (this.$refs.md === Array) {
-          content = this.$refs.md[0].d_render
-        } else {
-          content = this.$refs.md.d_render
-        }
-        this.$api.comments.saveReplyComment(this.aid, this.uid, this.rUid, content, this.rComment)
+        this.$api.comments.saveReplyComment(this.aid, this.uid, this.rUid, this.commentHtml, this.rComment)
         .then(res => {
           console.log(res)
           if (res.code === 1) {
@@ -184,18 +248,11 @@ export default {
     },
     // 发表评论
     publishComment () {
+      this.getHtml()
       if (this.comment.length < 2 || this.comment.length > 200) {
         this.tip('评论内容必须是2-200个字符', 'warning')
       } else {
-        let content
-        // 获取html格式内容(先判断是个数组还是对象)
-        if (this.$refs.md === Array) {
-          content = this.$refs.md[0].d_render
-        } else {
-          content = this.$refs.md.d_render
-        }
-        console.log(this.toUid)
-        this.$api.comments.saveComment(this.aid, this.uid, this.toUid, content)
+        this.$api.comments.saveComment(this.aid, this.uid, this.toUid, this.commentHtml)
         .then(res => {
           console.log(res)
           if (res.code === 1) {

@@ -61,7 +61,7 @@ export default {
         },
         changePage (index) {
             this.index = index
-            this.getArticles(index - 1, this.size)
+            this.getPosts(index - 1, this.size)
         },
         toDetails (uid, aid) {
             this.$router.push(`/users/${uid}/articles/${aid}`)

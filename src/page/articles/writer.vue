@@ -49,9 +49,19 @@
 </template>
 <script>
 import prism from 'markdown-it-prism'
-import 'prismjs/components/prism-clike'
+// 引入需要高亮的语言：java、kotlin、c、cpp、python、bash、lua、vim、yaml、docker、git、json
 import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-kotlin'
+import 'prismjs/components/prism-c'
+import 'prismjs/components/prism-cpp'
+import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-lua'
+import 'prismjs/components/prism-vim'
+import 'prismjs/components/prism-yaml'
+import 'prismjs/components/prism-docker'
+import 'prismjs/components/prism-git'
+import 'prismjs/components/prism-json'
 
 export default {
     data () {
@@ -93,7 +103,9 @@ export default {
         }
     },
     mounted () {
-        this.initEditor()
+        if (this.aid === 0) {
+            this.initEditor()
+        }
         const that = this
         // 监听屏幕宽度变化
         window.onresize = () => {
@@ -167,14 +179,24 @@ export default {
             var content = document.getElementById('content')
             var myEditor = HyperMD.fromTextArea(content, {
                 mode: {
-                    name: 'hypermd'
+                    name: 'hypermd', // 编辑器加载模式 'hypermd'或者'codemirror'
+                    strikethrough: true, // 删除线语法 ~~xx~~
+                    front_matter: false, // 内容块变量 不需要该功能
+                    orgModeMarkup: false, // 标记模式 同上
+                    hashtag: false, // 标签语法 同上
+                    table: true, // 表格
+                    toc: true, // 文章目录
+                    emoji: true // 表情符号
                 },
+                // 在粘贴之前将粘贴板的内容转换为Markdown
+                hmdPaste: true,
+                // markdown解析的真实内容
                 hmdFold: {
                     image: true,
                     link: true,
                     math: true,
                     html: false,
-                    emoji: true // 开启表情
+                    emoji: true
                 }
             })
             myEditor.setSize(null, '85vh')
@@ -193,6 +215,7 @@ export default {
             this.$api.articles.getArticleByAid(this.aid)
             .then(res => {
                 this.content = res.data.contentMd
+                this.initEditor()
                 console.log(res.data)
             })
         },
@@ -351,9 +374,13 @@ export default {
         // 将markdown解析为html，并使用prism高亮代码
         getHtml () {
             var md = require('markdown-it')()
+            var emoji = require('markdown-it-emoji')
+            var anchor = require('markdown-it-anchor').default
             md.use(prism, {
                 defaultLanguage: 'bash' // 如果没有指定语言，就默认为bash
             })
+            md.use(anchor)
+            md.use(emoji)
             this.contentHtml = md.render(this.content)
         },
         // 完成文章发布

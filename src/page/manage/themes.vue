@@ -26,7 +26,7 @@
             </section>
             <el-divider></el-divider>
             <div>
-                <h2>代码样式</h2>
+                <h2>代码样式(暂时还不支持自定义)</h2>
                 <el-select v-model="value" placeholder="请选择">
                 <el-option
                     v-for="item in styles"
@@ -35,8 +35,8 @@
                     :value="item.value">
                     </el-option>
                 </el-select>
-                <pre>
-                    <code class="java">
+                <pre class="line-numbers">
+                    <code class="language-java">
 /**
  * @author monJay
 */
@@ -66,15 +66,11 @@ public abstract class L2Char extends L2Object {
 import axios from '@/service/http'
 import baseURL from '@/service/base-url'
 import sideBar from '@/components/navbar/manage-side-bar'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/paraiso-light.css'
-const highlightCode = () => {
-    // 使用highlightjs高亮代码(pre标签)
-    const preEl = document.querySelectorAll('pre')
-    preEl.forEach((el) => {
-        hljs.highlightBlock(el)
-    })
-}
+import Prism from 'prismjs'
+import 'prismjs/themes/prism.css'
+import 'prismjs/components/prism-java'
+Prism.highlightAll()
+
 export default {
     data () {
         return {
@@ -85,44 +81,8 @@ export default {
             indexImage: '',
             sideImage: '',
             styles: [{
-                value: 'atelier-cave-dark',
-                label: 'atelier-cave-dark'
-            }, {
-                value: 'atelier-cave-light',
-                label: 'atelier-cave-light'
-            }, {
-                value: 'atelier-lakeside-dark',
-                label: 'atelier-lakeside-dark'
-            }, {
-                value: 'github',
-                label: 'github'
-            }, {
-                value: 'ir-black',
-                label: 'ir-black'
-            }, {
-                value: 'mono-blue',
-                label: 'mono-blue'
-            }, {
-                value: 'nord',
-                label: 'nord'
-            }, {
-                value: 'paraiso-dark',
-                label: 'paraiso-dark'
-            }, {
-                value: 'paraiso-light',
-                label: 'paraiso-light'
-            }, {
-                value: 'shades-of-purple',
-                label: 'shades-of-purple'
-            }, {
-                value: 'sunburst',
-                label: 'sunburst'
-            }, {
-                value: 'vs-2015',
-                label: 'vs-2015'
-            }, {
-                value: 'vs',
-                label: 'vs'
+                value: 'default',
+                label: 'default'
             }],
             value: ''
         }
@@ -131,10 +91,7 @@ export default {
         this.getTheme()
     },
     mounted () {
-        highlightCode()
-    },
-    updated () {
-        highlightCode()
+        Prism.highlightAll()
     },
     methods: {
         // 重写上传图片的方法

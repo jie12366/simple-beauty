@@ -49,7 +49,7 @@
                 <i class="icon-vue-mulu" :style="{top:dirTop}" v-if="hideDirectory" @click="showDirectory"></i>
             </div>
             <!--评论-->
-            <comment id="comment" :width="width" :defaultOpen="defaultOpen" :aid="aid" :toUid="uid" class="comment"></comment>
+            <comment id="comment" :width="width" :aid="aid" :toUid="uid" class="comment"></comment>
         </div>
     </div>
 </template>
@@ -93,7 +93,6 @@ export default {
             screenWidth: document.body.clientWidth, // 屏幕宽度
             screenHeight: window.screen.height, // 屏幕高度
             width: '50%',
-            defaultOpen: '',
             confirmPwd: this.$route.query.pwd,
             myUid: this.$store.state.uid, // 登录账号
             isLike: false,
@@ -143,7 +142,6 @@ export default {
         }
         if (this.screenWidth < 1100) {
             this.width = '90%'
-            this.defaultOpen = 'edit'
             this.showCanvas = false
         }
     },
@@ -163,11 +161,9 @@ export default {
             }
             if (this.screenWidth < 1100) {
                 this.width = '90%'
-                this.defaultOpen = 'edit'
                 this.showCanvas = false
             } else {
                 this.width = '50%'
-                this.defaultOpen = ''
             }
         }
     },
