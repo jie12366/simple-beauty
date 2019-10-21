@@ -382,9 +382,11 @@ export default {
         },
         // 将markdown解析为html，并使用prism高亮代码
         getHtml () {
-            var md = require('markdown-it')()
-            var emoji = require('markdown-it-emoji')
-            var anchor = require('markdown-it-anchor').default
+            var md = require('markdown-it')({
+                linkify: true // 使类似URL的字符串链接化
+            })
+            var emoji = require('markdown-it-emoji') // 解析表情符号
+            var anchor = require('markdown-it-anchor').default // 给标题添加id
             md.use(prism, {
                 defaultLanguage: 'bash' // 如果没有指定语言，就默认为bash
             })
