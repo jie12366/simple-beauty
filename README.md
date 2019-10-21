@@ -76,7 +76,9 @@ MIT LICENSE
 ## 部分截图
 ### 1、首页
 ![首页](http://cdn.jie12366.xyz/FrFNYifRJ40vgAVE1jJ3FtAj3mI4)
-### 2、文章详情
-![文章详情](http://cdn.jie12366.xyz/FspW12rKpMAl33T9dYfCjC25mRia)
-### 3、照片墙
+### 2、写文章
+![image.png](https://i.loli.net/2019/10/21/oVA2CpBJkIdKx5g.png) 
+### 3、文章详情
+![文章详情](https://i.loli.net/2019/10/21/KrEuRgjalQmFM3z.png) 
+### 4、照片墙
 ![照片墙](http://cdn.jie12366.xyz/photo-wall.png)
