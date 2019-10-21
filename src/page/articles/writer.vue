@@ -282,8 +282,8 @@ export default {
         publish () {
             if (this.title === '') {
                 this.tip('标题不能为空', 'warning')
-            } else if (this.content === '') {
-                this.tip('文章内容不能为空', 'warning')
+            } else if (this.content.length < 70) {
+                this.tip('文章内容不能少于70字', 'warning')
             } else {
                 this.getHtml()
                 this.showDialog = true
@@ -404,6 +404,7 @@ export default {
             this.$api.articles.saveArticles(data)
             .then(res => {
                 loading.close()
+                console.log(data)
                 if (res.code === 1) {
                     // 发布成功，删除本地存储
                     window.localStorage.removeItem(this.uid)

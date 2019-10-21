@@ -44,7 +44,7 @@
       <!--加载更多-->
       <div class="show_more" v-show="show" @click="showMore">show more</div>
       <!--编辑器对话框-->
-        <el-dialog :visible.sync="showInput" :width="width" title="评论" @open="open">
+        <el-dialog :visible.sync="showInput" :width="width" :title="placeholder" @open="open">
           <textarea id="commentText"></textarea>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showInput = false" size="mini">取 消</el-button>
