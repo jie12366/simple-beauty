@@ -173,6 +173,13 @@ export default {
         initEditor () {
             var that = this
             var HyperMD = require('hypermd')
+            // 加载需要高亮的模式
+            require('codemirror/mode/haml/haml.js')
+            require('codemirror/mode/javascript/javascript.js')
+            require('codemirror/mode/python/python.js')
+            require('codemirror/mode/go/go.js')
+            require('codemirror/mode/lua/lua.js')
+            require('codemirror/mode/clike/clike.js') // clike包含了c、c++、java等
             require('hypermd/powerpack/fold-emoji-with-emojione') // 引入表情
             require('hypermd/powerpack/insert-file-with-smms') // 引入sm.sm，用于上传图片
             require('hypermd/powerpack/paste-with-turndown')
@@ -188,16 +195,18 @@ export default {
                     toc: true, // 文章目录
                     emoji: true // 表情符号
                 },
-                // 在粘贴之前将粘贴板的内容转换为Markdown
-                hmdPaste: true,
-                // markdown解析的真实内容
                 hmdFold: {
                     image: true,
                     link: true,
                     math: true,
                     html: false,
                     emoji: true
-                }
+                },
+                // 在粘贴之前将粘贴板的内容转换为Markdown
+                hmdPaste: true,
+                /* 自动加载代码高亮模式 */
+                hmdModeLoader: '~codemirror/'
+                // markdown解析的真实内容
             })
             myEditor.setSize(null, '85vh')
             myEditor.focus()
