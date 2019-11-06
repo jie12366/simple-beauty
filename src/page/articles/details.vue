@@ -395,11 +395,13 @@ export default {
                     line-height:2;
                 }
                 /deep/ code{
+                    background-color: #F5F2F0;
                     font-size: 40px;
                 }
                 /deep/ pre code{
                     width:100%;
                     font-size: 30px;
+                    background-color: transparent;
                     line-height: 45px;
                     @media screen and (max-width: 900px) {
                         line-height: 40px;
@@ -521,7 +523,7 @@ export default {
             font-weight: bold;
         }
         .content{
-            @include sc(28px,#333);
+            @include sc(25px,#333);
             &:hover{
                 color:#21a675;
                 cursor: pointer;
@@ -534,8 +536,8 @@ export default {
     }
     .icon-vue-mulu{
         position: fixed;
-        left: 80px;
-        font-size: 40px;
+        left: 100px;
+        font-size: 35px;
         &:hover{
             color:#21a675;
             cursor: pointer;

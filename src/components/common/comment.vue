@@ -13,7 +13,7 @@
           <div class="comment-top">
             <img class="head-img" :src="item.headUrl"/>
             <div>
-              <span class="nickname" @click="toUser(item.nickname, item.uid)">{{item.nickname}}:</span>
+              <span class="nickname" @click="toUser(item.nickname, item.uid)">{{item.nickname}}</span>
               <span class="content" v-html="item.content"></span>
             </div>
           </div>
@@ -27,12 +27,12 @@
           <div class="comment-top">
             <img class="head-img" :src="item.headUrl"/>
             <div>
-              <span class="nickname" @click="toUser(item.nickname, item.uid)">{{item.nickname}}:</span>
+              <span class="nickname" @click="toUser(item.nickname, item.uid)">{{item.nickname}}</span>
               <span class="content" v-html="item.content"></span>
             </div>
           </div>
           <div class="reply-content-main">
-            <span class="reply-nickname">@{{item.rNickname}}:</span>
+            <span class="reply-nickname">@{{item.rNickname}}</span>
             <div class="reply-content" v-html="item.rcontent"></div>
           </div>
           <div class="comment-bottom">
@@ -362,18 +362,18 @@ export default {
       .comment-top{
         display: flex;
         display: -webkit-flex;
-        align-items:center;
         .head-img{
           width: 80px;
           height:80px;
           padding: 20px;
+          top: 0;
           border-radius: 50%;
           display: inline-block;
         }
         .nickname{
           display: inline-block;
           left: -47%;
-          top: 0px;
+          top: 20px;
           @include sc(25px,#6699CC);
           &:hover{
             cursor: pointer;
@@ -430,9 +430,11 @@ export default {
       .reply-comment{
         .reply-content-main{
           background-color: #f6f8f8;
+          margin-left: 140px;
           width: 100%;
           .reply-nickname{
             left: -49%;
+            top: 10px;
             @include sc(25px,#909399);
           }
           .reply-content{
