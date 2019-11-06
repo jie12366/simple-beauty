@@ -1,4 +1,4 @@
-# 简约博客网站
+# Canary
 
 > 一个坚持简约美的在线博客网站，可以实现博客的在线编辑，预览，发布功能。
 提供用户登录注册功能，登录后可以发布文章，对文章进行点赞、评论、收藏等功能。文章可以根据分类或者标签查询，更是提供了全文检索功能。采用所见即所得的Markdown编辑器，使写作成为一种享受。采用prism进行代码高亮，更接近主流编译器的高亮风格。项目是采用前后端分离设计思想，前台界面采用响应式布局，在多端浏览都会有良好的视觉体验。前后端分开部署，采用了docker+jenkins自动化部署。
@@ -30,7 +30,7 @@ npm run dev
 ```
 
 ## 关于后端
-后端用springboot+mongod构建，采用restful风格api，使用swagger生成在线api文档，JWT生成token，redis作为缓存以及内存数据库，使用websocket通信。
+后端用springboot+mongod构建，restful风格api，使用swagger生成在线api文档，JWT生成token，redis作为缓存以及内存数据库，使用websocket通信。
 
 项目地址：[simple-beauty-after](https://github.com/jie12366/simple-blog-after.git)
 ## 目标功能
@@ -52,7 +52,7 @@ npm run dev
 项目演示地址为：[Canary](http://jie12366.xyz:8081)
 
 ## 需要注意的问题
-支持高亮的语言为java、kotlin、c、cpp、python、bash、lua、vim、yaml、docker、git、json，其他语言不支持代码高亮，请不要在代码块中注明语言。默认使用bash语言来高亮代码。
+支持高亮的语言为java、kotlin、c、cpp、python、bash、lua、vim、yaml、docker、git、json，其他语言不支持代码高亮，如果不是以上语言，请不要在代码块中注明语言。默认使用shell语法来高亮代码。
 ## 感谢开源
 |名称|说明|GitHub/官网|
 |---|---|---|
