@@ -36,7 +36,6 @@ const themes = r => require.ensure([], () => r(require('@page/manage/themes')), 
 const aboutMe = r => require.ensure([], () => r(require('@page/manage/about-me')), 'aboutMe')
 
 const router = new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
