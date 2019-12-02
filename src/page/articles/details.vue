@@ -349,16 +349,16 @@ export default {
         width: 59%;
         margin: auto;
         font-weight: 349;
-        @include sc(30px,#161823);
+        @include sc(30px,#000);
         @media screen and (max-width: 1300px) {
             width: 65%;
             margin-right: 400px;
-            @include sc(32px,#161823);
+            @include sc(34px,#000);
         }
         @media screen and (max-width: 1100px) {
             margin-left: 100px;
             width: 80%;
-            @include sc(30px,#161823);
+            @include sc(34px,#161823);
         }
         @media screen and (max-width: 900px) {
             margin-left: 100px;
@@ -376,7 +376,7 @@ export default {
             padding-top: 30px;
             padding-bottom: 50px;
             overflow: auto;
-            background-color: #f8fbfd;
+            background-color: rgba(248, 251, 253, 0.7);
             @media screen and (max-width: 1100px) {
                 background-color: #fff;
             }
@@ -386,6 +386,7 @@ export default {
             }
             /*改变渲染的html内容中的样式*/
                 /deep/ h2{
+                    color: #c93756;
                     border-bottom: 1.5px solid #c2ccd0;
                 }
                 /deep/ h3{
@@ -415,6 +416,9 @@ export default {
                 max-width:100%;
                 padding-top: 20px;
                 padding-bottom: 20px;
+            }
+            /deep/ li{
+                line-height:2;
             }
             /deep/ table{
                 width: 100%; /*表格宽度*/
