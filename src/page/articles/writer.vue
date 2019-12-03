@@ -62,6 +62,7 @@ import 'prismjs/components/prism-yaml'
 import 'prismjs/components/prism-docker'
 import 'prismjs/components/prism-git'
 import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-sql'
 
 export default {
     data () {
