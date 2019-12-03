@@ -179,6 +179,7 @@ export default {
             require('codemirror/mode/python/python.js')
             require('codemirror/mode/go/go.js')
             require('codemirror/mode/lua/lua.js')
+            require('codemirror/mode/sql/sql.js')
             require('codemirror/mode/clike/clike.js') // clike包含了c、c++、java等
             require('hypermd/powerpack/fold-emoji-with-emojione') // 引入表情
             require('hypermd/powerpack/insert-file-with-smms') // 引入sm.sm，用于上传图片
