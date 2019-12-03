@@ -349,7 +349,7 @@ export default {
         width: 59%;
         margin: auto;
         font-weight: 349;
-        @include sc(30px,#000);
+        @include sc(34px,#000);
         @media screen and (max-width: 1300px) {
             width: 65%;
             margin-right: 400px;
@@ -394,6 +394,14 @@ export default {
                 }
                 /deep/ p{
                     line-height:2;
+                }
+                /deep/ blockquote{
+                    background-color: #f5f2f0;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                    padding-left: 50px;
+                    padding-right: 50px;
+                    border-left: #21a675 8px solid;
                 }
                 /deep/ code{
                     background-color: #F5F2F0;
