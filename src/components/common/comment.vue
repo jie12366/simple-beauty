@@ -318,7 +318,7 @@ export default {
   width: 59%;
   margin: auto;
   margin-top: 100px;
-  margin-bottom: 200px;
+  padding-bottom: 200px;
   @media screen and (max-width: 1300px) {
     width: 65%;
     margin-right: 300px;
@@ -356,7 +356,7 @@ export default {
     top: 20px;
     font-family: "Microsoft YaHei";
     section{
-      background-color: #f8fbfd;
+      background-color: #fff;
       margin-bottom: 50px;
       margin-top: 50px;
       .comment-top{

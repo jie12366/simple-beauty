@@ -7,7 +7,6 @@
             <el-image class="top-img" :src="bgList[index]" fit="cover"></el-image>
         </div>
         <div class="main" id="main">
-            <vue-canvas-nest v-if="showCanvas" :config="{color:'161,102,220',opacity:0.8}" :el="'#main'"></vue-canvas-nest>
             <!--文章标题和标签-->
             <div class="main-top">
                 <span class="title">{{article.title}}</span>
@@ -54,7 +53,6 @@
     </div>
 </template>
 <script>
-import vueCanvasNest from 'vue-canvas-nest'
 import sidebar from '@components/common/sidebar'
 import comment from '@components/common/comment'
 import moment from 'moment'
@@ -256,7 +254,6 @@ export default {
     },
     components: {
         sidebar,
-        vueCanvasNest,
         comment
     }
 }
@@ -283,6 +280,9 @@ export default {
 .main{
     position: relative;
     top: 900px;
+    width: 99vw;
+    margin-left: -0.5vw;
+    background-color: rgba(248, 251, 253, 0.7);
     @media screen and(max-width: 1100px){
         background-color: #f8fbfd;
     }
@@ -349,26 +349,22 @@ export default {
         width: 59%;
         margin: auto;
         font-weight: 349;
-        @include sc(34px,#000);
+        @include sc(28px,#000);
         @media screen and (max-width: 1300px) {
             width: 65%;
             margin-right: 400px;
-            @include sc(34px,#000);
         }
         @media screen and (max-width: 1100px) {
             margin-left: 100px;
             width: 80%;
-            @include sc(34px,#161823);
         }
         @media screen and (max-width: 900px) {
             margin-left: 100px;
             width: 84%;
-            @include sc(30px,#161823);
         }
         @media screen and (max-width: 500px) {
             margin:auto;
             width: 100%;
-            @include sc(30px,#161823);
         }
         .content{
             padding-left: 80px;
@@ -376,7 +372,7 @@ export default {
             padding-top: 30px;
             padding-bottom: 50px;
             overflow: auto;
-            background-color: rgba(248, 251, 253, 0.7);
+            background-color: #fff;
             @media screen and (max-width: 1100px) {
                 background-color: #fff;
             }
@@ -390,7 +386,7 @@ export default {
                     border-bottom: 1.5px solid #c2ccd0;
                 }
                 /deep/ h3{
-                    color:#392f41;
+                    color:#000;
                 }
                 /deep/ p{
                     line-height:2;
@@ -405,13 +401,13 @@ export default {
                 }
                 /deep/ code{
                     background-color: #F5F2F0;
-                    font-size: 40px;
+                    font-size: 33px;
                 }
                 /deep/ pre code{
                     width:100%;
-                    font-size: 30px;
+                    font-size: 25px;
                     background-color: transparent;
-                    line-height: 45px;
+                    line-height: 40px;
                     @media screen and (max-width: 900px) {
                         line-height: 40px;
                         font-size: 25px;
