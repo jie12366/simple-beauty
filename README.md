@@ -74,11 +74,19 @@ npm run dev
 MIT LICENSE  
 > 无论是由于软件，使用或其他方式产生的，与之有关或与之有关的合同，侵权或其他形式的任何索赔，损害或其他责任，作者或版权所有者概不负责。
 ## 部分截图
-### 1、首页
-![首页](http://cdn.jie12366.xyz/FrFNYifRJ40vgAVE1jJ3FtAj3mI4)
+![](https://user-gold-cdn.xitu.io/2019/12/25/16f3b531dea56235?w=2525&h=1273&f=png&s=714944)
 ### 2、写文章
-![image.png](https://i.loli.net/2019/10/21/oVA2CpBJkIdKx5g.png) 
+
+![](https://user-gold-cdn.xitu.io/2019/12/25/16f3b53a03a007c9?w=2299&h=1191&f=png&s=314241)
 ### 3、文章详情
-![文章详情](https://i.loli.net/2019/10/21/KrEuRgjalQmFM3z.png) 
+
+![](https://user-gold-cdn.xitu.io/2019/12/25/16f3b541e4139f9b?w=2538&h=1267&f=png&s=246017)
 ### 4、照片墙
-![照片墙](http://cdn.jie12366.xyz/photo-wall.png)
+
+![](https://user-gold-cdn.xitu.io/2019/12/25/16f3b55499b2ab33?w=2542&h=1204&f=png&s=1811660)
+### 5、侧边栏
+
+![](https://user-gold-cdn.xitu.io/2019/12/25/16f3b54e1f6f606a?w=444&h=1272&f=png&s=842554)
+### 6、分类
+
+![](https://user-gold-cdn.xitu.io/2019/12/25/16f3b55e380f768d?w=2525&h=1218&f=png&s=420762)
