@@ -34,7 +34,7 @@
                 </div>
             </div>
             <!--目录-->
-            <div class="directory" :style="{top:dirTop}" v-if="!hideDirectory">
+            <div class="directory" :style="{top:dirTop, height:dirHeight}" v-if="!hideDirectory">
                 <div style="font-size:18px;padding-bottom:10px;">
                     <span class="text">文章目录</span>
                     <span class="close" @click="closeDirectory">x</span>
@@ -90,6 +90,7 @@ export default {
             dirTop: '500px', // 目录到顶部距离
             screenWidth: document.body.clientWidth, // 屏幕宽度
             screenHeight: window.screen.height, // 屏幕高度
+            dirHeight: '',
             width: '50%',
             confirmPwd: this.$route.query.pwd,
             myUid: this.$store.state.uid, // 登录账号
@@ -103,13 +104,10 @@ export default {
         'aid' // 文章id
     ],
     created () {
-        this.getLike()
-        this.getTheme()
         this.getArticle()
-        this.getArticleDetail()
+        this.getLike()
     },
     mounted () {
-        this.getUsersInfo()
         // 监听滚动
         window.addEventListener('scroll', () => {
             this.scrollTop = document.documentElement.scrollTop ||
@@ -177,32 +175,23 @@ export default {
                 }
             })
         },
-        // 获取主题
-        getTheme () {
-            this.$api.theme.getTheme(this.uid)
-            .then(res => {
-                if (res.code === 1) {
-                    this.sideImage = res.data.sideBackground
-                }
-            })
-        },
         // 获取文章内容
-        getArticleDetail () {
-            this.$api.articles.getArticleByAid(this.aid)
-            .then(res => {
-                this.articleDetail = res.data
-                this.directory = res.data.directory
-                console.log(res.data)
-                if (this.directory.length === 0) {
-                    this.hideDirectory = true
-                }
-            })
+        getArticleDetail (articleDetail) {
+            this.articleDetail = articleDetail
+            this.directory = articleDetail.directory
+            if (this.directory.length === 0) {
+                this.hideDirectory = true
+            }
+            if (this.directory.length > 15) {
+                this.dirHeight = '500px'
+            }
         },
         // 获取文章数据
         getArticle () {
             this.$api.articles.getArticle(this.aid)
             .then(res => {
                 this.article = res.data
+                // 设置标题
                 document.title = this.article.title
                 if (this.article.pwd !== '') {
                     // 如果不是我的账号且密码错误
@@ -210,14 +199,12 @@ export default {
                         this.$router.replace({name: 'articlesPwd', params: {pwd: this.article.pwd}, query: {redirect: this.$route.fullPath}})
                     }
                 }
-            })
-        },
-        // 获取用户信息
-        getUsersInfo () {
-            this.$api.user.getUsersInfo(this.uid)
-            .then(res => {
-                console.log(res.data)
-                this.userInfo = res.data
+                // 设置文章内容
+                this.getArticleDetail(this.article.articleDetail)
+                // 设置用户信息
+                this.userInfo = this.article.usersInfo
+                // 设置侧边栏背景
+                this.sideImage = this.article.usersInfo.usersTheme.sideBackground
             })
         },
         changeImg () {
@@ -491,6 +478,20 @@ export default {
     @media screen and (max-width: 1300px) {
             top: 600px;
         }
+    /* 滚动槽 */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        border-radius: 3px;
+        background: rgba(0,0,0,0.06);
+    }
+    /* 滚动条滑块 */
+    ::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background: rgba(0,0,0,0.12);
+    }
     .directory{
         position: fixed;
         left: 10px;
@@ -499,7 +500,7 @@ export default {
         overflow:auto;
         padding-left: 15px;
         padding-bottom: 50px;
-        overflow: hidden;
+        overflow-x: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
         box-shadow: 10px 10px 5px #888888;
@@ -535,7 +536,6 @@ export default {
             &:hover{
                 color:#21a675;
                 cursor: pointer;
-                text-decoration: underline;
             }
         }
         @media screen and(max-width: 1100px) {

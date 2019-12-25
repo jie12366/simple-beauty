@@ -15,7 +15,7 @@
           </el-col>
         </el-row>
         <span>
-                <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.nickName}}</router-link>
+                <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.usersInfo.nickName}}</router-link>
                 <i class="icon iconfont icon-vue-comment">
                   <span style="font-size:12px;margin-left:3px;">{{article.comments}}</span>
                 </i>
@@ -34,7 +34,7 @@
         <div>
           <p>{{article.summary}}</p>
           <span>
-            <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.nickName}}</router-link>
+            <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.usersInfo.nickName}}</router-link>
             <i class="icon iconfont icon-vue-comment">
               <span style="font-size:12px;margin-left:3px;">{{article.comments}}</span>
             </i>
@@ -102,11 +102,11 @@ export default {
                     cursor: pointer;
                 }
             }p{
-                @include sc(28px,#aaaaaa);
+                @include sc(28px,#75878a);
             }span{
-                @include sc(25px,#aaaaaa);
+                @include sc(25px,#75878a);
                 a{
-                    color: #aaaaaa;
+                    color: #21a675;
                     text-decoration: none;
                     &:hover{
                         text-decoration: underline;
@@ -124,22 +124,22 @@ export default {
             }
             .icon-vue-comment{
                 position: relative;
-                @include sc(28px,#aaaaaa);
+                @include sc(28px,#75878a);
                 left: 18px;
             }
             .icon-vue-like{
                 position: relative;
-                @include sc(28px,#aaaaaa);
+                @include sc(28px,#75878a);
                 left: 40px;
             }
             .icon-vue-read{
                 position: relative;
-                @include sc(28px,#aaaaaa);
+                @include sc(28px,#75878a);
                 left: 60px;
             }
             .time{
                 position: relative;
-                @include sc(24px,#aaaaaa);
+                @include sc(24px,#75878a);
                 left: 80px;
             }
             a{

@@ -13,7 +13,6 @@ import navTop from '@/components/navbar/nav-top'
 import loading from '@/components/common/loading'
 import articleList from '@components/common/article-list'
 import handleTime from '@/utils/show-time'
-import api from '@/api'
 export default {
     data () {
         return {
@@ -35,15 +34,8 @@ export default {
                 .then(res => {
                     if (res.code === 1) {
                         this.articles = res.data.content
-                        // 遍历文章集合，处理时间，获取昵称
+                        // 遍历文章集合，处理时间
                         for (let i = 0; i < this.articles.length; i++) {
-                            // 获取用户昵称
-                            api.user.getUsersInfo(this.articles[i].uid)
-                            .then(res => {
-                                this.articles[i].nickName = res.data.nickName
-                                // 强制刷新数组
-                                this.articles.splice(i, 1, this.articles[i])
-                            })
                             // 处理时间
                             this.articles[i].articleTime = handleTime(this.articles[i].articleTime)
                         }

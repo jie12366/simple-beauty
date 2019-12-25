@@ -100,7 +100,6 @@ export default {
         console.log(this.aid)
         if (this.aid > 0) {
             this.getArticle()
-            this.getArticleContent()
         }
     },
     mounted () {
@@ -210,7 +209,7 @@ export default {
                 hmdModeLoader: '~codemirror/'
                 // markdown解析的真实内容
             })
-            myEditor.setSize(null, '85vh')
+            myEditor.setSize('80vw', '85vh')
             myEditor.focus()
             // 如果内容不为空，就把编辑器内容初始化为改内容
             if (that.content !== null) {
@@ -221,21 +220,17 @@ export default {
                 that.content = editor.getValue()
             })
         },
-        // 获取文章内容
-        getArticleContent () {
-            this.$api.articles.getArticleByAid(this.aid)
-            .then(res => {
-                this.content = res.data.contentMd
-                this.initEditor()
-                console.log(res.data)
-            })
-        },
         // 获取文章数据
         getArticle () {
             this.$api.articles.getArticle(this.aid)
             .then(res => {
                 console.log(res.data)
                 this.title = res.data.title
+                // 设置文章内容
+                this.content = res.data.articleDetail
+                // 初始化编辑器
+                this.initEditor()
+                // 设置标签和分类等
                 for (let i = 0; i < res.data.tags.length; i++) {
                     this.tags.push(res.data.tags[i].tag)
                 }

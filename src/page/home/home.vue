@@ -16,7 +16,6 @@ import navTop from '@/components/navbar/nav-top'
 import loading from '@/components/common/loading'
 import articleList from '@components/common/article-list'
 import handleTime from '@/utils/show-time'
-import api from '@/api'
 export default {
     data () {
         return {
@@ -51,15 +50,9 @@ export default {
                         this.nomore = true
                     }
                     this.articles = res.data.content
+                    console.log(this.articles)
                     // 遍历文章集合，处理时间，获取昵称
                     for (let i = 0; i < this.articles.length; i++) {
-                        // 获取用户昵称
-                        api.user.getUsersInfo(this.articles[i].uid)
-                        .then(res => {
-                            this.articles[i].nickName = res.data.nickName
-                            // 强制刷新数组
-                            this.articles.splice(i, 1, this.articles[i])
-                        })
                         // 处理时间
                         this.articles[i].articleTime = handleTime(this.articles[i].articleTime)
                     }
@@ -79,14 +72,6 @@ export default {
                     let articles = res.data.content
                     // 遍历文章集合，处理时间，获取昵称
                     for (let i = 0; i < articles.length; i++) {
-                        // 获取用户昵称
-                        api.user.getUsersInfo(articles[i].uid)
-                        .then(res => {
-                            articles[i].nickName = res.data.nickName
-                            // 强制刷新合并后的数组
-                            let index = (this.index = 1) * this.size + i
-                            this.articles.splice(index, 1, articles[i])
-                        })
                         // 处理时间
                         articles[i].articleTime = handleTime(articles[i].articleTime)
                     }
