@@ -1,7 +1,7 @@
 <template>
     <div>
         <sidebar :name="userInfo.nickName" :headUrl="userInfo.headPath" :articles="userInfo.articles"
-            :likes="userInfo.likes" :fans="userInfo.fans" :attentions="userInfo.attentions" :uid="userInfo.uid" :sideImage="sideImage">
+            :likes="userInfo.likes" :fans="userInfo.fans" :attentions="userInfo.attentions" :uid="userInfo.uid" sideImage="http://cdn.jie12366.xyz/sky.png">
         </sidebar>
         <div class="top" @click="changeImg">
             <el-image class="top-img" :src="bgList[index]" fit="cover"></el-image>
@@ -108,6 +108,7 @@ export default {
         this.getLike()
     },
     mounted () {
+        this.getArticle()
         // 监听滚动
         window.addEventListener('scroll', () => {
             this.scrollTop = document.documentElement.scrollTop ||
