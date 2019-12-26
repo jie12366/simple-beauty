@@ -178,7 +178,6 @@ export default {
         },
         // 获取文章内容
         getArticleDetail (articleDetail) {
-            console.log(articleDetail)
             this.articleDetail = articleDetail
             this.directory = articleDetail.directory
             if (this.directory.length === 0) {
@@ -193,7 +192,6 @@ export default {
             this.$api.articles.getArticle(this.aid)
             .then(res => {
                 let data = res.data
-                console.log(res)
                 this.article = res.data
                 // 设置标题
                 document.title = this.article.title
