@@ -52,7 +52,7 @@ const articles = {
     },
     // 获取文章数据
     getArticle (aid) {
-        return requestUrl('get', `/article/${aid}`)
+        return requestUrl('get', `/articles/${aid}`)
     },
     // 获取用户的所有标签
     getTags (uid) {

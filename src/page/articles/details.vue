@@ -177,6 +177,7 @@ export default {
         },
         // 获取文章内容
         getArticleDetail (articleDetail) {
+            console.log(articleDetail)
             this.articleDetail = articleDetail
             this.directory = articleDetail.directory
             if (this.directory.length === 0) {
@@ -190,6 +191,8 @@ export default {
         getArticle () {
             this.$api.articles.getArticle(this.aid)
             .then(res => {
+                let data = res.data
+                console.log(res)
                 this.article = res.data
                 // 设置标题
                 document.title = this.article.title
@@ -200,11 +203,11 @@ export default {
                     }
                 }
                 // 设置文章内容
-                this.getArticleDetail(this.article.articleDetail)
+                this.getArticleDetail(data.articleDetail)
                 // 设置用户信息
-                this.userInfo = this.article.usersInfo
+                this.userInfo = data.usersInfo
                 // 设置侧边栏背景
-                this.sideImage = this.article.usersInfo.usersTheme.sideBackground
+                this.sideImage = null
             })
         },
         changeImg () {

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <slot></slot>
-    <section class="box" :key="index" v-for="(article,index) in articles">
+    <section class="box" :key="index" v-for="(article, index) in articles">
       <div v-if="article.coverPath">
         <h1 @click="toDetails(article.uid, article.id)">{{article.title}}</h1>
         <el-row :gutter="20">
@@ -15,7 +15,7 @@
           </el-col>
         </el-row>
         <span>
-                <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.usersInfo.nickName}}</router-link>
+                <router-link :to="`/${article.usersInfo.nickName}/${article.uid}/index?`">{{article.usersInfo.nickName}}</router-link>
                 <i class="icon iconfont icon-vue-comment">
                   <span style="font-size:12px;margin-left:3px;">{{article.comments}}</span>
                 </i>
@@ -34,7 +34,7 @@
         <div>
           <p>{{article.summary}}</p>
           <span>
-            <router-link :to="`/${article.nickName}/${article.uid}/index?`">{{article.usersInfo.nickName}}</router-link>
+            <router-link :to="`/${article.usersInfo.nickName}/${article.uid}/index?`">{{article.usersInfo.nickName}}</router-link>
             <i class="icon iconfont icon-vue-comment">
               <span style="font-size:12px;margin-left:3px;">{{article.comments}}</span>
             </i>

@@ -33,11 +33,11 @@ export default {
                 this.$api.articles.getArticleByRegex(this.regex, index, size)
                 .then(res => {
                     if (res.code === 1) {
-                        this.articles = res.data.content
+                        this.articles = res.data
                         // 遍历文章集合，处理时间
                         for (let i = 0; i < this.articles.length; i++) {
                             // 处理时间
-                            this.articles[i].articleTime = handleTime(this.articles[i].articleTime)
+                            this.articles[i].article.articleTime = handleTime(this.articles[i].article.articleTime)
                         }
                         this.showLoading = false
                     }

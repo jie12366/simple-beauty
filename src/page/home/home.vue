@@ -36,6 +36,7 @@ export default {
         this.getArticles(this.index, this.size)
     },
     mounted () {
+        this.getArticles(this.index, this.size)
         // 监听滚动
         window.addEventListener('scroll', this.initScroll)
     },
@@ -45,6 +46,7 @@ export default {
             this.$api.articles.getArticles(index, size)
             .then(res => {
                 if (res.code === 1) {
+                    console.log(res)
                     // 当前页+1等于总页数，代表没有下一页了
                     if (res.data.totalPages === this.index + 1) {
                         this.nomore = true
