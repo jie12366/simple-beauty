@@ -26,7 +26,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 # 拷贝前端vue项目打包后生成的文件到nginx下运行
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-# 启动端口为80
-EXPOSE 80
+# 启动端口为8081
+EXPOSE 8081
 # 启动,使用daemon off的方式将nginx运行在前台保证镜像不至于退出
 CMD ["nginx","-g","daemon off;"]
