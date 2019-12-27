@@ -52,7 +52,7 @@ const router = new Router({
           path: '/home',
           component: home,
           meta: {
-            title: '首页'
+            title: 'Canary'
           }
         },
         // 搜索结果列表
@@ -60,7 +60,7 @@ const router = new Router({
           path: '/search-result',
           component: searchResult,
           meta: {
-            title: 'Canary——搜索结果'
+            title: '搜索结果 - Canary'
           }
         },
         // 消息页
@@ -72,7 +72,7 @@ const router = new Router({
               path: 'like',
               component: like,
               meta: {
-                title: '点赞列表',
+                title: '点赞列表 - Canary',
                 requiresAuth: true
               }
             },
@@ -80,7 +80,7 @@ const router = new Router({
               path: 'comment',
               component: comment,
               meta: {
-                title: '评论列表',
+                title: '评论列表 - Canary',
                 requiresAuth: true
               }
             }
@@ -91,7 +91,7 @@ const router = new Router({
           path: '/sign-in',
           component: signIn,
           meta: {
-            title: '登录'
+            title: '登录 - Canary'
           }
         },
         // 注册页
@@ -99,7 +99,7 @@ const router = new Router({
           path: '/sign-up',
           component: signUp,
           meta: {
-            title: '注册'
+            title: '注册 - Canary'
           }
         },
         // 重置密码
@@ -107,7 +107,7 @@ const router = new Router({
           path: '/forget',
           component: forget,
           meta: {
-            title: '忘记密码'
+            title: '忘记密码 - Canary'
           }
         },
         // 第三方登录中转页
@@ -115,7 +115,7 @@ const router = new Router({
           path: '/oauth',
           component: oauth,
           meta: {
-            title: '第三方登录'
+            title: '第三方登录 - Canary'
           }
         },
         // 写文章
@@ -123,7 +123,7 @@ const router = new Router({
           path: '/writer',
           component: writer,
           meta: {
-            title: '写文章',
+            title: '写文章 - Canary',
             requiresAuth: true
           }
         },
@@ -176,7 +176,7 @@ const router = new Router({
               path: 'information',
               component: information,
               meta: {
-                title: '个人资料',
+                title: '个人资料 - Canary',
                 requiresAuth: true
               }
             }
@@ -190,7 +190,7 @@ const router = new Router({
               path: 'articles-list',
               component: articlesList,
               meta: {
-                title: '文章管理',
+                title: '文章管理 - Canary',
                 requiresAuth: true
               }
             },
@@ -198,21 +198,21 @@ const router = new Router({
               path: 'photos',
               component: photos,
               meta: {
-                title: '照片管理',
+                title: '照片管理 - Canary',
                 requiresAuth: true
               }
             }, { // 设置自定义主题
               path: 'themes',
               component: themes,
               meta: {
-                title: '自定义主题',
+                title: '自定义主题 - Canary',
                 requiresAuth: true
               }
             }, { // 个人简介管理
               path: 'about-me',
               component: aboutMe,
               meta: {
-                title: '个人简介管理',
+                title: '个人简介管理 - Canary',
                 requiresAuth: true
               }
             }

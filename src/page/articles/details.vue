@@ -194,7 +194,7 @@ export default {
                 let data = res.data
                 this.article = res.data
                 // 设置标题
-                document.title = this.article.title
+                document.title = this.article.title + ' - Canary'
                 if (this.article.pwd !== '') {
                     // 如果不是我的账号且密码错误
                     if (this.article.pwd !== this.confirmPwd && this.uid !== this.myUid) {
