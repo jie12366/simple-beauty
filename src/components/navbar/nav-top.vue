@@ -109,7 +109,7 @@ export default {
     methods: {
         initWebSocket () { // 初始化weosocket
             let hostUrl = baseURL.substring(7) // 取出ip地址，去除http://
-            const wsuri = 'ws://' + hostUrl + `/webSocket/${this.uid}`
+            const wsuri = 'wss://' + hostUrl + `/webSocket/${this.uid}`
             this.websock = new WebSocket(wsuri)
             this.websock.onmessage = this.websocketonmessage
             this.websock.onopen = this.websocketonopen
