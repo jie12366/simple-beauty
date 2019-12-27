@@ -22,9 +22,6 @@ RUN rm /etc/nginx/conf.d/default.conf
 RUN rm /etc/nginx/nginx.conf
 # 把主机的nginx.conf文件复制到nginx容器的/etc/nginx文件夹下
 COPY ./nginx.conf /etc/nginx/
-# 重定向标准输出和标准错误
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
 # 拷贝前端vue项目打包后生成的文件到nginx下运行
 COPY --from=build-stage /usr/src/app/dist /usr/share/nginx/html
 # 启动端口为8081
