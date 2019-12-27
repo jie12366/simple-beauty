@@ -10,7 +10,7 @@ COPY . .
 RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 RUN cnpm install
 # 编译打包
-RUN cnpm run build:prod
+RUN cnpm run build
 
 # nginx镜像
 FROM nginx:1.15.3-alpine as production-stage
