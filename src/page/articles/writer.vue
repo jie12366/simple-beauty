@@ -227,7 +227,7 @@ export default {
                 console.log(res.data)
                 this.title = res.data.title
                 // 设置文章内容
-                this.content = res.data.articleDetail
+                this.content = res.data.articleDetail.contentMd
                 // 初始化编辑器
                 this.initEditor()
                 // 设置标签和分类等
