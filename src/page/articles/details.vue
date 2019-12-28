@@ -271,7 +271,7 @@ export default {
     top: 900px;
     width: 99vw;
     margin-left: -0.5vw;
-    background-color: rgba(248, 251, 253, 0.7);
+    background-color: rgba(248, 251, 253, 0.9);
     @media screen and(max-width: 1100px){
         background-color: #f8fbfd;
     }
@@ -376,6 +376,11 @@ export default {
                 }
                 /deep/ h3{
                     color:#000;
+                    font-size: 35px;
+                }
+                /deep/ h4{
+                    color:#000;
+                    font-size: 30px;
                 }
                 /deep/ p{
                     line-height:2;
@@ -412,26 +417,24 @@ export default {
             }
             /deep/ li{
                 line-height:2;
+                margin-left: -30px;
             }
             /deep/ table{
                 width: 100%; /*表格宽度*/
-                max-width: 65em; /*表格最大宽度，避免表格过宽*/
-                border: 1px solid #dedede; /*表格外边框设置*/
-                /*margin: 15px auto; 外边距*/
+                font-size: 25px;
                 border-collapse: collapse; /*使用单一线条的边框*/
                 empty-cells: show; /*单元格无内容依旧绘制边框*/
                 th,td {
-                    height: 60px; /*统一每一行的默认高度*/
-                    text-align: center !important;
-                    border: 1px solid #dedede; /*内部边框样式*/
-                    padding: 0 10px; /*内边距*/
+                    min-width: 8em;
+                    border: 5px solid #fff; /*内部边框样式*/
+                    padding: 20px 10px; /*内边距*/
                 }
                 th {
                     font-weight: bold; /*加粗*/
                     text-align: center !important; /*内容居中，加上 !important 避免被 Markdown 样式覆盖*/
-                    background: #efefef; /*背景色*/
+                    background: #f6f6f6; /*背景色*/
                 }
-                tbody tr:nth-child(2n) { background: rgba(158,188,226,0.12); }
+                tbody tr:nth-child(2n) { background: rgba(252,252,252,0.9); }
             }
         }
         .content-bottom{
