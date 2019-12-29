@@ -46,13 +46,7 @@ export default {
             this.$api.articles.getArticles(index, size)
             .then(res => {
                 if (res.code === 1) {
-                    console.log(res)
-                    // 当前页+1等于总页数，代表没有下一页了
-                    if (res.data.totalPages === this.index + 1) {
-                        this.nomore = true
-                    }
                     this.articles = res.data.content
-                    console.log(this.articles)
                     // 遍历文章集合，处理时间，获取昵称
                     for (let i = 0; i < this.articles.length; i++) {
                         // 处理时间
@@ -67,8 +61,8 @@ export default {
             this.$api.articles.getArticles(index, size)
             .then(res => {
                 if (res.code === 1) {
-                    // 当前页+1等于总页数，代表没有下一页了
-                    if (res.data.totalPages === this.index + 1) {
+                    // 没有数据了
+                    if (res.data.content.length === 0) {
                         this.nomore = true
                     }
                     let articles = res.data.content
@@ -94,8 +88,8 @@ export default {
             let innerHeight = document.getElementById('inner').offsetHeight
             if (scrollTop + height >= innerHeight) {
                 console.log('-----------------触底了-------------')
-                // 当前页+1
-                this.index = this.index + 1
+                // 计算当前偏移量
+                this.index = this.index + this.size
                 this.showLoading = true
                 this.getMoreArticles(this.index, this.size)
             }

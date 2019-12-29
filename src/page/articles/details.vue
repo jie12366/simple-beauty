@@ -426,6 +426,7 @@ export default {
                 empty-cells: show; /*单元格无内容依旧绘制边框*/
                 th,td {
                     min-width: 8em;
+                    line-height:1.5;
                     border: 5px solid #fff; /*内部边框样式*/
                     padding: 20px 10px; /*内边距*/
                 }
