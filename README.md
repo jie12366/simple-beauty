@@ -49,7 +49,7 @@ npm run dev
 - [x] 照片墙、关于我  -- 完成
 - [x] 全文检索/站内搜索  -- 完成
 ## 项目演示
-项目演示地址为：[Canary](http://jie12366.xyz:8081)
+项目演示地址为：[Canary](https://jie12366.xyz:8081)
 
 ## 需要注意的问题
 支持高亮的语言为java、kotlin、c、cpp、python、bash、lua、vim、yaml、docker、git、json，其他语言不支持代码高亮，如果不是以上语言，请不要在代码块中注明语言。默认使用shell语法来高亮代码。
