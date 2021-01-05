@@ -23,7 +23,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.10.1",
     "@fortawesome/free-solid-svg-icons": "^5.10.1",
     "@fortawesome/vue-fontawesome": "^0.1.6",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "codemirror": "^5.49.0",
     "element-ui": "^2.11.1",
     "hypermd": "^0.3.11",
