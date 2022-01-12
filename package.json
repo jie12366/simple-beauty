@@ -28,7 +28,7 @@
     "element-ui": "^2.11.1",
     "hypermd": "^0.3.11",
     "jsonwebtoken": "^8.5.1",
-    "markdown-it": "^10.0.0",
+    "markdown-it": "^12.3.2",
     "markdown-it-anchor": "^5.2.5",
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-multimd-table": "^3.2.3",
