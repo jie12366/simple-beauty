@@ -37,7 +37,7 @@
     "socket.io-client": "^2.2.0",
     "tocbot": "^4.8.0",
     "v-viewer": "^1.4.2",
-    "vditor": "^1.7.10",
+    "vditor": "^3.8.13",
     "vue": "^2.5.2",
     "vue-canvas-nest": "^2.0.0",
     "vue-drag-verify": "^1.0.6",
